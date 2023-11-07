@@ -1,0 +1,11 @@
+Firebase:
+    - Test if Firebase works
+        - Add Entry
+        - Remove Entry
+        - Fetch Entry
+        - Query entries
+    - Document to JSON to BookEntry conversion
+
+Screens:
+    - Add Entry
+    - Search Entry
