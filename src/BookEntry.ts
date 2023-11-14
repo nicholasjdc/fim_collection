@@ -1,4 +1,17 @@
-export class BookEntry {
+export interface BookEntryInterface{
+    entryNumber: string;
+    author: string;
+    title: string;
+    publication: string;
+    pageCount: string;
+    ISBN: string;
+    seriesTitle: string;
+    note: string;
+    resource: string;
+    languageCode: string;
+    instantiatedAt: Date;
+}
+export class BookEntry implements BookEntryInterface{
     entryNumber: string;
     author: string;
     title: string;

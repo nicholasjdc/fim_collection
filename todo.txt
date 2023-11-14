@@ -5,6 +5,7 @@ Firebase:
         - Fetch Entry
         - Query entries
     - Document to JSON to BookEntry conversion
+    - Project not authorized to use firebase -- current rules allow anyone to write
 
 Screens:
     - Add Entry
