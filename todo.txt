@@ -20,3 +20,4 @@ ToDo:
         - the pinyin for author does not generate upon creation
         - Chinese character keyword generation should separate by character
         - Advanced search doesn't work (Can you do advanced search w/ firebase?)
+        - Live Server Does Not Work (check firebase hosting/Netlify availability)

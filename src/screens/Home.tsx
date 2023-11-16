@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BookList from "../screen_helpers/BookList";
-import { queryEntriesByKeywords } from "../personalFirebase";
+import { queryEntriesByKeywords } from "../function_helpers/personalFirebase";
 import { BookEntry } from "../screen_helpers/BookEntry";
 
 const Home = () => {

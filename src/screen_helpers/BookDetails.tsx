@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import useGetEntry from "../useGetEntry";
+import useGetEntry from "../function_helpers/useGetEntry";
 
 const BookDetails = () => {
     const { id:ISBN } = useParams(); //Grab route parameters from current route

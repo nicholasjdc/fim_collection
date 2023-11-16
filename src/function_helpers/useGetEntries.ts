@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { queryEntriesByKeywords } from "./personalFirebase";
-import { BookEntry } from "./screen_helpers/BookEntry";
+import { getEntries } from "./personalFirebase";
+import { BookEntry } from "../screen_helpers/BookEntry";
 
-const useGetSimpleQuery= (keyword) => {
+const useGetEntries= () => {
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
     const [data, setData] = useState<BookEntry[]>(null);
@@ -10,7 +10,7 @@ const useGetSimpleQuery= (keyword) => {
         const abortCont = new AbortController(); 
 
 
-            queryEntriesByKeywords(keyword)
+        getEntries()
             .then(res => {
                 if(!res){ 
                     throw Error('could not fetch data for that resource');
@@ -18,7 +18,7 @@ const useGetSimpleQuery= (keyword) => {
                 return res
             })
             .then(data =>{ 
-                    setData(data as BookEntry[])
+                    setData(data)
                     setIsPending(false)
                     setError(null);
             }
@@ -41,4 +41,4 @@ const useGetSimpleQuery= (keyword) => {
     return {data, isPending, error};
 }
  
-export default useGetSimpleQuery;
+export default useGetEntries;
