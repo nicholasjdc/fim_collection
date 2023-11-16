@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { queryEntriesByKeywords } from "./personalFirebase";
-import { BookEntry } from "./BookEntry";
+import { BookEntry } from "./screen_helpers/BookEntry";
 
 const useGetSimpleQuery= (keyword) => {
     const [isPending, setIsPending] = useState(true);

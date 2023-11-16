@@ -1,7 +1,7 @@
 import { useState } from "react";
-import BookList from "./BookList";
-import { queryEntriesByKeywords } from "./personalFirebase";
-import { BookEntry } from "./BookEntry";
+import BookList from "../screen_helpers/BookList";
+import { queryEntriesByKeywords } from "../personalFirebase";
+import { BookEntry } from "../screen_helpers/BookEntry";
 
 const Home = () => {
   //grab data but rename it blogs

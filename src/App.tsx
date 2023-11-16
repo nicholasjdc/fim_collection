@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import Navbar from './Navbar';
-import Home from './Home';
-import Create from './Create';
-import BookDetails from './BookDetails';
-import Search from './Search';
+import Navbar from './screen_helpers/Navbar';
+import Home from './screens/Home';
+import Create from './screens/Create';
+import BookDetails from './screen_helpers/BookDetails';
+import Search from './screens/Search';
 function App() {
   
  

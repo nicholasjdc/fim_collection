@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getEntry } from "./personalFirebase";
-import { BookEntry } from "./BookEntry";
+import { BookEntry } from "./screen_helpers/BookEntry";
 
 const useGetEntry= (isbn:string) => {
     const [isPending, setIsPending] = useState(true);

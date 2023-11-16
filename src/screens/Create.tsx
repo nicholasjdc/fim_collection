@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookEntry } from "./BookEntry";
-import { addBookEntry } from "./personalFirebase";
-import { createKeywordsByWord } from "./keyword";
+import { BookEntry } from "../screen_helpers/BookEntry";
+import { addBookEntry } from "../personalFirebase";
+import { createKeywordsByWord } from "../keyword";
 const Create = () => {
   const [title, setTitle] = useState("");
   const [titlec, setTitlec] = useState("");

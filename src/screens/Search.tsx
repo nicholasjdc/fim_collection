@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { BookEntry } from "./BookEntry";
-import { queryEntries } from "./personalFirebase";
-import BookList from "./BookList";
+import { BookEntry } from "../screen_helpers/BookEntry";
+import { queryEntries } from "../personalFirebase";
+import BookList from "../screen_helpers/BookList";
 
 const Search = () => {
   const [title, setTitle] = useState("");
