@@ -2,7 +2,6 @@ import BookList from "./BookList";
 import useGetEntries from "./useGetEntries";
 
 const Home = () => {
-    console.log('reached home')
     //grab data but rename it blogs
     const {data: books, isPending, error} = useGetEntries();
 
@@ -15,7 +14,7 @@ const Home = () => {
             {error && <div>{error}</div>}
             { isPending && <div>Loading...</div>}
             {/*Make sure blogs exists when loading*/ }
-          {books && <BookList books = {books} title="All Books" />} 
+          {books && <BookList books = {books} title="All Entries" />} 
           
         </div>
     );

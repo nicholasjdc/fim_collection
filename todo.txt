@@ -1,12 +1,26 @@
-Firebase:
-    - Test if Firebase works
-        - Add Entry
-        - Remove Entry
-        - Fetch Entry
-        - Query entries
-    - Document to JSON to BookEntry conversion
-    - Project not authorized to use firebase -- current rules allow anyone to write
-
-Screens:
-    - Add Entry
-    - Search Entry
+ToDo:
+    - Languages:
+        - Implement Chinese and Pinyin
+        - Author, Editor, and Title
+        - In BookEntry & firebase, either map or simple list
+        - map advantage: consistent, no need to guess if need to only access one ***
+        - list advantage: I am lazy
+        - For each of those sections add a (中国)
+        - Additionally Manual pinyin entries
+    - Book Entry:
+        - Make Entry Number Unique Key
+        - Add Language Support
+    - Firebase Config:
+        - Make firebase only accessible by verified users -- make self verified users
+    - Home Page:
+        - Implement Basic Title Search
+    - Search Page:
+        - Make massive search functional
+        - Look at JSTOR or other websites, take inspiration
+    - Login:
+        - Implement Login & users, allow only verified users to add Entries
+    - BookDetails:
+        - Allow user to edit/delete
+    - Deployment:
+        - Host on Netlify
+        - Discuss domain w/ dad

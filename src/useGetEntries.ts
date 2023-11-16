@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getEntry, getEntries } from "./firebase";
+import { getEntry, getEntries } from "./personalFirebase";
 import { BookEntry } from "./BookEntry";
 
 const useGetEntries= () => {
@@ -18,7 +18,6 @@ const useGetEntries= () => {
                 return res
             })
             .then(data =>{ 
-                    console.log(data)
                     setData(data)
                     setIsPending(false)
                     setError(null);
