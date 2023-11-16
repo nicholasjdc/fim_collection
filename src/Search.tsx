@@ -33,7 +33,7 @@ const Search = () => {
     <div className = "search">
         <div className="create">
 
-        <h2>Bibliography Search</h2>
+        <h2>Advanced Search</h2>
         <form onSubmit={handleSubmit}>
             <label>Entry Number:</label>
             <input

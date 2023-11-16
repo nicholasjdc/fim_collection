@@ -1,7 +1,6 @@
 import { useState } from "react";
 import BookList from "./BookList";
 import { queryEntriesByKeywords } from "./personalFirebase";
-import useGetEntries from "./useGetEntries";
 import { BookEntry } from "./BookEntry";
 
 const Home = () => {
@@ -38,7 +37,7 @@ const Home = () => {
           />
           <button>
             
-            <img height="15px" id="searchimg" src="dist/searchbutton.svg" />
+            <img height="15px" id="searchimg" src="/searchbutton.svg" />
           </button>
         </form>
       </div>

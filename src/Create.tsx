@@ -175,8 +175,8 @@ const Create = () => {
           value={languageCode}
           onChange={(e) => setLanguageCode(e.target.value)}
         ></input>
-        {!isPending && <button>Add Blog</button>}
-        {isPending && <button disabled>Adding Blog...</button>}
+        {!isPending && <button>Add Entry</button>}
+        {isPending && <button disabled>Adding Entry...</button>}
       </form>
     </div>
   );

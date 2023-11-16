@@ -1,19 +1,10 @@
 ToDo:
     - Languages:
-        - Implement Chinese and Pinyin
-        - Author, Editor, and Title
-        - In BookEntry & firebase, either map or simple list
-        - map advantage: consistent, no need to guess if need to only access one ***
-        - list advantage: I am lazy
-        - For each of those sections add a (中国)
-        - Additionally Manual pinyin entries
     - Book Entry:
-        - Make Entry Number Unique Key
-        - Add Language Support
+        - Make Entry Number Unique Key -
     - Firebase Config:
         - Make firebase only accessible by verified users -- make self verified users
     - Home Page:
-        - Implement Basic Title Search
     - Search Page:
         - Make massive search functional
         - Look at JSTOR or other websites, take inspiration
@@ -24,3 +15,8 @@ ToDo:
     - Deployment:
         - Host on Netlify
         - Discuss domain w/ dad
+    - OTHER ISSUES
+        - Keyword generation is not thorough
+        - the pinyin for author does not generate upon creation
+        - Chinese character keyword generation should separate by character
+        - Advanced search doesn't work (Can you do advanced search w/ firebase?)
