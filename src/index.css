@@ -1,10 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap");
 /*Target everything */
 * {
   margin: 0;
-  font-family: "Quicksand";
+  font-family: 'Times New Roman', Times, serif;
   color: #333;
 }
+
+/* navbar */
 .navbar {
   padding: 20px;
   display: flex;
@@ -27,6 +28,8 @@
 .navbar a:hover {
   color: #f1356d;
 }
+
+/* content--main screens */
 .content {
   max-width: 600px;
   margin: 40px auto;
@@ -50,6 +53,8 @@
 .blog-preview a {
   text-decoration: none;
 }
+
+/*Blog details */
 .blog-details h2 {
   font-size: 20px;
   color: #f1356d;
@@ -100,7 +105,7 @@
   cursor: pointer;
 }
 
-/* Home Page */
+/* Home Page (Search) */
 .home .search {
   display: inline-block;
     text-align: center;

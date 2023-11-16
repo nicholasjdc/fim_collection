@@ -37,7 +37,7 @@ const Home = () => {
           />
           <button>
             
-            <img height="15px" id="searchimg" src="/searchbutton.svg" />
+            <img height="15px" id="searchimg" src="src/assets/searchbutton.svg" />
           </button>
         </form>
       </div>
