@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { getEntries } from "./personalFirebase";
+import { queryEntriesByKeywords } from "./personalFirebase";
 import { BookEntry } from "./BookEntry";
 
-const useGetEntries= () => {
+const useGetSimpleQuery= (keyword) => {
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
     const [data, setData] = useState<BookEntry[]>(null);
@@ -10,7 +10,7 @@ const useGetEntries= () => {
         const abortCont = new AbortController(); 
 
 
-        getEntries()
+            queryEntriesByKeywords(keyword)
             .then(res => {
                 if(!res){ 
                     throw Error('could not fetch data for that resource');
@@ -18,7 +18,7 @@ const useGetEntries= () => {
                 return res
             })
             .then(data =>{ 
-                    setData(data)
+                    setData(data as BookEntry[])
                     setIsPending(false)
                     setError(null);
             }
@@ -41,4 +41,4 @@ const useGetEntries= () => {
     return {data, isPending, error};
 }
  
-export default useGetEntries;
+export default useGetSimpleQuery;

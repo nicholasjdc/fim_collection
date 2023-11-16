@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BookEntry } from "./BookEntry";
-import { addEntryJSON, addBookEntry } from "./personalFirebase";
-
+import { addBookEntry } from "./personalFirebase";
+import { createKeywordsByWord } from "./keyword";
 const Create = () => {
   const [title, setTitle] = useState("");
   const [titlec, setTitlec] = useState("");
-  const [titlep, setTitlep] = useState("")
+  const [titlep, setTitlep] = useState("");
 
   const [author, setAuthor] = useState("");
   const [authorc, setAuthorc] = useState("");
-  const [authorp, setAuthorp] = useState("")
+  const [authorp, setAuthorp] = useState("");
 
   const [entryNumber, setEntryNumber] = useState("");
   const [note, setNote] = useState("");
@@ -27,14 +27,26 @@ const Create = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const blog = { title, author };
-
+    const joinedTitle = title + " " + titlec + " " + titlep;
+    const joinedAuthor = author + " " + authorc + " " + authorp;
+    const tKeyWords: String[] = Array.from(createKeywordsByWord(joinedTitle));
+    const aKeyWords: String[] = Array.from(createKeywordsByWord(joinedAuthor));
+    const concatKeyWords: String[] = Array.from(
+      new Set([
+        ...createKeywordsByWord(joinedTitle),
+        ...createKeywordsByWord(joinedAuthor),
+      ])
+    );
     setIsPending(true);
-    let currentDate:Date = new Date(Date.now());
+    let currentDate: Date = new Date(Date.now());
     let newBookEntry: BookEntry = BookEntry.bookEntryFromDictionary({
       entryNumber: entryNumber,
       author: author,
+      authorc: authorc,
+      authrop: authorp,
       title: title,
+      titlec: titlec,
+      titlep: titlep,
       note: note,
       ISBN: ISBN,
       publication: publication,
@@ -42,7 +54,10 @@ const Create = () => {
       seriesTitle: seriesTitle,
       languageCode: languageCode,
       resource: resource,
-      instantiatedAt: currentDate
+      instantiatedAt: currentDate,
+      keyWords: concatKeyWords,
+      titleKeyWords: tKeyWords,
+      authorKeyWords: aKeyWords,
     });
     addBookEntry(newBookEntry, newBookEntry.ISBN).then(() => {
       setIsPending(false);
@@ -69,7 +84,6 @@ const Create = () => {
           value={ISBN}
           onChange={(e) => setISBN(e.target.value)}
         ></input>
-        
 
         <label>Title:</label>
         <input

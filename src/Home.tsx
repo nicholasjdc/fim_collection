@@ -1,23 +1,54 @@
+import { useState } from "react";
 import BookList from "./BookList";
+import { queryEntriesByKeywords } from "./personalFirebase";
 import useGetEntries from "./useGetEntries";
+import { BookEntry } from "./BookEntry";
 
 const Home = () => {
-    //grab data but rename it blogs
-    const {data: books, isPending, error} = useGetEntries();
+  //grab data but rename it blogs
+  const [search, setSearch] = useState("");
+  const [books, setBooks] = useState<BookEntry[]>(null);
+  const [isPending, setIsPending] = useState(null);
+  const [error, setError] = useState(null);
 
-   
-    //function runs every re-render
-    //changing state withing useEffect can recurse infinitely 
-    
-    return (  
-        <div className="home">
-            {error && <div>{error}</div>}
-            { isPending && <div>Loading...</div>}
-            {/*Make sure blogs exists when loading*/ }
-          {books && <BookList books = {books} title="All Entries" />} 
-          
-        </div>
-    );
-}
- 
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsPending(true);
+    queryEntriesByKeywords(search).then((entries) => {
+      setBooks(entries as BookEntry[]);
+    }).catch(err=>{ 
+            setIsPending(false);
+            setError(err.message);
+    });
+    setIsPending(false);
+  };
+
+  return (
+    <div className="home">
+      <div className="search">
+        <form id="form" onSubmit={handleSubmit}>
+          <input
+            type="search"
+            id="query"
+            name="q"
+            placeholder="Search by author or title"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button>
+            
+            <img height="15px" id="searchimg" src="dist/searchbutton.svg" />
+          </button>
+        </form>
+      </div>
+
+      {error && <div>{error}</div>}
+      {isPending && <div>Searching...</div>}
+      {/*Make sure blogs exists when loading*/}
+      {books && <BookList books={books} title="Found Entries" />}
+    </div>
+  );
+};
+
 export default Home;

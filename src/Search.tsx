@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { BookEntry } from "./BookEntry";
-import { addEntryJSON, addBookEntry, queryEntries } from "./personalFirebase";
+import { queryEntries } from "./personalFirebase";
 import BookList from "./BookList";
 
 const Search = () => {
@@ -19,8 +18,6 @@ const Search = () => {
   const [isPending, setIsPending] = useState(false);
   const [searchResults, setSearchResults] = useState<BookEntry[]>([])
   
-  const navigate = useNavigate();
-
   const handleSubmit = (e) => {
     e.preventDefault();
 

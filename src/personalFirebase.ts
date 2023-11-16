@@ -1,8 +1,18 @@
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 // Import the functions you need from the SDKs you need
 
 import { initializeApp } from "firebase/app";
 //import { getAnalytics } from "firebase/analytics";
-import { getDoc, doc, getFirestore, query, where, and } from "firebase/firestore";
+import {
+  getDoc,
+  doc,
+  getFirestore,
+  query,
+  where,
+  and,
+} from "firebase/firestore";
 import { collection, getDocs, setDoc } from "firebase/firestore";
 import { BookEntry } from "./BookEntry";
 
@@ -65,13 +75,24 @@ export async function addBookEntry(data: BookEntry, id: string) {
   await setDoc(doc(db, routeToBookEntryCollection, id), data.toJSONBE());
 }
 //Need To fix
-export async function queryEntries(entryNumber, author, title, publication, pageCount, ISBN, seriesTitle, note, resource, languageCode) {
+export async function queryEntries(
+  entryNumber,
+  author,
+  title,
+  publication,
+  pageCount,
+  ISBN,
+  seriesTitle,
+  note,
+  resource,
+  languageCode
+) {
   const q = query(
     entriesCol,
-    and ( where("title", ">=", title),
-    where("title", "<=", title + "\uf8ff"),
+    where("titleKeyWords", "array-contains", title) /*
+    where("authorKeyWords", "array-contains", author )),
     where("entryNumber", ">=", entryNumber),
-    where("entryNumber", "<=", entryNumber + "\uf8ff"),
+    where("entryNumber", "<=", entryNumber + "\uf8ff")),
     where("author", ">=", author),
     where("author", "<=", author + "\uf8ff"),
     where("publication", ">=", publication),
@@ -87,7 +108,30 @@ export async function queryEntries(entryNumber, author, title, publication, page
     where("languageCode", ">=", languageCode),
     where("languageCode", "<=", languageCode+ "\uf8ff"),
     where("pageCount", ">=", languageCode),
-    where("pageCount", "<=", languageCode+ "\uf8ff")),
+    where("pageCount", "<=", languageCode+ "\uf8ff")),*/
+  );
+  const querySnapshot = await getDocs(q);
+  if (querySnapshot) {
+    const entryList = querySnapshot.docs.map((doc) => {
+      let bookEntry: BookEntry = JSON.parse(JSON.stringify(doc.data()));
+      return bookEntry;
+    });
+
+    return entryList;
+  } else {
+    console.log("No such document!");
+  }
+  return q;
+}
+export async function queryEntriesByKeywords(keyword: String) {
+  const q = query(
+    entriesCol,
+    where("keyWords", "array-contains-any", [
+      keyword,
+      keyword.toLowerCase(),
+      keyword.toUpperCase(),
+      capitalizeFirstLetter(keyword.toLowerCase()),
+    ])
   );
   const querySnapshot = await getDocs(q);
   if (querySnapshot) {
@@ -105,9 +149,8 @@ export async function queryEntries(entryNumber, author, title, publication, page
 export async function queryEntriesByTitle(title) {
   const q = query(
     entriesCol,
-     where("title", ">=", title),
-    where("title", "<=", title + "\uf8ff"),
-    
+    where("title", ">=", title),
+    where("title", "<=", title + "\uf8ff")
   );
   const querySnapshot = await getDocs(q);
   if (querySnapshot) {
