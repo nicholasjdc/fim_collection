@@ -76,16 +76,16 @@ export async function addBookEntry(data: BookEntry, id: string) {
 }
 //Need To fix
 export async function queryEntries(
-  entryNumber,
-  author,
-  title,
-  publication,
-  pageCount,
-  ISBN,
-  seriesTitle,
-  note,
-  resource,
-  languageCode
+  entryNumber: any,
+  author: any,
+  title: any,
+  publication:any ,
+  pageCount: any,
+  ISBN: any,
+  seriesTitle: any,
+  note: any,
+  resource: any,
+  languageCode: any
 ) {
   const q = query(
     entriesCol,
@@ -146,7 +146,7 @@ export async function queryEntriesByKeywords(keyword: String) {
   }
   return q;
 }
-export async function queryEntriesByTitle(title) {
+export async function queryEntriesByTitle(title: String) {
   const q = query(
     entriesCol,
     where("title", ">=", title),

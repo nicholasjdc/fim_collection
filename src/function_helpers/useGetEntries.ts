@@ -5,7 +5,7 @@ import { BookEntry } from "../screen_helpers/BookEntry";
 const useGetEntries= () => {
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
-    const [data, setData] = useState<BookEntry[]>(null);
+    const [data, setData] = useState<BookEntry[] | null>(null);
     useEffect(()=> {
         const abortCont = new AbortController(); 
 

@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { queryEntriesByKeywords } from "./personalFirebase";
 import { BookEntry } from "../screen_helpers/BookEntry";
 
-const useGetSimpleQuery= (keyword) => {
+const useGetSimpleQuery= (keyword:String) => {
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
-    const [data, setData] = useState<BookEntry[]>(null);
+    const [data, setData] = useState<BookEntry[] | null>(null);
     useEffect(()=> {
         const abortCont = new AbortController(); 
 

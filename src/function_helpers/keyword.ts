@@ -14,36 +14,41 @@ Keywords by Category:
     - language Code: each code demarcated
     - instantiatedAt: invalid
 */
-const createKeywordsGranular = key => {
-    const arrName = [];
+const createKeywordsGranular = (key:String) => {
+    const arrChar:Set<String> = new Set([]);
     let curName = '';
     key.split('').forEach(letter => {
       curName += letter;
-      arrName.push(curName);
+      arrChar.add(curName);
+      arrChar.add(letter);
     });
-    return arrName;
+    
+    return arrChar;
   }
 
-export const createKeywordsByWord = key => {
+export const createKeywordsByWord = (key:String) => {
   //Make more thorough
-    const arrWord:Set<String> = new Set([]);
-    var longerWord:String = "";
-    arrWord.add('');
-    arrWord.add(' ');
-    key.split(' ').forEach(word => {
-        longerWord +=word;
-        arrWord.add(longerWord)
-        arrWord.add(word);
+    const setWord:Set<String> = new Set([]);
+    setWord.add('');
+    setWord.add(' ');
+    key.split(' ').forEach((word:String) => {
+        
+        setWord.add(word);
     })
-    arrWord
-    arrWord.forEach(word =>{
 
-    });
+    let arrWord = Array.from(setWord);
+    for(let i=0; i<arrWord.length;i++){
+      var compoundWord:String = arrWord[i];
+      for(let j=i+1; j<arrWord.length;j++){
+        compoundWord+=(' ' + arrWord[j]);
+        setWord.add(compoundWord);
+      }
+    }
     return arrWord
 }
 
 
-  const generateKeywordsGranular = names => {
+  const generateKeywordsGranular = (names: String[] )=> {
     const [first, middle, last, sfx] = names;
     const suffix = sfx.length > 0 ? ` ${sfx}.` : '';
     const keywordNameWidthoutMiddleName = createKeywordsGranular(`${first} ${last}${suffix}`);
