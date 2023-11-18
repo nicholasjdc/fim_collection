@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BookEntry } from "../screen_helpers/BookEntry";
 import { addBookEntry } from "../function_helpers/personalFirebase";
-import { createKeywordsByWord } from "../function_helpers/keyword";
+import { createKeywordsByWord, createKeywordsGranular } from "../function_helpers/keyword";
 const Create = () => {
   const [title, setTitle] = useState("");
   const [titlec, setTitlec] = useState("");
@@ -25,16 +25,21 @@ const Create = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    const joinedTitle = title + " " + titlec + " " + titlep;
-    const joinedAuthor = author + " " + authorc + " " + authorp;
-    const tKeyWords: String[] = Array.from(createKeywordsByWord(joinedTitle));
-    const aKeyWords: String[] = Array.from(createKeywordsByWord(joinedAuthor));
+    const joinedTitle = title +  " " + titlep;
+    const joinedAuthor = author  + " " + authorp;
+    const cAuthorKeyWords = createKeywordsGranular(authorc);
+    const cTitleKeyWords = createKeywordsGranular(titlec)
+
+    const tSetkeyWords: Set<String> = new Set([...createKeywordsByWord(joinedTitle), ...cTitleKeyWords]);
+    const aSetKeyWords: Set<String> = new Set([...createKeywordsByWord(joinedAuthor), ...cAuthorKeyWords])
+    const tKeyWords: String[] = Array.from(tSetkeyWords);
+    const aKeyWords: String[] = Array.from(aSetKeyWords);
     const concatKeyWords: String[] = Array.from(
       new Set([
-        ...createKeywordsByWord(joinedTitle),
-        ...createKeywordsByWord(joinedAuthor),
+        ...tSetkeyWords,
+        ...aSetKeyWords,
       ])
     );
     setIsPending(true);
@@ -43,7 +48,7 @@ const Create = () => {
       entryNumber: entryNumber,
       author: author,
       authorc: authorc,
-      authrop: authorp,
+      authorp: authorp,
       title: title,
       titlec: titlec,
       titlep: titlep,

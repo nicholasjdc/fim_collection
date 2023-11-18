@@ -105,7 +105,7 @@ export class BookEntry implements BookEntryInterface {
     entryNumber: any;
     author: any;
     authorc: any;
-    authrop: any;
+    authorp: any;
     title: any;
     titlec: any;
     titlep: any;

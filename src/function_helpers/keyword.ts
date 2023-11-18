@@ -14,7 +14,7 @@ Keywords by Category:
     - language Code: each code demarcated
     - instantiatedAt: invalid
 */
-const createKeywordsGranular = (key:String) => {
+export const createKeywordsGranular = (key:String) => {
     const arrChar:Set<String> = new Set([]);
     let curName = '';
     key.split('').forEach(letter => {
@@ -28,6 +28,7 @@ const createKeywordsGranular = (key:String) => {
 
 export const createKeywordsByWord = (key:String) => {
   //Make more thorough
+  key.toLowerCase();
     const setWord:Set<String> = new Set([]);
     setWord.add('');
     setWord.add(' ');
@@ -44,7 +45,7 @@ export const createKeywordsByWord = (key:String) => {
         setWord.add(compoundWord);
       }
     }
-    return arrWord
+    return setWord
 }
 
 

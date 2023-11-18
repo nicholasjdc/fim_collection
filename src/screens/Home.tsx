@@ -6,12 +6,12 @@ import { BookEntry } from "../screen_helpers/BookEntry";
 const Home = () => {
   //grab data but rename it blogs
   const [search, setSearch] = useState("");
-  const [books, setBooks] = useState<BookEntry[]>(null);
-  const [isPending, setIsPending] = useState(null);
+  const [books, setBooks] = useState<BookEntry[] | null>(null);
+  const [isPending, setIsPending] = useState<boolean | null>(null);
   const [error, setError] = useState(null);
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     setIsPending(true);
     queryEntriesByKeywords(search).then((entries) => {

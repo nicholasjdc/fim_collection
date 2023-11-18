@@ -16,9 +16,7 @@ ToDo:
         - Host on Netlify
         - Discuss domain w/ dad
     - OTHER ISSUES
-        - Keyword generation is not thorough
-        - the pinyin for author does not generate upon creation
-        - Chinese character keyword generation should separate by character
+        - keywords repeating: Set not functioning properly
         - Advanced search doesn't work (Can you do advanced search w/ firebase?)
         - Live Server Does Not Work (check firebase hosting/Netlify availability)
         - Replace Browser Icon

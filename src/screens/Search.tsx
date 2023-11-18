@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BookEntry } from "../screen_helpers/BookEntry";
 import { queryEntries } from "../function_helpers/personalFirebase";
 import BookList from "../screen_helpers/BookList";
+import { Query } from "firebase/firestore";
 
 const Search = () => {
   const [title, setTitle] = useState("");
@@ -18,7 +19,7 @@ const Search = () => {
   const [isPending, setIsPending] = useState(false);
   const [searchResults, setSearchResults] = useState<BookEntry[]>([])
   
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
 
     setIsPending(true);
@@ -33,7 +34,7 @@ const Search = () => {
     <div className = "search">
         <div className="create">
 
-        <h2>Advanced Search</h2>
+        <h2>Advanced Search (Still Under Construction!)</h2>
         <form onSubmit={handleSubmit}>
             <label>Entry Number:</label>
             <input

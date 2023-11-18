@@ -121,7 +121,6 @@ export async function queryEntries(
   } else {
     console.log("No such document!");
   }
-  return q;
 }
 export async function queryEntriesByKeywords(keyword: String) {
   const q = query(
