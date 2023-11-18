@@ -11,7 +11,7 @@ import {
   getFirestore,
   query,
   where,
-  and,
+
 } from "firebase/firestore";
 import { collection, getDocs, setDoc } from "firebase/firestore";
 import { BookEntry } from "../screen_helpers/BookEntry";

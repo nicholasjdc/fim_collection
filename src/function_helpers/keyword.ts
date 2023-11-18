@@ -47,26 +47,3 @@ export const createKeywordsByWord = (key:String) => {
     }
     return setWord
 }
-
-
-  const generateKeywordsGranular = (names: String[] )=> {
-    const [first, middle, last, sfx] = names;
-    const suffix = sfx.length > 0 ? ` ${sfx}.` : '';
-    const keywordNameWidthoutMiddleName = createKeywordsGranular(`${first} ${last}${suffix}`);
-    const keywordFullName = createKeywordsGranular(`${first} ${middle} ${last}${suffix}`);
-    const keywordLastNameFirst = createKeywordsGranular(`${last}, ${first} ${middle}${suffix}`);
-    
-    const middleInitial = middle.length > 0 ? ` ${middle[0]}.` : '';
-    const keywordFullNameMiddleInitial = createKeywordsGranular(`${first}${middleInitial} ${last}${suffix}`);
-    const keywordLastNameFirstMiddleInitial = createKeywordsGranular(`${last}, ${first}${middleInitial}${suffix}`);
-    return [
-      ...new Set([
-        '',
-        ...keywordFullName,
-        ...keywordLastNameFirst,
-        ...keywordFullNameMiddleInitial,
-        ...keywordLastNameFirstMiddleInitial,
-        ...keywordNameWidthoutMiddleName
-      ])
-    ];
-  }
