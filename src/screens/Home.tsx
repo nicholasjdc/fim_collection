@@ -44,7 +44,7 @@ const Home = () => {
 
       {error && <div>{error}</div>}
       {isPending && <div>Searching...</div>}
-      {/*Make sure blogs exists when loading*/}
+      {/*Make sure books exists when loading*/}
       {books && <BookList books={books} title="Found Entries" />}
     </div>
   );

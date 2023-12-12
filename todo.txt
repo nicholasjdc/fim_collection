@@ -1,3 +1,28 @@
+Current RoadMap:
+    - figure out pagination
+        -First find count of query
+        -Count number of pages given query (total /25)
+        - Display the first 25, on the bottom allow page selection
+    - Look into what happens when you lowercase non-eng characters [test]
+    - update keyword generation (make everything english lowercase)
+    - update search (make everything english lowercase)
+    - Upload the taiwan text
+    - Update create page
+        - Subjects fields
+        - Reform Language fields
+            - FOR BOTH ALLOW SOLIDIFYING SELECTIONS        
+    - Fix Advanced search
+        -doozy
+    - allow users to update, delete
+    - update Browser Icon
+    - update site name
+    - Display Missing fields at bottom of information
+    - Quick citation button
+    - Integrate firebase auth (watch webninja)
+        - Display username at top right-hand side
+    - make creating and deleting only auth users
+    - Allow non-auth users to suggest additions
+
 ToDo:
     - Languages:
     - Book Entry:
