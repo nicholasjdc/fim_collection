@@ -2,9 +2,9 @@ import { useParams } from "react-router-dom";
 import useGetEntry from "../function_helpers/useGetEntry";
 
 const BookDetails = () => {
-    const { id:ISBN } = useParams(); //Grab route parameters from current route
+    const { id:entryCode } = useParams(); //Grab route parameters from current route
 
-    const {data: book, error, isPending} = useGetEntry(ISBN as string);
+    const {data: book, error, isPending} = useGetEntry(entryCode as string);
 
     return (  
         <div className="blog-details">

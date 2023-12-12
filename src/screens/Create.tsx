@@ -64,9 +64,8 @@ const Create = () => {
       titleKeyWords: tKeyWords,
       authorKeyWords: aKeyWords,
     });
-    addBookEntry(newBookEntry, newBookEntry.ISBN).then(() => {
+    addBookEntry(newBookEntry, newBookEntry.entryNumber).then(() => {
       setIsPending(false);
-      //history.go(-1);
       navigate("/");
     });
   };

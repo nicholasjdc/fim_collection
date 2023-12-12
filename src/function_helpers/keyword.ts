@@ -15,15 +15,20 @@ Keywords by Category:
     - instantiatedAt: invalid
 */
 export const createKeywordsGranular = (key:String) => {
-    const arrChar:Set<String> = new Set([]);
-    let curName = '';
+    const setChar:Set<String> = new Set([]);
+
     key.split('').forEach(letter => {
-      curName += letter;
-      arrChar.add(curName);
-      arrChar.add(letter);
+      setChar.add(letter);
     });
-    
-    return arrChar;
+    let arrWord = Array.from(setChar);
+    for(let i=0; i<arrWord.length;i++){
+      var compoundWord:String = arrWord[i];
+      for(let j=i+1; j<arrWord.length;j++){
+        compoundWord+=('' + arrWord[j]);
+        setChar.add(compoundWord);
+      }
+    }
+    return setChar;
   }
 
 export const createKeywordsByWord = (key:String) => {

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { getEntry } from "./personalFirebase";
 import { BookEntry } from "../screen_helpers/BookEntry";
 
-const useGetEntry= (isbn:string) => {
+const useGetEntry= (entrycode:string) => {
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
     const [data, setData] = useState<BookEntry>(null);
@@ -11,7 +11,7 @@ const useGetEntry= (isbn:string) => {
         const abortCont = new AbortController(); 
 
 
-        getEntry(isbn)
+        getEntry(entrycode)
             .then(res => {
                 if(!res){ 
                     throw Error('could not fetch data for that resource');
@@ -37,7 +37,7 @@ const useGetEntry= (isbn:string) => {
 
     
     return () => abortCont.abort(); 
-    }, [isbn]); 
+    }, [entrycode]); 
 
     return {data, isPending, error};
 }

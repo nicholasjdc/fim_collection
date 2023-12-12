@@ -1,7 +1,7 @@
 ToDo:
     - Languages:
     - Book Entry:
-        - Make Entry Number Unique Key -
+        - Make Entry Number Unique Key - x
     - Firebase Config:
         - Make firebase only accessible by verified users -- make self verified users
     - Home Page:
@@ -20,3 +20,89 @@ ToDo:
         - Advanced search doesn't work (Can you do advanced search w/ firebase?)
         - Live Server Does Not Work (check firebase hosting/Netlify availability)
         - Replace Browser Icon
+         
+- Add Subjects
+    - Multiple subjects allowed
+
+- IDEA
+    - Scan for languages w/ simple array matching -- include all allowed languages in array: throw error with unrecognized Language
+- Types:
+1. (ex: 0001)
+    Entry Number
+    (Pinyin title) "/" (pinyin authors, demarcated with commas)
+    (Chinese title) "/" (chinese authors, demarcated with commas)
+    (Publication location ":" publication) "," year
+    volume count "v."
+    "ISBN" (ISBN Number)
+    Note
+    Language Codes (Spaced out)
+2. (ex: 0002)
+    (Entry Number)
+    (Last name English)"," (First name English)
+    (English title) "=" (Chinese Title)
+    (Publication Location)":" (Publication Name)"," (publication year)
+    (# of pages) "p."
+    "ISBN" (ISBN Number)
+    "Note: " (Note Content)
+    Language Codes [Contiguous w/ capitalisation]
+3. (ex: 0003)
+    (Entry Number)
+    (Pinyin title) "=" (English title) "/" (Pinyin[maybe no english name?] authors demarcated by ",")
+    (Chinese title) "=" (English Title) "/" (Chinese author)
+    (Publication Location [pinyin])":" (Publication name [pinyin])"," (publication year)
+    (# volumes) "v." "(" (# pages) "p." ")"
+    "ISBN" (ISBN #) "(pbk.);" (ISBN # 2) "(pbk.);"
+    "Note:" (Notes Content)
+    Language codes
+4. (ex: 0004)
+    (English Last name)"," (English First name)"," (Birth year)"-"
+    (Chinese Name)"," (Birth year)"-"
+    (English title) "=" (Chinese title)
+    (Publication location)":" (Publication name)"," (Publication year)
+    (# pages) "p."
+    "Series title: " (Series title)
+    (Series title Chinese)
+    "Note: " (Note content)
+    Language Codes
+5. (ex: 0005)
+    (Entry Number)
+    (Pinyin title ) "=" (English title) "/" (Author [pinyin, english])
+    (Chinese Title) "=" (English title)
+     (Publication Location [pinyin])":" (Publication name [pinyin])"," (publication year)
+    (#pages) "p."
+    "ISBN" (ISBN #)
+    "Note:" (Notes Content)
+    Language codes
+6. (ex: 0006)
+    (Entry Number)
+    (Pinyin title) "/" (Author [pinyin])
+    (Chinese Title) "/" (Author [Chinese])
+    (Publication Location [pinyin])":" (Publication name [pinyin])"," (publication year)
+    (#pages) "p."
+    "ISBN" (ISBN #)
+    "Note:" (Notes Content)
+    Language codes
+7. (ex: 0007) SAME AS #6
+    (Entry Number)
+    (Pinyin title) "/" (Author [pinyin])
+    (Chinese Title) "/" (Author [Chinese])
+    (Publication Location [pinyin])":" (Publication name [pinyin])"," (publication year)
+    (#pages) "p."
+    "ISBN" (ISBN #)
+    "Note:" (Notes Content)
+    Language codes
+
+8.
+    (Entry Number)
+    (English title) "/" "Edited by:" (Author list)
+    (Publication Location )":" (Publication name [pinyin])"," (publication year)
+    (#pages) "p."
+    "ISBN" (ISBN #)
+    "Note:" (Notes Content)
+    Language codes
+9. (ex: 0170) ---WEIRD university thesis paper
+    (Entry number)
+    (Author last name [pinyin]) "," (Author First name (pinyin)) "("(Author Alternative Spelling)")"
+    (Author Chinese)
+    (Title Pinyin)
+    (Title Chinese)

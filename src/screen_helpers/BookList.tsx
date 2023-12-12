@@ -12,7 +12,7 @@ const BookList: React.FC<BookListProps> = ({books, title}) => {
             <h2>{title}</h2>
              {books.map((book) => (
                 <div className="blog-preview" key={book.ISBN}>
-                    <Link to={`/books/${book.ISBN}`}>
+                    <Link to={`/books/${book.entryNumber}`}>
                         <h2>{book.title}</h2>
                         <p>Written by {book.author}</p>
                     </Link>
