@@ -10,13 +10,16 @@ export interface BookEntryInterface {
   pageCount: string;
   ISBN: string;
   seriesTitle: string;
+  seriesTitlec: string;
   note: string;
   resource: string;
-  languageCode: string;
+  languageCode: string[];
+  subjects: string[];
+  missingFields: string[];
   instantiatedAt: Date;
-  keyWords: String[];
-  authorKeyWords: String[];
-  titleKeyWords: String[];
+  keyWords: string[];
+  authorKeyWords: string[];
+  titleKeyWords: string[];
 }
 export class BookEntry implements BookEntryInterface {
   entryNumber: string;
@@ -30,13 +33,16 @@ export class BookEntry implements BookEntryInterface {
   pageCount: string;
   ISBN: string;
   seriesTitle: string;
+  seriesTitlec: string;
   note: string;
   resource: string;
-  languageCode: string;
+  languageCode: string[];
+  subjects: string[];
+  missingFields: string[];
   instantiatedAt: Date;
-  keyWords: String[];
-  authorKeyWords: String[];
-  titleKeyWords: String[];
+  keyWords: string[];
+  authorKeyWords: string[];
+  titleKeyWords: string[];
   constructor(
     entryNumber: string,
     author: string,
@@ -49,13 +55,16 @@ export class BookEntry implements BookEntryInterface {
     pageCount: string,
     ISBN: string,
     seriesTitle: string,
+    seriesTitlec: string,
     note: string,
     resource: string,
-    languageCode: string,
+    languageCode: string[],
+    subjects: string[],
+    missingFields: string[],
     instantiatedAt: Date,
-    keyWords: String[],
-    authorKeyWords: String[],
-    titleKeyWords: String[],
+    keyWords: string[],
+    authorKeyWords: string[],
+    titleKeyWords: string[]
   ) {
     this.entryNumber = entryNumber;
     this.author = author;
@@ -68,9 +77,12 @@ export class BookEntry implements BookEntryInterface {
     this.pageCount = pageCount;
     this.ISBN = ISBN;
     this.seriesTitle = seriesTitle;
+    this.seriesTitlec = seriesTitlec;
     this.note = note;
     this.resource = resource;
     this.languageCode = languageCode;
+    this.subjects = subjects;
+    this.missingFields = missingFields;
     this.instantiatedAt = instantiatedAt;
     this.keyWords = keyWords;
     this.authorKeyWords = authorKeyWords;
@@ -89,9 +101,12 @@ export class BookEntry implements BookEntryInterface {
       entryMap.get("pageCount"),
       entryMap.get("ISBN"),
       entryMap.get("seriesTitle"),
+      entryMap.get("seriesTitlec"),
       entryMap.get("note"),
       entryMap.get("resource"),
       entryMap.get("languageCode"),
+      entryMap.get("subjects"),
+      entryMap.get("missingFields"),
       entryMap.get("instantiatedAt"),
       entryMap.get("keyWords"),
       entryMap.get("authorKeyWords"),
@@ -102,24 +117,27 @@ export class BookEntry implements BookEntryInterface {
   }
 
   public static bookEntryFromDictionary(entryMap: {
-    entryNumber: any;
-    author: any;
-    authorc: any;
-    authorp: any;
-    title: any;
-    titlec: any;
-    titlep: any;
-    publication: any;
-    pageCount: any;
-    ISBN: any;
-    seriesTitle: any;
-    note: any;
-    resource: any;
-    languageCode: any;
-    instantiatedAt: any;
-    keyWords: String[];
-    authorKeyWords:String[];
-    titleKeyWords:String[];
+    entryNumber: string;
+    author: string;
+    authorc: string;
+    authorp: string;
+    title: string;
+    titlec: string;
+    titlep: string;
+    publication: string;
+    pageCount: string;
+    ISBN: string;
+    seriesTitle: string;
+    seriesTitlec: string;
+    note: string;
+    resource: string;
+    languageCode: string[];
+    subjects: string[];
+    missingFields: string[];
+    instantiatedAt: Date;
+    keyWords: string[];
+    authorKeyWords: string[];
+    titleKeyWords: string[];
   }): BookEntry {
     var newBookEntry = new BookEntry(
       entryMap["entryNumber"],
@@ -133,9 +151,12 @@ export class BookEntry implements BookEntryInterface {
       entryMap["pageCount"],
       entryMap["ISBN"],
       entryMap["seriesTitle"],
+      entryMap["seriesTitlec"],
       entryMap["note"],
       entryMap["resource"],
       entryMap["languageCode"],
+      entryMap["subjects"],
+      entryMap['missingFields'],
       entryMap["instantiatedAt"],
       entryMap["keyWords"],
       entryMap["authorKeyWords"],

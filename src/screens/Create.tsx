@@ -29,14 +29,14 @@ const Create = () => {
     e.preventDefault();
     const joinedTitle = title +  " " + titlep;
     const joinedAuthor = author  + " " + authorp;
-    const cAuthorKeyWords = createKeywordsGranular(authorc);
-    const cTitleKeyWords = createKeywordsGranular(titlec)
+    const cAuthorKeyWords: Set<string> = createKeywordsGranular(authorc);
+    const cTitleKeyWords: Set<string> = createKeywordsGranular(titlec)
 
-    const tSetkeyWords: Set<String> = new Set([...createKeywordsByWord(joinedTitle), ...cTitleKeyWords]);
-    const aSetKeyWords: Set<String> = new Set([...createKeywordsByWord(joinedAuthor), ...cAuthorKeyWords])
-    const tKeyWords: String[] = Array.from(tSetkeyWords);
-    const aKeyWords: String[] = Array.from(aSetKeyWords);
-    const concatKeyWords: String[] = Array.from(
+    const tSetkeyWords: Set<string> = new Set([...createKeywordsByWord(joinedTitle), ...cTitleKeyWords]);
+    const aSetKeyWords: Set<string> = new Set([...createKeywordsByWord(joinedAuthor), ...cAuthorKeyWords])
+    const tKeyWords: string[] = Array.from(tSetkeyWords);
+    const aKeyWords: string[] = Array.from(aSetKeyWords);
+    const concatKeyWords: string[] = Array.from(
       new Set([
         ...tSetkeyWords,
         ...aSetKeyWords,
@@ -57,9 +57,12 @@ const Create = () => {
       publication: publication,
       pageCount: pageCount,
       seriesTitle: seriesTitle,
-      languageCode: languageCode,
+      seriesTitlec: "",
+      languageCode: [],
       resource: resource,
       instantiatedAt: currentDate,
+      subjects: [],
+      missingFields: [],
       keyWords: concatKeyWords,
       titleKeyWords: tKeyWords,
       authorKeyWords: aKeyWords,

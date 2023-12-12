@@ -14,15 +14,15 @@ Keywords by Category:
     - language Code: each code demarcated
     - instantiatedAt: invalid
 */
-export const createKeywordsGranular = (key:String) => {
-    const setChar:Set<String> = new Set([]);
+export const createKeywordsGranular = (key:string) => {
+    const setChar:Set<string> = new Set([]);
 
     key.split('').forEach(letter => {
       setChar.add(letter);
     });
     let arrWord = Array.from(setChar);
     for(let i=0; i<arrWord.length;i++){
-      var compoundWord:String = arrWord[i];
+      var compoundWord:string = arrWord[i];
       for(let j=i+1; j<arrWord.length;j++){
         compoundWord+=('' + arrWord[j]);
         setChar.add(compoundWord);
@@ -31,20 +31,20 @@ export const createKeywordsGranular = (key:String) => {
     return setChar;
   }
 
-export const createKeywordsByWord = (key:String) => {
+export const createKeywordsByWord = (key:string) => {
   //Make more thorough
   key.toLowerCase();
-    const setWord:Set<String> = new Set([]);
+    const setWord:Set<string> = new Set([]);
     setWord.add('');
     setWord.add(' ');
-    key.split(' ').forEach((word:String) => {
+    key.split(' ').forEach((word:string) => {
         
         setWord.add(word);
     })
 
     let arrWord = Array.from(setWord);
     for(let i=0; i<arrWord.length;i++){
-      var compoundWord:String = arrWord[i];
+      var compoundWord:string = arrWord[i];
       for(let j=i+1; j<arrWord.length;j++){
         compoundWord+=(' ' + arrWord[j]);
         setWord.add(compoundWord);
