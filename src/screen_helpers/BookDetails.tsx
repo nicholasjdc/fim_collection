@@ -24,7 +24,11 @@ const BookDetails = () => {
                     <p>ISBN: {book.ISBN}</p>
                     <p>Series Title: {book.seriesTitle}</p>
                     <p>Note: {book.note}</p>
-                    
+                    <p>Missing Fields:</p>
+                    <p></p>
+                    {book.missingFields.map((field) => ( 
+                        <p>{field}</p>
+                    ))}
                 </article>
             )}
         </div>

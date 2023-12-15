@@ -27,21 +27,6 @@ const Create = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    const joinedTitle = title +  " " + titlep;
-    const joinedAuthor = author  + " " + authorp;
-    const cAuthorKeyWords: Set<string> = createKeywordsGranular(authorc);
-    const cTitleKeyWords: Set<string> = createKeywordsGranular(titlec)
-
-    const tSetkeyWords: Set<string> = new Set([...createKeywordsByWord(joinedTitle), ...cTitleKeyWords]);
-    const aSetKeyWords: Set<string> = new Set([...createKeywordsByWord(joinedAuthor), ...cAuthorKeyWords])
-    const tKeyWords: string[] = Array.from(tSetkeyWords);
-    const aKeyWords: string[] = Array.from(aSetKeyWords);
-    const concatKeyWords: string[] = Array.from(
-      new Set([
-        ...tSetkeyWords,
-        ...aSetKeyWords,
-      ])
-    );
     setIsPending(true);
     let currentDate: Date = new Date(Date.now());
     let newBookEntry: BookEntry = BookEntry.bookEntryFromDictionary({
@@ -63,9 +48,9 @@ const Create = () => {
       instantiatedAt: currentDate,
       subjects: [],
       missingFields: [],
-      keyWords: concatKeyWords,
-      titleKeyWords: tKeyWords,
-      authorKeyWords: aKeyWords,
+      keyWords: [],
+      titleKeyWords: [],
+      authorKeyWords: [],
     });
     addBookEntry(newBookEntry, newBookEntry.entryNumber).then(() => {
       setIsPending(false);

@@ -14,7 +14,9 @@ const BookList: React.FC<BookListProps> = ({books, title}) => {
                 <div className="blog-preview" key={book.ISBN}>
                     <Link to={`/books/${book.entryNumber}`}>
                         <h2>{book.title}</h2>
-                        <p>Written by {book.author}</p>
+                        <h2>{book.titlep}</h2>
+                        <h2>{book.titlec}</h2>
+                        <p>Written by {book.author} {book.authorp} {book.authorc}</p>
                     </Link>
                     
                 </div>

@@ -1,20 +1,22 @@
-function capitalizeFirstLetter(string:String) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-// Import the functions you need from the SDKs you need
-
 import { initializeApp } from "firebase/app";
-//import { getAnalytics } from "firebase/analytics";
 import {
   getDoc,
   doc,
   getFirestore,
   query,
   where,
-
+  getCountFromServer,
+  orderBy,
+  limit,
+  startAfter,
+  QueryDocumentSnapshot,
+  QuerySnapshot,
+  QueryFieldFilterConstraint,
 } from "firebase/firestore";
 import { collection, getDocs, setDoc } from "firebase/firestore";
 import { BookEntry } from "../screen_helpers/BookEntry";
+import { capitalizeFirstLetter, firebaseJSONPump } from "./qualityOfLifeFunctions";
+import { createKeywordsByWord, createKeywordsGranular } from "./keyword";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCgto0p4sk5aiXJvZM9CpuSmfYdzmhQiWY",
@@ -69,17 +71,62 @@ export async function getEntry(id: string) {
 }
 
 export async function addEntryJSON(data: any, id: string) {
+  const eTitleKeywords = createKeywordsByWord(data.title)
+  const pTitleKeywords = createKeywordsByWord(data.titlep)
+  const eAuthorKeywords = createKeywordsByWord(data.author)
+  const pAuthorKeywords = createKeywordsByWord(data.authorp)
+  const cAuthorKeyWords: Set<string> = createKeywordsGranular(data.authorc);
+  const cTitleKeyWords: Set<string> = createKeywordsGranular(data.titlec)
+
+  const tSetkeyWords: Set<string> = new Set([...eTitleKeywords,...pTitleKeywords, ...cTitleKeyWords]);
+  const aSetKeyWords: Set<string> = new Set([...eAuthorKeywords,...pAuthorKeywords, ...cAuthorKeyWords])
+  console.log(tSetkeyWords)
+  console.log(aSetKeyWords)
+  const tKeyWords: string[] = Array.from(tSetkeyWords);
+  const aKeyWords: string[] = Array.from(aSetKeyWords);
+  const concatKeyWords: string[] = Array.from(
+    new Set([
+      ...tSetkeyWords,
+      ...aSetKeyWords,
+    ])
+  );
+  data.keyWords = concatKeyWords
+  data.titleKeyWords = tKeyWords
+  data.authorKeyWords = aKeyWords
   await setDoc(doc(db, routeToBookEntryCollection, id), data);
 }
 export async function addBookEntry(data: BookEntry, id: string) {
-  await setDoc(doc(db, routeToBookEntryCollection, id), data.toJSONBE());
+  console.log(data.ISBN)
+  const eTitleKeywords = createKeywordsByWord(data.title)
+  const pTitleKeywords = createKeywordsByWord(data.titlep)
+  const eAuthorKeywords = createKeywordsByWord(data.author)
+  const pAuthorKeywords = createKeywordsByWord(data.authorp)
+  const cAuthorKeyWords: Set<string> = createKeywordsGranular(data.authorc);
+  const cTitleKeyWords: Set<string> = createKeywordsGranular(data.titlec)
+
+  const tSetkeyWords: Set<string> = new Set([...eTitleKeywords,...pTitleKeywords, ...cTitleKeyWords]);
+  const aSetKeyWords: Set<string> = new Set([...eAuthorKeywords,...pAuthorKeywords, ...cAuthorKeyWords])
+  console.log(tSetkeyWords)
+  console.log(aSetKeyWords)
+  const tKeyWords: string[] = Array.from(tSetkeyWords);
+  const aKeyWords: string[] = Array.from(aSetKeyWords);
+  const concatKeyWords: string[] = Array.from(
+    new Set([
+      ...tSetkeyWords,
+      ...aSetKeyWords,
+    ])
+  );
+  data.keyWords = concatKeyWords
+  data.titleKeyWords = tKeyWords
+  data.authorKeyWords = aKeyWords
+  await setDoc(doc(db, routeToBookEntryCollection, id), (data as BookEntry).toJSONBE());
 }
 //Need To fix
 export async function queryEntries(
   entryNumber: any,
   author: any,
   title: any,
-  publication:any ,
+  publication: any,
   pageCount: any,
   ISBN: any,
   seriesTitle: any,
@@ -163,4 +210,74 @@ export async function queryEntriesByTitle(title: String) {
     console.log("No such document!");
   }
   return q;
+}
+export async function queryEntriesByKeywordsPaginated(keyword: String) {
+  const keywordWhereClause = where("keyWords", "array-contains-any", [
+    keyword,
+    keyword.toLowerCase(),
+    keyword.toUpperCase(),
+    capitalizeFirstLetter(keyword.toLowerCase()),
+  ]);
+  const q = query(entriesCol, keywordWhereClause);
+  const countSnapshot = await getCountFromServer(q);
+  const docCount: number = countSnapshot.data().count;
+  const pageinateResults = await loadNextPaginatedResult(
+    null,
+    "entryNumber",
+    25,
+    keywordWhereClause
+  );
+  return { pageinateResults, countSnapshot };
+}
+async function loadNextPaginatedResult(
+  lastVisible: QueryDocumentSnapshot,
+  orderingKey: string,
+  docLimit: number,
+  whereClause: QueryFieldFilterConstraint
+) {
+
+  var pageResult = null;
+
+  if (lastVisible) {
+    pageResult = query(
+      collection(db, routeToBookEntryCollection),
+      whereClause,
+      orderBy(orderingKey),
+      startAfter(lastVisible),
+      limit(docLimit)
+    );
+  } else {
+    pageResult = query(
+      collection(db, routeToBookEntryCollection),
+      whereClause,
+      orderBy(orderingKey),
+      limit(docLimit)
+    );
+  }
+
+  const pageDocSnapshots = await getDocs(pageResult);
+  const bookEntryResults = await snapsToBookEntries(pageDocSnapshots);
+  const lastEntry = pageDocSnapshots.docs[pageDocSnapshots.docs.length - 1];
+
+  return { bookEntryResults, lastEntry };
+}
+async function snapsToBookEntries(querySnapshot: QuerySnapshot) {
+  if (querySnapshot) {
+    const entryList = querySnapshot.docs.map((doc) => {
+      let bookEntry: BookEntry = JSON.parse(JSON.stringify(doc.data()));
+      return bookEntry;
+    });
+
+    return entryList;
+  } else {
+    console.log("No such document!");
+  }
+  return null;
+}
+export async function massDocPost(){
+  const parsedItems = firebaseJSONPump()
+  console.log(parsedItems)
+  parsedItems.forEach(e => {
+    addEntryJSON(e, e.entryNumber);
+  });
 }

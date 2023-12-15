@@ -1,7 +1,8 @@
 import { useState } from "react";
 import BookList from "../screen_helpers/BookList";
-import { queryEntriesByKeywords } from "../function_helpers/personalFirebase";
+import { massDocPost, queryEntriesByKeywords, queryEntriesByKeywordsPaginated } from "../function_helpers/personalFirebase";
 import { BookEntry } from "../screen_helpers/BookEntry";
+import { firebaseJSONPump } from "../function_helpers/qualityOfLifeFunctions";
 
 const Home = () => {
   //grab data but rename it blogs
@@ -10,11 +11,15 @@ const Home = () => {
   const [isPending, setIsPending] = useState<boolean | null>(null);
   const [error, setError] = useState(null);
 
-
+  var lastViewedEntry;
+  var docResultCount;
   const handleSubmit = (e: any) => {
     e.preventDefault();
     setIsPending(true);
-    queryEntriesByKeywords(search).then((entries) => {
+    queryEntriesByKeywordsPaginated(search).then((result) => {
+      var entries = result["pageinateResults"]["bookEntryResults"];
+      lastViewedEntry = result["pageinateResults"]["lastEntry"];
+      docResultCount = result["countSnapshot"];
       setBooks(entries as BookEntry[]);
     }).catch(err=>{ 
             setIsPending(false);
@@ -25,6 +30,9 @@ const Home = () => {
 
   return (
     <div className="home">
+      <div className ="oneTimeThing">
+        <button id="BigBoom" onClick={massDocPost}></button>
+      </div>
       <div className="search">
         <form id="form" onSubmit={handleSubmit}>
           <input
