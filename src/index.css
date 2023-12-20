@@ -106,19 +106,22 @@
 }
 
 /* Home Page (Search) */
+
 .home .search {
   display: inline-block;
-    text-align: center;
-    width: 100%;
+  text-align: center;
+  width: 100%;
 }
+
 .home .search form {
   display: inline-block;
   width: 100%;
-    align-items: center;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
 }
+
 .home .search button{
   display: inline-block;
   width:10%
@@ -126,11 +129,33 @@
 }
 
 .home form input {
-    all: unset;
-    font: 16px system-ui;
-    color: black;
-    height: 100%;
-    width: 75%;
-    padding: 6px 10px;
+  font: 16px system-ui;
+  color: black;
   
+}
+.checkboxList {
+  background-color: antiquewhite;
+  
+
+}
+.checkboxList {
+
+}
+.checkboxList .itemList{
+  /*position:fixed;*/
+  flex-direction: row;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  column-gap: 15px;
+}
+.checkboxList input {
+  display: inline-flex;
+}
+.checkboxList button {
+  background: #f1356d;
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  cursor: pointer;
 }

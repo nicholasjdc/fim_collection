@@ -12,10 +12,15 @@ import {
   QueryDocumentSnapshot,
   QuerySnapshot,
   QueryFieldFilterConstraint,
+  Query,
+  CollectionReference,
 } from "firebase/firestore";
 import { collection, getDocs, setDoc } from "firebase/firestore";
 import { BookEntry } from "../screen_helpers/BookEntry";
-import { capitalizeFirstLetter, firebaseJSONPump } from "./qualityOfLifeFunctions";
+import {
+  capitalizeFirstLetter,
+  firebaseJSONPump,
+} from "./qualityOfLifeFunctions";
 import { createKeywordsByWord, createKeywordsGranular } from "./keyword";
 
 const firebaseConfig = {
@@ -71,57 +76,71 @@ export async function getEntry(id: string) {
 }
 
 export async function addEntryJSON(data: any, id: string) {
-  const eTitleKeywords = createKeywordsByWord(data.title)
-  const pTitleKeywords = createKeywordsByWord(data.titlep)
-  const eAuthorKeywords = createKeywordsByWord(data.author)
-  const pAuthorKeywords = createKeywordsByWord(data.authorp)
+  const eTitleKeywords = createKeywordsByWord(data.title);
+  const pTitleKeywords = createKeywordsByWord(data.titlep);
+  const eAuthorKeywords = createKeywordsByWord(data.author);
+  const pAuthorKeywords = createKeywordsByWord(data.authorp);
   const cAuthorKeyWords: Set<string> = createKeywordsGranular(data.authorc);
-  const cTitleKeyWords: Set<string> = createKeywordsGranular(data.titlec)
+  const cTitleKeyWords: Set<string> = createKeywordsGranular(data.titlec);
 
-  const tSetkeyWords: Set<string> = new Set([...eTitleKeywords,...pTitleKeywords, ...cTitleKeyWords]);
-  const aSetKeyWords: Set<string> = new Set([...eAuthorKeywords,...pAuthorKeywords, ...cAuthorKeyWords])
-  console.log(tSetkeyWords)
-  console.log(aSetKeyWords)
+  const tSetkeyWords: Set<string> = new Set([
+    ...eTitleKeywords,
+    ...pTitleKeywords,
+    ...cTitleKeyWords,
+  ]);
+  const aSetKeyWords: Set<string> = new Set([
+    ...eAuthorKeywords,
+    ...pAuthorKeywords,
+    ...cAuthorKeyWords,
+  ]);
+  console.log(tSetkeyWords);
+  console.log(aSetKeyWords);
   const tKeyWords: string[] = Array.from(tSetkeyWords);
   const aKeyWords: string[] = Array.from(aSetKeyWords);
   const concatKeyWords: string[] = Array.from(
-    new Set([
-      ...tSetkeyWords,
-      ...aSetKeyWords,
-    ])
+    new Set([...tSetkeyWords, ...aSetKeyWords])
   );
-  data.keyWords = concatKeyWords
-  data.titleKeyWords = tKeyWords
-  data.authorKeyWords = aKeyWords
+  data.keyWords = concatKeyWords;
+  data.titleKeyWords = tKeyWords;
+  data.authorKeyWords = aKeyWords;
   await setDoc(doc(db, routeToBookEntryCollection, id), data);
 }
 export async function addBookEntry(data: BookEntry, id: string) {
-  console.log(data.ISBN)
-  const eTitleKeywords = createKeywordsByWord(data.title)
-  const pTitleKeywords = createKeywordsByWord(data.titlep)
-  const eAuthorKeywords = createKeywordsByWord(data.author)
-  const pAuthorKeywords = createKeywordsByWord(data.authorp)
+  console.log(data.ISBN);
+  const eTitleKeywords = createKeywordsByWord(data.title);
+  const pTitleKeywords = createKeywordsByWord(data.titlep);
+  const eAuthorKeywords = createKeywordsByWord(data.author);
+  const pAuthorKeywords = createKeywordsByWord(data.authorp);
   const cAuthorKeyWords: Set<string> = createKeywordsGranular(data.authorc);
-  const cTitleKeyWords: Set<string> = createKeywordsGranular(data.titlec)
+  const cTitleKeyWords: Set<string> = createKeywordsGranular(data.titlec);
 
-  const tSetkeyWords: Set<string> = new Set([...eTitleKeywords,...pTitleKeywords, ...cTitleKeyWords]);
-  const aSetKeyWords: Set<string> = new Set([...eAuthorKeywords,...pAuthorKeywords, ...cAuthorKeyWords])
-  console.log(tSetkeyWords)
-  console.log(aSetKeyWords)
+  const tSetkeyWords: Set<string> = new Set([
+    ...eTitleKeywords,
+    ...pTitleKeywords,
+    ...cTitleKeyWords,
+  ]);
+  const aSetKeyWords: Set<string> = new Set([
+    ...eAuthorKeywords,
+    ...pAuthorKeywords,
+    ...cAuthorKeyWords,
+  ]);
+  console.log(tSetkeyWords);
+  console.log(aSetKeyWords);
   const tKeyWords: string[] = Array.from(tSetkeyWords);
   const aKeyWords: string[] = Array.from(aSetKeyWords);
   const concatKeyWords: string[] = Array.from(
-    new Set([
-      ...tSetkeyWords,
-      ...aSetKeyWords,
-    ])
+    new Set([...tSetkeyWords, ...aSetKeyWords])
   );
-  data.keyWords = concatKeyWords
-  data.titleKeyWords = tKeyWords
-  data.authorKeyWords = aKeyWords
-  await setDoc(doc(db, routeToBookEntryCollection, id), (data as BookEntry).toJSONBE());
+  data.keyWords = concatKeyWords;
+  data.titleKeyWords = tKeyWords;
+  data.authorKeyWords = aKeyWords;
+  await setDoc(
+    doc(db, routeToBookEntryCollection, id),
+    (data as BookEntry).toJSONBE()
+  );
 }
 //Need To fix
+/*
 export async function queryEntries(
   entryNumber: any,
   author: any,
@@ -155,7 +174,7 @@ export async function queryEntries(
     where("languageCode", ">=", languageCode),
     where("languageCode", "<=", languageCode+ "\uf8ff"),
     where("pageCount", ">=", languageCode),
-    where("pageCount", "<=", languageCode+ "\uf8ff")),*/
+    where("pageCount", "<=", languageCode+ "\uf8ff")),
   );
   const querySnapshot = await getDocs(q);
   if (querySnapshot) {
@@ -169,6 +188,7 @@ export async function queryEntries(
     console.log("No such document!");
   }
 }
+*/
 export async function queryEntriesByKeywords(keyword: String) {
   const q = query(
     entriesCol,
@@ -211,6 +231,23 @@ export async function queryEntriesByTitle(title: String) {
   }
   return q;
 }
+export async function queryEntries(
+  collectionRef: CollectionReference,
+  queryConstraints: QueryFieldFilterConstraint,
+  orderingKey: string,
+  pageinateCount: number
+) {
+  const q = query(collectionRef, queryConstraints);
+  const countSnapshot = await getCountFromServer(q);
+  const docCount: number = countSnapshot.data().count;
+  const pageinateResults = await loadNextPaginatedResult(
+    null,
+    orderingKey,
+    pageinateCount,
+    queryConstraints
+  );
+  return { pageinateResults, countSnapshot };
+}
 export async function queryEntriesByKeywordsPaginated(keyword: String) {
   const keywordWhereClause = where("keyWords", "array-contains-any", [
     keyword,
@@ -235,7 +272,6 @@ async function loadNextPaginatedResult(
   docLimit: number,
   whereClause: QueryFieldFilterConstraint
 ) {
-
   var pageResult = null;
 
   if (lastVisible) {
@@ -274,10 +310,10 @@ async function snapsToBookEntries(querySnapshot: QuerySnapshot) {
   }
   return null;
 }
-export async function massDocPost(){
-  const parsedItems = firebaseJSONPump()
-  console.log(parsedItems)
-  parsedItems.forEach(e => {
+export async function massDocPost() {
+  const parsedItems = firebaseJSONPump();
+  console.log(parsedItems);
+  parsedItems.forEach((e) => {
     addEntryJSON(e, e.entryNumber);
   });
 }

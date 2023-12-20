@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BookEntry } from "../screen_helpers/BookEntry";
 import { queryEntries } from "../function_helpers/personalFirebase";
 import BookList from "../screen_helpers/BookList";
-const Search = () => {
+const AdvancedSearch = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [entryNumber, setEntryNumber] = useState("");
@@ -116,4 +116,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default AdvancedSearch;

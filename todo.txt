@@ -1,7 +1,5 @@
 Current RoadMap:
-    - When navigating back a page, keep the result
-    - Update Author keyword generation
-    - Update python text parsing
+
     - update Search
         - Subjects Checkbox
     - Update create page

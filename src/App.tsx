@@ -3,7 +3,7 @@ import Navbar from './screen_helpers/Navbar';
 import Home from './screens/Home';
 import Create from './screens/Create';
 import BookDetails from './screen_helpers/BookDetails';
-import Search from './screens/Search';
+import AdvancedSearch from './screens/AdvancedSearch';
 function App() {
   
  
@@ -15,10 +15,10 @@ function App() {
       <div className="content">
         <Routes>
           <Route path = "/" element ={<Home />} />
+          <Route path = "/:id" element ={<Home />} />
           <Route path = "/create" element ={<Create />} />
           <Route path ="/books/:id" element = {<BookDetails/>}/>
-          <Route path ="/search/:queries" element = {<Search/>}/>
-          <Route path ="/search" element = {<Search/>}/>
+          <Route path ="/search/:queries" element = {<AdvancedSearch/>}/>
         </Routes>
       </div>
     </Router>

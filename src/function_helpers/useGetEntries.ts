@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { getEntries } from "./personalFirebase";
+import { getEntries, queryEntriesByKeywordsPaginated } from "./personalFirebase";
 import { BookEntry } from "../screen_helpers/BookEntry";
 
-const useGetEntries= () => {
+const useGetEntries= (keyword) => {
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
-    const [data, setData] = useState<BookEntry[] | null>(null);
+    const [data, setData] = useState<any| null>(null);
     useEffect(()=> {
         const abortCont = new AbortController(); 
 
 
-        getEntries()
+        queryEntriesByKeywordsPaginated(keyword)
             .then(res => {
                 if(!res){ 
                     throw Error('could not fetch data for that resource');

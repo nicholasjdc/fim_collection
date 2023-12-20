@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import useGetEntry from "../function_helpers/useGetEntry";
+import CheckboxList from "./CheckboxList";
 
 const BookDetails = () => {
     const { id:entryCode } = useParams(); //Grab route parameters from current route
@@ -31,7 +32,26 @@ const BookDetails = () => {
                     ))}
                 </article>
             )}
+            <div className="alterButtons">
+            <button
+                  type="button"
+                  onClick={()=>{}}
+                > Edit</button>
+            <button
+                  type="button"
+                  onClick={()=>{}}
+                >Delete</button>
+                <button
+                  type="button"
+                  onClick={()=>{}}
+                >Suggest Edit</button>
+                <button
+                  type="button"
+                  onClick={()=>{}}
+                >Generate Citation</button>
+            </div>
         </div>
+
     );
 }
  
