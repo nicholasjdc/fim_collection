@@ -233,11 +233,11 @@ export async function queryEntriesByTitle(title: String) {
 }
 export async function queryEntries(
   collectionRef: CollectionReference,
-  queryConstraints: QueryFieldFilterConstraint,
+  queryConstraints: QueryFieldFilterConstraint[],
   orderingKey: string,
   pageinateCount: number
 ) {
-  const q = query(collectionRef, queryConstraints);
+  const q = query(collectionRef, ...queryConstraints);
   const countSnapshot = await getCountFromServer(q);
   const docCount: number = countSnapshot.data().count;
   const pageinateResults = await loadNextPaginatedResult(
@@ -247,6 +247,25 @@ export async function queryEntries(
     queryConstraints
   );
   return { pageinateResults, countSnapshot };
+}
+export async function queryEntriesByKeywordAndSubjects(keyword: string, subjects: string[]){
+  const queryList: QueryFieldFilterConstraint[] = []
+  if(!keyword){
+    keyword = ''
+  }
+  const keywordWhereClause = where("keyWords", "array-contains-any", [
+    keyword,
+    keyword.toLowerCase(),
+    keyword.toUpperCase(),
+    capitalizeFirstLetter(keyword.toLowerCase()),
+  ]);
+  queryList.push(keywordWhereClause)
+  if(subjects.length >0){
+    const subjectWhereClause = where("subjects", "array-contains", subjects)
+    queryList.push(subjectWhereClause)
+  }
+  return queryEntries(entriesCol,queryList, "entryNumber", 25)
+
 }
 export async function queryEntriesByKeywordsPaginated(keyword: String) {
   const keywordWhereClause = where("keyWords", "array-contains-any", [
@@ -262,7 +281,7 @@ export async function queryEntriesByKeywordsPaginated(keyword: String) {
     null,
     "entryNumber",
     25,
-    keywordWhereClause
+    [keywordWhereClause]
   );
   return { pageinateResults, countSnapshot };
 }
@@ -270,14 +289,14 @@ async function loadNextPaginatedResult(
   lastVisible: QueryDocumentSnapshot,
   orderingKey: string,
   docLimit: number,
-  whereClause: QueryFieldFilterConstraint
+  whereClause: QueryFieldFilterConstraint[]
 ) {
   var pageResult = null;
 
   if (lastVisible) {
     pageResult = query(
       collection(db, routeToBookEntryCollection),
-      whereClause,
+      ...whereClause,
       orderBy(orderingKey),
       startAfter(lastVisible),
       limit(docLimit)
@@ -285,7 +304,7 @@ async function loadNextPaginatedResult(
   } else {
     pageResult = query(
       collection(db, routeToBookEntryCollection),
-      whereClause,
+      ...whereClause,
       orderBy(orderingKey),
       limit(docLimit)
     );
@@ -309,6 +328,9 @@ async function snapsToBookEntries(querySnapshot: QuerySnapshot) {
     console.log("No such document!");
   }
   return null;
+}
+export async function addQuery() {
+
 }
 export async function massDocPost() {
   const parsedItems = firebaseJSONPump();

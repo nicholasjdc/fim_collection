@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { BookEntry } from "./BookEntry";
-import CheckboxList from "./CheckboxList";
 
 interface BookListProps {
     books: BookEntry[];
@@ -8,7 +7,6 @@ interface BookListProps {
     bookCount: number;
 }
 const BookList: React.FC<BookListProps> = ({books, title, bookCount}) => {
-
     return (  
         <div className="blog-list">
             <h2>{title}: {bookCount}</h2>

@@ -1,4 +1,4 @@
-import { createKeywordsGranular, createSimpleKeyWordsGranular } from "./keyword";
+import { createKeywordsByWord, createKeywordsGranular, createSimpleKeyWordsGranular } from "./keyword";
 
 var tempdata = [
     "Film / Movie Theatre",
@@ -179,7 +179,10 @@ var tempdata = [
 export const genSubjectKeyWords = () =>{
     let subjectKeywordMap = {}
     tempdata.forEach((subject)=>{
-        subjectKeywordMap[subject] = Array.from(createSimpleKeyWordsGranular(subject))
+        const granularKey = createSimpleKeyWordsGranular(subject)
+        const wordsKey = createKeywordsByWord(subject)
+        const setKey = new Set([...granularKey, ...wordsKey, ''])
+        subjectKeywordMap[subject] = Array.from(createKeywordsGranular(subject))
     })
     return subjectKeywordMap;
 }
