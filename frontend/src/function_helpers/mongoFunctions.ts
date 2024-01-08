@@ -36,6 +36,46 @@ export async function getEntry(id: string){
         }
     
 }
+export async function getEntries(searchBody: {}, pageNumber: number){
+    const response = await fetch(process.env.API_URL, {
+        method: "GET",
+        body: JSON.stringify(searchBody),
+        headers: {
+            "Content-Type": "application/json",
+
+        },
+        });
+        const entryjson = await response.json();
+    
+        if (!response.ok) {
+            throw Error(JSON.stringify(entryjson.body))
+            
+        }
+        if (response.ok) {
+            return entryjson;
+        }
+    
+}
+export async function updateEntry(entryBody: {}){
+    const response = await fetch(process.env.API_URL, {
+        method: "PATCH",
+        body: JSON.stringify(entryBody),
+        headers: {
+            "Content-Type": "application/json",
+
+        },
+        });
+        const entryjson = await response.json();
+    
+        if (!response.ok) {
+            throw Error(JSON.stringify(entryjson.body))
+            
+        }
+        if (response.ok) {
+            return entryjson;
+        }
+    
+}
 export async function deleteEntry(id: string){
     const response = await fetch(process.env.API_URL +'/'+ id, {
         method: "DELETE",

@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const Entry = require("../models/bookEntryModel");
 
+const limitCount = 25
 const getEntry = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -14,9 +15,10 @@ const getEntry = async (req, res) => {
   res.status(200).json(entry);
 };
 const getEntries = async (req, res) => {
-  const entries = await Entry.find(req.body).sort({ createdAt: -1 });
+  const entries = await Entry.find(req.body).sort({ createdAt: -1 }).limit(limitCount).skip(0);
+  //add skip-count into req body
 
-  res.status(200).json(entries);
+  res.status(200).json(entries); //also add in length 
 
 };
 
