@@ -7,19 +7,19 @@ const {
   updateEntry,
 } = require("../controller/entryController");
 const router = express.Router();
-//Get all workouts
+//Get all entries
 router.get("/", getEntries);
 
-//GET single workout
+//GET single entry
 router.get("/:id", getEntry);
 
-//POST a new workout
+//POST a new entry
 router.post("/", createEntry);
 
-//DELETE a workout
+//DELETE a entry
 router.delete("/:id", deleteEntry);
 
-//UPDATE a workout
+//UPDATE a entry
 router.patch("/:id", updateEntry);
 
 module.exports = router;

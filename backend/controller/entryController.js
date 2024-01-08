@@ -14,7 +14,9 @@ const getEntry = async (req, res) => {
   res.status(200).json(entry);
 };
 const getEntries = async (req, res) => {
-    const entries = Entry.find(req.params);
+  const entries = await Entry.find(req.body).sort({ createdAt: -1 });
+
+  res.status(200).json(entries);
 
 };
 
@@ -106,7 +108,6 @@ const createEntry = async (req, res) => {
       languageCode,
       subjects,
       missingFields,
-      instantiatedAt,
     });
     res.status(200).json(entry);
   } catch (error) {
