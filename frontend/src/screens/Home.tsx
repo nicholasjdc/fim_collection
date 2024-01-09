@@ -23,6 +23,7 @@ import Collapsible from "react-collapsible";
 import { genSubjectKeyWords } from "../function_helpers/subjectKeywordGen";
 import Suggestions from "../screen_helpers/Suggestions";
 import { returnPossibleKeyWords } from "../function_helpers/keywordVariables";
+import { getEntries, getEntry } from "../function_helpers/mongoFunctions";
 const Home = () => {
   const { id: keywords } = useParams(); //Grab route parameters from current route
   const navigate = useNavigate();
@@ -36,6 +37,9 @@ const Home = () => {
   const [isPending, setIsPending] = useState<boolean | null>(null);
   const [error, setError] = useState(null);
   const [loadSearch, setLoadSearch] = useState("");
+  getEntries({}, 5).then((v)=>{
+    console.log(v)
+  });
   useGetEntries(search);
   var lastViewedEntry;
   var docResultCount;

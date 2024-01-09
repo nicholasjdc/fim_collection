@@ -1,7 +1,7 @@
-require("dotenv").config();
+const API_URL='http://localhost:4000/api/film-entries'
 export async function postEntry(entryBody: {}){
 
-    const response = await fetch(process.env.API_URL, {
+    const response = await fetch(API_URL, {
     method: "POST",
     body: JSON.stringify(entryBody),
     headers: {
@@ -20,7 +20,7 @@ export async function postEntry(entryBody: {}){
 
 }
 export async function getEntry(id: string){
-    const response = await fetch(process.env.API_URL +'/'+ id, {
+    const response = await fetch(API_URL +'/'+ id, {
         method: "GET",
         headers: {
         },
@@ -37,7 +37,7 @@ export async function getEntry(id: string){
     
 }
 export async function getEntries(searchBody: {}, pageNumber: number){
-    const response = await fetch(process.env.API_URL, {
+    const response = await fetch(API_URL, {
         method: "GET",
         body: JSON.stringify(searchBody),
         headers: {
@@ -57,7 +57,7 @@ export async function getEntries(searchBody: {}, pageNumber: number){
     
 }
 export async function updateEntry(entryBody: {}){
-    const response = await fetch(process.env.API_URL, {
+    const response = await fetch(API_URL, {
         method: "PATCH",
         body: JSON.stringify(entryBody),
         headers: {
@@ -77,7 +77,7 @@ export async function updateEntry(entryBody: {}){
     
 }
 export async function deleteEntry(id: string){
-    const response = await fetch(process.env.API_URL +'/'+ id, {
+    const response = await fetch(API_URL +'/'+ id, {
         method: "DELETE",
         headers: {
         },
