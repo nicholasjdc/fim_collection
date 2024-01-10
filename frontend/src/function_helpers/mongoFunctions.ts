@@ -1,4 +1,6 @@
-const API_URL='http://localhost:4000/api/film-entries'
+import { BookEntry } from "../screen_helpers/BookEntry";
+import { API_URL } from "./handyVariables";
+
 export async function postEntry(entryBody: {}){
 
     const response = await fetch(API_URL, {
@@ -36,13 +38,10 @@ export async function getEntry(id: string){
         }
     
 }
-export async function getEntries(searchBody: {}, pageNumber: number){
-    const response = await fetch(API_URL, {
+export async function getEntries(url: string, pageNumber: number){
+    const response = await fetch(url, {
         method: "GET",
-        body: JSON.stringify(searchBody),
         headers: {
-            "Content-Type": "application/json",
-
         },
         });
         const entryjson = await response.json();
@@ -56,8 +55,8 @@ export async function getEntries(searchBody: {}, pageNumber: number){
         }
     
 }
-export async function updateEntry(entryBody: {}){
-    const response = await fetch(API_URL, {
+export async function patchEntry(url: string, entryBody: {}){
+    const response = await fetch(url, {
         method: "PATCH",
         body: JSON.stringify(entryBody),
         headers: {

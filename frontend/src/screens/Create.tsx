@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BookEntry } from "../screen_helpers/BookEntry";
 import { addBookEntry } from "../function_helpers/personalFirebase";
 import { createKeywordsByWord, createKeywordsGranular } from "../function_helpers/keyword";
+import { postEntry } from "../function_helpers/mongoFunctions";
 const Create = () => {
   const [title, setTitle] = useState("");
   const [titlec, setTitlec] = useState("");
@@ -52,6 +53,9 @@ const Create = () => {
       titleKeyWords: [],
       authorKeyWords: [],
     });
+    postEntry(newBookEntry).then((v)=>[
+      console.log(v)
+    ])
     addBookEntry(newBookEntry, newBookEntry.entryNumber).then(() => {
       setIsPending(false);
       navigate("/");

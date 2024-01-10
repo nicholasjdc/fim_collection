@@ -15,9 +15,8 @@ const getEntry = async (req, res) => {
   res.status(200).json(entry);
 };
 const getEntries = async (req, res) => {
-  const entries = await Entry.find(req.body).sort({ createdAt: -1 }).limit(limitCount).skip(0);
-  //add skip-count into req body
-
+  const entries = await Entry.find(req.query).sort({ createdAt: -1 }).limit(limitCount).skip(0);
+  //add skip-count into req.query
   res.status(200).json(entries); //also add in length 
 
 };

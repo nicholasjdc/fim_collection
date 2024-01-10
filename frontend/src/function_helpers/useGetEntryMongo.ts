@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getEntry } from "./mongoFunctions";
 import { BookEntry } from "../screen_helpers/BookEntry";
-const useGetEntry= (id:string) => {
+const useGetEntryMongo= (id:string) => {
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
     const [data, setData] = useState<BookEntry>(null);
@@ -18,7 +18,8 @@ const useGetEntry= (id:string) => {
                 return res
             })
             .then(data =>{ 
-                    setData(data)
+                    const be:BookEntry = data
+                    setData(be)
                     setIsPending(false)
                     setError(null);
             }
@@ -41,4 +42,4 @@ const useGetEntry= (id:string) => {
     return {data, isPending, error};
 }
  
-export default useGetEntry;
+export default useGetEntryMongo;

@@ -1,11 +1,12 @@
 import { useParams } from "react-router-dom";
 import useGetEntry from "../function_helpers/useGetEntry";
 import CheckboxList from "./CheckboxList";
+import { getEntries, getEntry } from "../function_helpers/mongoFunctions";
+import useGetEntryMongo from "../function_helpers/useGetEntryMongo";
 
 const BookDetails = () => {
-    const { id:entryCode } = useParams(); //Grab route parameters from current route
-
-    const {data: book, error, isPending} = useGetEntry(entryCode as string);
+    const { id} = useParams(); //Grab route parameters from current route
+    const {data: book, error, isPending} = useGetEntryMongo(id);
 
     return (  
         <div className="blog-details">
