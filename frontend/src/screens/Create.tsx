@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BookEntry } from "../screen_helpers/BookEntry";
-import { addBookEntry } from "../function_helpers/personalFirebase";
-import { createKeywordsByWord, createKeywordsGranular } from "../function_helpers/keyword";
+import {
+  createKeywordsByWord,
+  createKeywordsGranular,
+} from "../function_helpers/keyword";
 import { postEntry } from "../function_helpers/mongoFunctions";
 const Create = () => {
   const [title, setTitle] = useState("");
@@ -30,7 +32,7 @@ const Create = () => {
     e.preventDefault();
     setIsPending(true);
     let currentDate: Date = new Date(Date.now());
-    let newBookEntry: BookEntry = BookEntry.bookEntryFromDictionary({
+    let newBookEntry = {
       entryNumber: entryNumber,
       author: author,
       authorc: authorc,
@@ -52,11 +54,8 @@ const Create = () => {
       keyWords: [],
       titleKeyWords: [],
       authorKeyWords: [],
-    });
-    postEntry(newBookEntry).then((v)=>[
-      console.log(v)
-    ])
-    addBookEntry(newBookEntry, newBookEntry.entryNumber).then(() => {
+    };
+    postEntry(newBookEntry).then((v) => {
       setIsPending(false);
       navigate("/");
     });

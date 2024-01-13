@@ -18,7 +18,7 @@ function App() {
           <Route path = "/:id" element ={<Home />} />
           <Route path = "/create" element ={<Create />} />
           <Route path ="/books/:id" element = {<BookDetails/>}/>
-          <Route path ="/search/:queries" element = {<AdvancedSearch/>}/>
+          <Route path ="/search" element = {<AdvancedSearch/>}/>
         </Routes>
       </div>
     </Router>

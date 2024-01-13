@@ -1,7 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const Entry = require("../models/bookEntryModel");
 
-const limitCount = 25
+const limitCount = 25;
 const getEntry = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -15,10 +15,24 @@ const getEntry = async (req, res) => {
   res.status(200).json(entry);
 };
 const getEntries = async (req, res) => {
-  const entries = await Entry.find(req.query).sort({ createdAt: -1 }).limit(limitCount).skip(0);
+  let mongoQuery = req.query
+  if(mongoQuery.title){
+    mongoQuery.title = {$regex: mongoQuery.title}
+  }
+  if(mongoQuery.author){
+    mongoQuery.author = {$regex: mongoQuery.author}
+  }
+  if (mongoQuery.keyword){
+    mongoQuery.$or = [{'title': {$regex: mongoQuery.keyword}}, {'author': {$regex: mongoQuery.keyword}}]
+    delete mongoQuery.keyword
+  }
+  console.log(mongoQuery)
+  const entries = await Entry.find(mongoQuery)
+    .sort({ createdAt: -1 })
+    .limit(limitCount)
+    .skip(0);
   //add skip-count into req.query
-  res.status(200).json(entries); //also add in length 
-
+  res.status(200).json(entries); //also add in length
 };
 
 const deleteEntry = async (req, res) => {
@@ -37,18 +51,21 @@ const deleteEntry = async (req, res) => {
   res.status(200).json(entry);
 };
 const updateEntry = async (req, res) => {
-    const {id} = req.params;
+  const { id } = req.params;
 
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error: 'No such entry'});
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such entry" });
+  }
+  const entry = await Entry.findOneAndUpdate(
+    { _id: id },
+    {
+      ...req.body,
     }
-    const entry = await Entry.findOneAndUpdate({_id:id}, {
-        ...req.body
-    });
-    
-    if(!entry){
-        return res.status(404).json({error: 'No such entry'})
-    }
+  );
+
+  if (!entry) {
+    return res.status(404).json({ error: "No such entry" });
+  }
 
   res.status(200).json(entry);
 };

@@ -1,13 +1,17 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useGetEntry from "../function_helpers/useGetEntry";
 import CheckboxList from "./CheckboxList";
-import { getEntries, getEntry } from "../function_helpers/mongoFunctions";
+import { deleteEntry, getEntries, getEntry } from "../function_helpers/mongoFunctions";
 import useGetEntryMongo from "../function_helpers/useGetEntryMongo";
-
 const BookDetails = () => {
     const { id} = useParams(); //Grab route parameters from current route
     const {data: book, error, isPending} = useGetEntryMongo(id);
+    const navigate = useNavigate();
+    const handleDelete = ()=>{
+        deleteEntry(id);
+        navigate('/');
 
+    }
     return (  
         <div className="blog-details">
             {isPending && <div>loading...</div>}
@@ -38,18 +42,14 @@ const BookDetails = () => {
                   type="button"
                   onClick={()=>{}}
                 > Edit</button>
-            <button
-                  type="button"
-                  onClick={()=>{}}
-                >Delete</button>
                 <button
                   type="button"
                   onClick={()=>{}}
                 >Suggest Edit</button>
-                <button
+                 <button
                   type="button"
-                  onClick={()=>{}}
-                >Generate Citation</button>
+                  onClick={()=>{handleDelete()}}
+                >Delete</button>
             </div>
         </div>
 

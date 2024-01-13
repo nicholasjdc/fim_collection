@@ -11,8 +11,8 @@ const BookList: React.FC<BookListProps> = ({books, title, bookCount}) => {
         <div className="blog-list">
             <h2>{title}: {bookCount}</h2>
              {books.map((book) => (
-                <div className="blog-preview" key={book.entryNumber}>
-                    <Link to={`/books/${book.entryNumber}`}>
+                <div className="blog-preview" key={book._id}>
+                    <Link to={`/books/${book._id}`}>
                         <h2>{book.title}</h2>
                         <h2>{book.titlep}</h2>
                         <h2>{book.titlec}</h2>

@@ -1,4 +1,5 @@
 export interface BookEntryInterface {
+  _id: string;
   entryNumber: string;
   author: string;
   authorc: string;
@@ -22,6 +23,7 @@ export interface BookEntryInterface {
   titleKeyWords: string[];
 }
 export class BookEntry implements BookEntryInterface {
+  _id:string;
   entryNumber: string;
   author: string;
   authorc: string;
@@ -44,6 +46,7 @@ export class BookEntry implements BookEntryInterface {
   authorKeyWords: string[];
   titleKeyWords: string[];
   constructor(
+    _id: string,
     entryNumber: string,
     author: string,
     authorc: string,
@@ -66,6 +69,7 @@ export class BookEntry implements BookEntryInterface {
     authorKeyWords: string[],
     titleKeyWords: string[]
   ) {
+    this._id = _id;
     this.entryNumber = entryNumber;
     this.author = author;
     this.authorc = authorc;
@@ -90,6 +94,7 @@ export class BookEntry implements BookEntryInterface {
   }
   public static bookEntryFromMap(entryMap: Map<string, any>): BookEntry {
     var newBookEntry = new BookEntry(
+      entryMap.get("_id"),
       entryMap.get("entryNumber"),
       entryMap.get("author"),
       entryMap.get("authorc"),
@@ -117,6 +122,7 @@ export class BookEntry implements BookEntryInterface {
   }
 
   public static bookEntryFromDictionary(entryMap: {
+    _id: string;
     entryNumber: string;
     author: string;
     authorc: string;
@@ -140,6 +146,7 @@ export class BookEntry implements BookEntryInterface {
     titleKeyWords: string[];
   }): BookEntry {
     var newBookEntry = new BookEntry(
+      entryMap["_id"],
       entryMap["entryNumber"],
       entryMap["author"],
       entryMap["authorc"],

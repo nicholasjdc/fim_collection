@@ -1,8 +1,4 @@
 current Road Map:
-    - make search link to mongo
-    - implement regex for search
-    - implement advanced search
-    - remove all firebase from project
-    - Allow user to delete Entry
     - allow user to edit Entry
-    - 
+    - Allow users to add subjects when creating an Entry
+    - allow users to search w/ subjects

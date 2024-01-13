@@ -49,7 +49,7 @@ const bookEntrySchema = new Schema({
   languageCode: {
     type: Array,
   },
-  subject: {
+  subjects: {
     type: Array,
   },
   missingFields: {
