@@ -15,6 +15,9 @@ const BookDetails = () => {
     deleteEntry(id);
     navigate("/");
   };
+  const handleEdit = ()=>{
+    navigate("/edit/" + id)
+  }
   return (
     <div className="blog-details">
       {isPending && <div>loading...</div>}
@@ -47,11 +50,10 @@ const BookDetails = () => {
         </article>
       )}
       <div className="alterButtons">
-        <button type="button" onClick={() => {}}>
-          {" "}
+        <button type="button" onClick={() => {handleEdit()}}>
           Edit
         </button>
-        <button type="button" onClick={() => {}}>
+        <button type="button" onClick={() => {handleEdit()}}>
           Suggest Edit
         </button>
         <button

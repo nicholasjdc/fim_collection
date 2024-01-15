@@ -4,6 +4,7 @@ import Home from './screens/Home';
 import Create from './screens/Create';
 import BookDetails from './screen_helpers/BookDetails';
 import AdvancedSearch from './screens/AdvancedSearch';
+import Edit from './screens/Edit';
 function App() {
   
  
@@ -15,7 +16,7 @@ function App() {
       <div className="content">
         <Routes>
           <Route path = "/" element ={<Home />} />
-          <Route path = "/:id" element ={<Home />} />
+          <Route path= "/edit/:id" element={<Edit />} />
           <Route path = "/create" element ={<Create />} />
           <Route path ="/books/:id" element = {<BookDetails/>}/>
           <Route path ="/search" element = {<AdvancedSearch/>}/>

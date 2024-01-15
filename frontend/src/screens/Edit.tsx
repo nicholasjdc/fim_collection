@@ -1,14 +1,11 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { BookEntry } from "../screen_helpers/BookEntry";
-import {
-  createKeywordsByWord,
-  createKeywordsGranular,
-} from "../function_helpers/keyword";
-import { deleteEntry, postEntry } from "../function_helpers/mongoFunctions";
-import { subjectKeywords } from "../function_helpers/keywordVariables";
-import { allSubjects } from "../function_helpers/handyVariables";
-const Create = () => {
+import { deleteEntry, getEntry, patchEntry, postEntry } from "../function_helpers/mongoFunctions";
+import { API_URL, allSubjects } from "../function_helpers/handyVariables";
+const Edit = () => {
+  const { id } = useParams(); //Grab route parameters from current route
+
   const [title, setTitle] = useState("");
   const [titlec, setTitlec] = useState("");
   const [titlep, setTitlep] = useState("");
@@ -24,16 +21,32 @@ const Create = () => {
   const [publication, setPublication] = useState("");
   const [pageCount, setPageCount] = useState("");
   const [seriesTitle, setSeriesTitle] = useState("");
-  const [languageCode, setLanguageCode] = useState("");
+  const [languageCode, setLanguageCode] = useState([]);
   const [resource, setResource] = useState("");
 
   const [isPending, setIsPending] = useState(false);
-
+    useEffect(()=>{
+        getEntry(id).then((e:BookEntry)=>{
+            const be: BookEntry = e
+            setTitle(be.title)
+            setTitlec(e.titlec)
+            setTitlep(e.titlep)
+            setSubjects(new Set(e.subjects))
+            setAuthor(e.author)
+            setAuthorc(e.authorc)
+            setAuthorp(e.authorp)
+            setEntryNumber(e.entryNumber)
+            setNote(e.note)
+            setISBN(e.ISBN)
+            setPublication(e.publication)
+            setPageCount(e.pageCount)
+            setSeriesTitle(e.seriesTitle)
+            setLanguageCode(e.languageCode)
+            setResource(e.resource)
+          })
+    }, [id])
+  
   const navigate = useNavigate();
-
-  const onSubjectInput = (e: any) => {
-    console.log(e);
-  };
 
   const onAddSubjectClick = (e) => {
     e.preventDefault();
@@ -69,7 +82,7 @@ const Create = () => {
       titleKeyWords: [],
       authorKeyWords: [],
     };
-    postEntry(newBookEntry).then((v) => {
+    patchEntry(API_URL +'/' +id, newBookEntry).then((v) => {
       setIsPending(false);
       navigate("/");
     });
@@ -141,7 +154,7 @@ const Create = () => {
         />
         <datalist id="subjects">
           {allSubjects.map((sub) => (
-            <option key = {sub}value={sub}></option>
+            <option key={sub} value={sub}></option>
           ))}
         </datalist>
         <div className="subject-list">
@@ -188,13 +201,13 @@ const Create = () => {
         <input
           type="text"
           value={languageCode}
-          onChange={(e) => setLanguageCode(e.target.value)}
+          onChange={(e) => setLanguageCode([])}
         ></input>
-        {!isPending && <button>Add Entry</button>}
-        {isPending && <button disabled>Adding Entry...</button>}
+        {!isPending && <button>Update</button>}
+        {isPending && <button disabled>Updating Entry...</button>}
       </form>
     </div>
   );
 };
 
-export default Create;
+export default Edit;

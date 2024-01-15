@@ -1,2 +1,7 @@
 current Road Map:
-    - allow user to edit Entry
+    - update language code to be like Subjects
+    - enable user authentication
+    - only allow SPECIAL authenticated users to edit and delete
+    - Allow SUPER SPECIAL users to authenticate other users
+        - Make the edit, search, update body a component
+

@@ -63,8 +63,8 @@ const AdvancedSearch = () => {
     if(languageCode){
       queryParams['languageCode'] = languageCode;
     }
-    if(subjects){
-      queryParams['subjects'] = Array.from(subjects)
+    if(subjects.size > 0){
+      queryParams['subjects'] = Array.from(subjects).join('$#')
     }
     setLoadSearch(queryParams)
     navigate({
@@ -90,7 +90,7 @@ const AdvancedSearch = () => {
       });
 
     setIsPending(false);
-  }, [loadSearch]);
+  }, [search]);
 
   return (
     <div className="search">

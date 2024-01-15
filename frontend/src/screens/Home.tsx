@@ -48,7 +48,7 @@ const Home = () => {
     });
    
     setIsPending(false);
-  }, [loadSearch]);
+  }, [search]);
 
   return (
     <div className="home">
