@@ -1,4 +1,4 @@
 current Road Map:
-    - allow user to edit Entry
     - Allow users to add subjects when creating an Entry
     - allow users to search w/ subjects
+    - allow user to edit Entry

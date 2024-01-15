@@ -4,14 +4,13 @@ import { BookEntry } from "../screen_helpers/BookEntry";
 import {
   createSearchParams,
   useNavigate,
-  useParams,
   useSearchParams,
 } from "react-router-dom";
 import useGetEntries from "../function_helpers/useGetEntries";
 import Collapsible from "react-collapsible";
 import Suggestions from "../screen_helpers/Suggestions";
 import { returnPossibleKeyWords } from "../function_helpers/keywordVariables";
-import { deleteEntry, getEntries, getEntry, patchEntry, postEntry } from "../function_helpers/mongoFunctions";
+import {getEntries} from "../function_helpers/mongoFunctions";
 import { API_URL } from "../function_helpers/handyVariables";
 const Home = () => {
   const navigate = useNavigate();
@@ -34,6 +33,9 @@ const Home = () => {
     const queryParams = {}
     if(keyword){
       queryParams['keyword'] = keyword
+    }
+    if(selectedSubjectList.length > 0){
+      queryParams['subjects'] = selectedSubjectList.join('#')
     }
     navigate({pathname: "/",
     search: createSearchParams(queryParams).toString()});
@@ -78,7 +80,7 @@ const Home = () => {
           </div>
         </form>
         <Collapsible trigger="Subjects">
-          <form id="subjectForm" onSubmit={handleSubmit}>
+          <form id="subjectForm">
             <input
               type="search"
               id="query"
@@ -95,7 +97,6 @@ const Home = () => {
             {selectedSubjectList.map((subject) => (
               <p id={subject}>{subject}</p>
             ))}
-            <button>Add Subject</button>
           </form>
           {
             <Suggestions

@@ -5,12 +5,15 @@ import {
   createKeywordsByWord,
   createKeywordsGranular,
 } from "../function_helpers/keyword";
-import { postEntry } from "../function_helpers/mongoFunctions";
+import { deleteEntry, postEntry } from "../function_helpers/mongoFunctions";
+import { subjectKeywords } from "../function_helpers/keywordVariables";
+import { allSubjects } from "../function_helpers/handyVariables";
 const Create = () => {
   const [title, setTitle] = useState("");
   const [titlec, setTitlec] = useState("");
   const [titlep, setTitlep] = useState("");
-
+  const [subjects, setSubjects] = useState(new Set([]));
+  const [curSubject, setCurSubject] = useState("");
   const [author, setAuthor] = useState("");
   const [authorc, setAuthorc] = useState("");
   const [authorp, setAuthorp] = useState("");
@@ -28,6 +31,20 @@ const Create = () => {
 
   const navigate = useNavigate();
 
+  const onSubjectInput = (e: any) => {
+    console.log(e);
+  };
+
+  const onAddSubjectClick = (e) => {
+    e.preventDefault();
+    console.log("happy");
+    let tempSubjects = subjects;
+    tempSubjects.add(curSubject);
+    setSubjects(tempSubjects);
+    setCurSubject("");
+    console.log(subjects);
+    console.log(Object.keys(subjectKeywords));
+  };
   const handleSubmit = (e: any) => {
     e.preventDefault();
     setIsPending(true);
@@ -49,7 +66,7 @@ const Create = () => {
       languageCode: [],
       resource: resource,
       instantiatedAt: currentDate,
-      subjects: [],
+      subjects: Array.from(subjects),
       missingFields: [],
       keyWords: [],
       titleKeyWords: [],
@@ -123,7 +140,25 @@ const Create = () => {
           value={authorp}
           onChange={(e) => setAuthorp(e.target.value)}
         ></input>
-
+        <label>Subject(s):</label>
+        <input
+          list="subjects"
+          id="subject-choice"
+          name="subject-choice"
+          value={curSubject}
+          onChange={(e) => setCurSubject(e.target.value)}
+        />
+        <datalist id="subjects">
+          {allSubjects.map((sub) => (
+            <option key = {sub}value={sub}></option>
+          ))}
+        </datalist>
+        <div className="subject-list">
+          {Array.from(subjects).map((subject) => (
+            <p key={subject}>{subject}</p>
+          ))}
+        </div>
+        <button onClick={(e) => onAddSubjectClick(e)}>Add Subject</button>
         <label>Publication:</label>
         <input
           type="text"

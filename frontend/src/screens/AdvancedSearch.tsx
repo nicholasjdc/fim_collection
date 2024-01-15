@@ -21,6 +21,7 @@ const AdvancedSearch = () => {
   const [searchResults, setSearchResults] = useState<BookEntry[]>([]);
   const [loadSearch, setLoadSearch] = useState(null);
   const [search, setSearch] = useSearchParams();
+  const [subjects, setSubjects] = useState(new Set())
 
   const navigate = useNavigate();
 
@@ -55,6 +56,9 @@ const AdvancedSearch = () => {
     if(languageCode){
       queryParams['languageCode'] = languageCode;
     }
+    if(subjects){
+      queryParams['subjects'] = Array.from(subjects)
+    }
     setLoadSearch(queryParams)
     navigate({
       pathname: "/search",
@@ -63,7 +67,6 @@ const AdvancedSearch = () => {
   };
   useEffect(() => {
     setIsPending(true);
-    console.log(API_URL+ '?' +search)
     getEntries(API_URL+ '?' +search, 1)
       .then((result) => {
         const entries: BookEntry[] = []
