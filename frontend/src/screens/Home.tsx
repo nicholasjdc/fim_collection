@@ -15,9 +15,6 @@ import { API_URL } from "../function_helpers/handyVariables";
 const Home = () => {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("")
-  const [selectedSubjectList, setSelectedSubjectList] = useState([]);
-  const [subjectSearch, setSubjectSearch] = useState("");
-  const [subjectSuggestions, setSubjectSuggestions] = useState([]);
   const [books, setBooks] = useState<BookEntry[] | null>(null);
   const [bookResultCount, setBookResultCount] = useState(null);
   const [isPending, setIsPending] = useState<boolean | null>(null);
@@ -33,9 +30,6 @@ const Home = () => {
     const queryParams = {}
     if(keyword){
       queryParams['keyword'] = keyword
-    }
-    if(selectedSubjectList.length > 0){
-      queryParams['subjects'] = selectedSubjectList.join('#')
     }
     navigate({pathname: "/",
     search: createSearchParams(queryParams).toString()});
@@ -79,36 +73,6 @@ const Home = () => {
             </button>
           </div>
         </form>
-        <Collapsible trigger="Subjects">
-          <form id="subjectForm">
-            <input
-              type="search"
-              id="query"
-              name="q"
-              placeholder="Search by Subject"
-              value={subjectSearch}
-              onChange={(e) => {
-                setSubjectSearch(e.target.value);
-                setSubjectSuggestions(
-                  returnPossibleKeyWords(e.target.value.toLocaleLowerCase())
-                );
-              }}
-            />
-            {selectedSubjectList.map((subject) => (
-              <p id={subject}>{subject}</p>
-            ))}
-          </form>
-          {
-            <Suggestions
-              suggestionList={subjectSuggestions}
-              buttonfunction={(e) => {
-                var tempSubjectList = selectedSubjectList.slice(0);
-                tempSubjectList.push(e.target.innerText);
-                setSelectedSubjectList(tempSubjectList);
-              }}
-            ></Suggestions>
-          }
-        </Collapsible>
       </div>
 
       {error && <div>{error}</div>}

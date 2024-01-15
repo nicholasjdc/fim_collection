@@ -4,7 +4,7 @@ import BookList from "../screen_helpers/BookList";
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 import { getEntries, getEntry } from "../function_helpers/mongoFunctions";
 import { getSearchParamsForLocation } from "react-router-dom/dist/dom";
-import { API_URL } from "../function_helpers/handyVariables";
+import { API_URL, allSubjects } from "../function_helpers/handyVariables";
 const AdvancedSearch = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -21,11 +21,18 @@ const AdvancedSearch = () => {
   const [searchResults, setSearchResults] = useState<BookEntry[]>([]);
   const [loadSearch, setLoadSearch] = useState(null);
   const [search, setSearch] = useSearchParams();
-  const [subjects, setSubjects] = useState(new Set())
-
+  const [subjects, setSubjects] = useState(new Set(''))
+  const [curSubject, setCurSubject] = useState("");
   const navigate = useNavigate();
 
   console.log(search)
+  const onAddSubjectClick = (e) => {
+    e.preventDefault();
+    let tempSubjects = subjects;
+    tempSubjects.add(curSubject);
+    setSubjects(tempSubjects);
+    setCurSubject("");
+  };
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const queryParams = {}
@@ -124,7 +131,25 @@ const AdvancedSearch = () => {
             value={publication}
             onChange={(e) => setPublication(e.target.value)}
           ></input>
-
+          <label>Subject(s):</label>
+        <input
+          list="subjects"
+          id="subject-choice"
+          name="subject-choice"
+          value={curSubject}
+          onChange={(e) => setCurSubject(e.target.value)}
+        />
+        <datalist id="subjects"> 
+          {allSubjects.map((sub) => (
+            <option key = {sub}value={sub}></option>
+          ))}
+        </datalist>
+        <div className="subject-list">
+          {Array.from(subjects).map((subject) => (
+            <p key={subject}>{subject}</p>
+          ))}
+        </div>
+        <button onClick={(e) => onAddSubjectClick(e)}>Add Subject</button>
           <label>Page Count:</label>
           <input
             type="text"

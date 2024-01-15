@@ -37,13 +37,10 @@ const Create = () => {
 
   const onAddSubjectClick = (e) => {
     e.preventDefault();
-    console.log("happy");
     let tempSubjects = subjects;
     tempSubjects.add(curSubject);
     setSubjects(tempSubjects);
     setCurSubject("");
-    console.log(subjects);
-    console.log(Object.keys(subjectKeywords));
   };
   const handleSubmit = (e: any) => {
     e.preventDefault();
