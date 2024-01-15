@@ -1,12 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookEntry } from "../screen_helpers/BookEntry";
-import {
-  createKeywordsByWord,
-  createKeywordsGranular,
-} from "../function_helpers/keyword";
-import { deleteEntry, postEntry } from "../function_helpers/mongoFunctions";
-import { subjectKeywords } from "../function_helpers/keywordVariables";
+import {postEntry } from "../function_helpers/mongoFunctions";
 import { allSubjects } from "../function_helpers/handyVariables";
 const Create = () => {
   const [title, setTitle] = useState("");
