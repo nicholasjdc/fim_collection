@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BookEntry } from "../screen_helpers/BookEntry";
 import { deleteEntry, getEntry, patchEntry, postEntry } from "../function_helpers/mongoFunctions";
-import { API_URL, allSubjects } from "../function_helpers/handyVariables";
+import { API_URL, allLC, allSubjects } from "../function_helpers/handyVariables";
 const Edit = () => {
   const { id } = useParams(); //Grab route parameters from current route
 
@@ -21,9 +21,9 @@ const Edit = () => {
   const [publication, setPublication] = useState("");
   const [pageCount, setPageCount] = useState("");
   const [seriesTitle, setSeriesTitle] = useState("");
-  const [languageCode, setLanguageCode] = useState([]);
+  const [languageCode, setLanguageCode] = useState(new Set(''));
   const [resource, setResource] = useState("");
-
+  const [curLC, setCurLC] = useState("");
   const [isPending, setIsPending] = useState(false);
     useEffect(()=>{
         getEntry(id).then((e:BookEntry)=>{
@@ -41,13 +41,19 @@ const Edit = () => {
             setPublication(e.publication)
             setPageCount(e.pageCount)
             setSeriesTitle(e.seriesTitle)
-            setLanguageCode(e.languageCode)
+            setLanguageCode(new Set(e.languageCode))
             setResource(e.resource)
           })
     }, [id])
   
   const navigate = useNavigate();
-
+  const onAddLCClick = (e) => {
+    e.preventDefault();
+    let tempLC = languageCode;
+    tempLC.add(curLC);
+    setLanguageCode(tempLC);
+    setCurLC("");
+  };
   const onAddSubjectClick = (e) => {
     e.preventDefault();
     let tempSubjects = subjects;
@@ -73,7 +79,7 @@ const Edit = () => {
       pageCount: pageCount,
       seriesTitle: seriesTitle,
       seriesTitlec: "",
-      languageCode: [],
+      languageCode: Array.from(languageCode),
       resource: resource,
       instantiatedAt: currentDate,
       subjects: Array.from(subjects),
@@ -197,12 +203,26 @@ const Edit = () => {
           onChange={(e) => setNote(e.target.value)}
         ></textarea>
 
-        <label>Language Code:</label>
+<label>Language Code(s):</label>
         <input
-          type="text"
-          value={languageCode}
-          onChange={(e) => setLanguageCode([])}
-        ></input>
+          list="lc"
+          id="lc-choice"
+          name="lc-choice"
+          value={curLC}
+          onChange={(e) => setCurLC(e.target.value)}
+        />
+        <datalist id="lc"> 
+          {allLC.map((sub) => (
+            <option key={sub} value={sub}></option>
+          ))}
+        </datalist>
+        <div className="lc-list">
+          {Array.from(languageCode).map((lc) => (
+            <p key={lc}>{lc}</p>
+          ))}
+        </div>
+        <button onClick={(e) => onAddLCClick(e)}>Add Language Code</button>
+        <p></p>
         {!isPending && <button>Update</button>}
         {isPending && <button disabled>Updating Entry...</button>}
       </form>

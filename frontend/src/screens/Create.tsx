@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {postEntry } from "../function_helpers/mongoFunctions";
-import { allSubjects } from "../function_helpers/handyVariables";
+import { allLC, allSubjects } from "../function_helpers/handyVariables";
 const Create = () => {
   const [title, setTitle] = useState("");
   const [titlec, setTitlec] = useState("");
@@ -18,16 +18,13 @@ const Create = () => {
   const [publication, setPublication] = useState("");
   const [pageCount, setPageCount] = useState("");
   const [seriesTitle, setSeriesTitle] = useState("");
-  const [languageCode, setLanguageCode] = useState("");
+  const [languageCode, setLanguageCode] = useState(new Set(''));
   const [resource, setResource] = useState("");
-
+  const[curLC, setCurLC] = useState("")
   const [isPending, setIsPending] = useState(false);
 
   const navigate = useNavigate();
 
-  const onSubjectInput = (e: any) => {
-    console.log(e);
-  };
 
   const onAddSubjectClick = (e) => {
     e.preventDefault();
@@ -35,6 +32,13 @@ const Create = () => {
     tempSubjects.add(curSubject);
     setSubjects(tempSubjects);
     setCurSubject("");
+  };
+  const onAddLCClick = (e) => {
+    e.preventDefault();
+    let tempLC = languageCode;
+    tempLC.add(curLC);
+    setLanguageCode(tempLC);
+    setCurLC("");
   };
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -54,7 +58,7 @@ const Create = () => {
       pageCount: pageCount,
       seriesTitle: seriesTitle,
       seriesTitlec: "",
-      languageCode: [],
+      languageCode: Array.from(languageCode),
       resource: resource,
       instantiatedAt: currentDate,
       subjects: Array.from(subjects),
@@ -178,12 +182,26 @@ const Create = () => {
           onChange={(e) => setNote(e.target.value)}
         ></textarea>
 
-        <label>Language Code:</label>
+<label>Language Code(s):</label>
         <input
-          type="text"
-          value={languageCode}
-          onChange={(e) => setLanguageCode(e.target.value)}
-        ></input>
+          list="lc"
+          id="lc-choice"
+          name="lc-choice"
+          value={curLC}
+          onChange={(e) => setCurLC(e.target.value)}
+        />
+        <datalist id="lc"> 
+          {allLC.map((sub) => (
+            <option key={sub} value={sub}></option>
+          ))}
+        </datalist>
+        <div className="lc-list">
+          {Array.from(languageCode).map((lc) => (
+            <p key={lc}>{lc}</p>
+          ))}
+        </div>
+        <p></p>
+        <button onClick={(e) => onAddLCClick(e)}>Add Language Code</button>
         {!isPending && <button>Add Entry</button>}
         {isPending && <button disabled>Adding Entry...</button>}
       </form>

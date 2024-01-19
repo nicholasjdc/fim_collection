@@ -39,6 +39,12 @@ const BookDetails = () => {
               <p key={subject}>{subject}</p>
             ))}
           </div>
+          <p>Language Code(s):</p>
+          <div id="lcList">
+            {book.languageCode.map((lc) => (
+              <p key={lc}>{lc}</p>
+            ))}
+            </div>
           <p>ISBN: {book.ISBN}</p>
           <p>Series Title: {book.seriesTitle}</p>
           <p>Note: {book.note}</p>

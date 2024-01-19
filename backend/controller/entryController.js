@@ -31,7 +31,7 @@ const getEntries = async (req, res) => {
     mongoQuery.author = {$regex: mongoQuery.author, $options: 'i'}
   }
   if (mongoQuery.keyword){
-    mongoQuery.$or = [{'title': {$regex: mongoQuery.keyword, $options: 'i'}}, {'author': {$regex: mongoQuery.keyword, $options:'i'}}]
+    mongoQuery.$or = [{'title': {$regex: mongoQuery.keyword, $options: 'i'}}, {'author': {$regex: mongoQuery.keyword, $options:'i'}}, {'authorp': {$regex: mongoQuery.keyword, $options:'i'}}, {'authorc': {$regex: mongoQuery.keyword, $options:'i'}}]
     delete mongoQuery.keyword
   }
   if(mongoQuery.subjects){

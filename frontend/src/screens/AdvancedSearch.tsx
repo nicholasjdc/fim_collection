@@ -22,14 +22,26 @@ const AdvancedSearch = () => {
   const [isPending, setIsPending] = useState(false);
   const [searchResults, setSearchResults] = useState<BookEntry[]>([]);
   const [resultPageNumber, setResultPageNumber] = useState(1)
-  const [loadSearch, setLoadSearch] = useState(null);
   const [search, setSearch] = useSearchParams();
   const [subjects, setSubjects] = useState(new Set(''))
   const [curSubject, setCurSubject] = useState("");
   const [recordCount, setRecordCount] = useState(null)
   const [curLC, setCurLC] = useState("");
   const navigate = useNavigate();
+  const onDeleteSubject = (e:React.ChangeEvent<unknown>, subject: string)=>{
+    e.preventDefault() 
+    let tempSubjects = subjects
+    tempSubjects.delete(subject)
+    setSubjects(tempSubjects)
 
+  }
+  const onDeleteLC = (e:React.ChangeEvent<unknown>, lc: string)=>{
+    e.preventDefault() 
+    let tempLC = languageCode
+    tempLC.delete(lc)
+    setSubjects(tempLC)
+
+  }
   const onAddSubjectClick = (e) => {
     e.preventDefault();
     let tempSubjects = subjects;
@@ -190,7 +202,17 @@ const AdvancedSearch = () => {
         </datalist>
         <div className="subject-list">
           {Array.from(subjects).map((subject) => (
-            <p key={subject}>{subject}</p>
+            <div id={subject}key={subject}>
+            <p >{subject}</p>
+            <button onClick={(e)=>onDeleteSubject(e, subject)}>
+            <img
+                height="15px"
+                id={subject}
+                src="src/assets/trashcan.svg"
+              />
+            </button>
+
+              </div>
           ))}
         </div>
         <button onClick={(e) => onAddSubjectClick(e)}>Add Subject</button>
