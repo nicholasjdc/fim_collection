@@ -4,7 +4,9 @@ import BookList from "../screen_helpers/BookList";
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 import { getEntries, getEntry } from "../function_helpers/mongoFunctions";
 import { getSearchParamsForLocation } from "react-router-dom/dist/dom";
-import { API_URL, allSubjects } from "../function_helpers/handyVariables";
+import { API_URL, allLC, allSubjects } from "../function_helpers/handyVariables";
+import {Pagination} from "@mui/material"
+import Collapsible from "react-collapsible";
 const AdvancedSearch = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -14,24 +16,33 @@ const AdvancedSearch = () => {
   const [publication, setPublication] = useState("");
   const [pageCount, setPageCount] = useState("");
   const [seriesTitle, setSeriesTitle] = useState("");
-  const [languageCode, setLanguageCode] = useState("");
+  const [languageCode, setLanguageCode] = useState(new Set(''));
   const [resource, setResource] = useState("");
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [searchResults, setSearchResults] = useState<BookEntry[]>([]);
+  const [resultPageNumber, setResultPageNumber] = useState(1)
   const [loadSearch, setLoadSearch] = useState(null);
   const [search, setSearch] = useSearchParams();
   const [subjects, setSubjects] = useState(new Set(''))
   const [curSubject, setCurSubject] = useState("");
+  const [recordCount, setRecordCount] = useState(null)
+  const [curLC, setCurLC] = useState("");
   const navigate = useNavigate();
 
-  console.log(search)
   const onAddSubjectClick = (e) => {
     e.preventDefault();
     let tempSubjects = subjects;
     tempSubjects.add(curSubject);
     setSubjects(tempSubjects);
     setCurSubject("");
+  };
+  const onAddLCClick = (e) => {
+    e.preventDefault();
+    let tempLC = languageCode;
+    tempLC.add(curLC);
+    setLanguageCode(tempLC);
+    setCurLC("");
   };
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -60,29 +71,60 @@ const AdvancedSearch = () => {
     if(seriesTitle){
       queryParams['seriesTitle'] = seriesTitle;
     }
-    if(languageCode){
-      queryParams['languageCode'] = languageCode;
+    if(languageCode.size >0){
+      queryParams['languageCode'] = Array.from(languageCode).join('$#');
     }
     if(subjects.size > 0){
       queryParams['subjects'] = Array.from(subjects).join('$#')
     }
-    setLoadSearch(queryParams)
-    navigate({
-      pathname: "/search",
-      search: createSearchParams(queryParams).toString(),
-    });
+    setResultPageNumber(1);
+    queryParams['resultPageNumber'] = 1
+
+    setSearch(createSearchParams(queryParams).toString())
+  };
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    const queryParams ={}
+    let tempSearch = search
+    setResultPageNumber(value)
+    tempSearch.set('resultPageNumber',value.toString())
+    setSearch(tempSearch)
   };
   useEffect(() => {
     setIsPending(true);
-    getEntries(API_URL+ '?' +search, 1)
+    if(search.get('resultPageNumber')){
+      setResultPageNumber(parseInt(search.get('resultPageNumber')))
+    }
+    if(search){
+      const searchObject = Object.fromEntries(search.entries())
+      setTitle(search.get('title'))
+      if(search.get('subjects')){
+        setSubjects(new Set(searchObject['subjects'].split('$#')))
+      }
+      
+      setAuthor(search.get('author'))
+
+      setEntryNumber(search.get('entryNumber'))
+      setNote(search.get('note'))
+      setISBN(search.get('ISBN'))
+      setPublication(search.get('Publication'))
+      setPageCount(search.get('PageCount'))
+      setSeriesTitle(search.get('seriesTitle'))
+      if(search.get('languageCode')){
+        setLanguageCode(new Set(searchObject['languageCode'].split('$#')))
+      }      
+      setResource(search.get('resource'))
+
+    }
+    getEntries(API_URL+ '?' +search)
       .then((result) => {
         const entries: BookEntry[] = []
-        result.forEach(e => {
+        result['entries'].forEach(e => {
           let newBE: BookEntry = e
           entries.push(newBE)
         });
         setError(null);
         setSearchResults(entries);
+        setRecordCount(result['recordCount'])
       })
       .catch((err) => {
         setIsPending(false);
@@ -95,7 +137,9 @@ const AdvancedSearch = () => {
   return (
     <div className="search">
       <div className="create">
-        <h2>Advanced Search (Still Under Construction!)</h2>
+        <h2>Advanced Search</h2>
+        <Collapsible trigger="Search Paramaters (Collapsible)">
+
         <form onSubmit={handleSubmit}>
           <label>Entry Number:</label>
           <input
@@ -177,21 +221,44 @@ const AdvancedSearch = () => {
             onChange={(e) => setNote(e.target.value)}
           ></textarea>
 
-          <label>Language Code:</label>
+      <label>Language Code(s):</label>
+        <input
+          list="lc"
+          id="lc-choice"
+          name="lc-choice"
+          value={curLC}
+          onChange={(e) => setCurLC(e.target.value)}
+        />
+        <datalist id="lc"> 
+          {allLC.map((sub) => (
+            <option key={sub} value={sub}></option>
+          ))}
+        </datalist>
+        <div className="lc-list">
+          {Array.from(languageCode).map((lc) => (
+            <p key={lc}>{lc}</p>
+          ))}
+        </div>
+        <button onClick={(e) => onAddLCClick(e)}>Add Language Code</button>
+          <label>Page Count:</label>
           <input
             type="text"
-            value={languageCode}
-            onChange={(e) => setLanguageCode(e.target.value)}
+            value={pageCount}
+            onChange={(e) => setPageCount(e.target.value)}
           ></input>
           {!isPending && <button>Search!</button>}
           {isPending && <button disabled>Searching...</button>}
         </form>
+        </Collapsible>
+
       </div>
+
       {error && <div>{error}</div>}
       <div className="results">
         <h2></h2>
-        <BookList bookCount={5} books={searchResults} title="Result Entries" />
+        <BookList bookCount={recordCount} books={searchResults} title="Result Entries" />
       </div>
+      <Pagination page={resultPageNumber}count={Math.ceil(recordCount/25)} color="primary" onChange={handlePageChange} />
     </div>
   );
 };

@@ -4,4 +4,6 @@ current Road Map:
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
         - Make the edit, search, update body a component
+    -Allow non-authenticated users to suggest edits
+    -Provide instant citation option
 

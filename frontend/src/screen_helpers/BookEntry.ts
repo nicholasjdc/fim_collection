@@ -18,9 +18,7 @@ export interface BookEntryInterface {
   subjects: string[];
   missingFields: string[];
   instantiatedAt: Date;
-  keyWords: string[];
-  authorKeyWords: string[];
-  titleKeyWords: string[];
+
 }
 export class BookEntry implements BookEntryInterface {
   _id:string;
@@ -42,9 +40,7 @@ export class BookEntry implements BookEntryInterface {
   subjects: string[];
   missingFields: string[];
   instantiatedAt: Date;
-  keyWords: string[];
-  authorKeyWords: string[];
-  titleKeyWords: string[];
+
   constructor(
     _id: string,
     entryNumber: string,
@@ -65,9 +61,7 @@ export class BookEntry implements BookEntryInterface {
     subjects: string[],
     missingFields: string[],
     instantiatedAt: Date,
-    keyWords: string[],
-    authorKeyWords: string[],
-    titleKeyWords: string[]
+   
   ) {
     this._id = _id;
     this.entryNumber = entryNumber;
@@ -88,9 +82,7 @@ export class BookEntry implements BookEntryInterface {
     this.subjects = subjects;
     this.missingFields = missingFields;
     this.instantiatedAt = instantiatedAt;
-    this.keyWords = keyWords;
-    this.authorKeyWords = authorKeyWords;
-    this.titleKeyWords = titleKeyWords;
+   
   }
   public static bookEntryFromMap(entryMap: Map<string, any>): BookEntry {
     var newBookEntry = new BookEntry(
@@ -113,9 +105,6 @@ export class BookEntry implements BookEntryInterface {
       entryMap.get("subjects"),
       entryMap.get("missingFields"),
       entryMap.get("instantiatedAt"),
-      entryMap.get("keyWords"),
-      entryMap.get("authorKeyWords"),
-      entryMap.get("titleKeyWords"),
 
     );
     return newBookEntry;
@@ -165,9 +154,7 @@ export class BookEntry implements BookEntryInterface {
       entryMap["subjects"],
       entryMap['missingFields'],
       entryMap["instantiatedAt"],
-      entryMap["keyWords"],
-      entryMap["authorKeyWords"],
-      entryMap["titleKeyWords"],
+   
     );
     return newBookEntry;
   }

@@ -38,7 +38,7 @@ export async function getEntry(id: string){
         }
     
 }
-export async function getEntries(url: string, pageNumber: number){
+export async function getEntries(url: string){
     const response = await fetch(url, {
         method: "GET",
         headers: {

@@ -2,6 +2,7 @@ const { default: mongoose } = require("mongoose");
 const Entry = require("../models/bookEntryModel");
 
 const limitCount = 25;
+
 const getEntry = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -15,7 +16,14 @@ const getEntry = async (req, res) => {
   res.status(200).json(entry);
 };
 const getEntries = async (req, res) => {
+  let pageNum = 0
   let mongoQuery = req.query
+  //pageination time
+  console.log(req.query)
+  if(mongoQuery.resultPageNumber){
+    pageNum = mongoQuery.resultPageNumber
+    delete mongoQuery.resultPageNumber
+  }
   if(mongoQuery.title){
     mongoQuery.title = {$regex: mongoQuery.title, $options:'i'}
   }
@@ -29,13 +37,18 @@ const getEntries = async (req, res) => {
   if(mongoQuery.subjects){
     mongoQuery.subjects = {$in: mongoQuery.subjects.split("$#")}
   }
+  if(mongoQuery.languageCode){
+    mongoQuery.languageCode = {$in: mongoQuery.languageCode.split("$#")}
+  }
   console.log(mongoQuery)
+  if(pageNum>0) pageNum-=1;
+  const recordCount  = await Entry.find(mongoQuery).countDocuments()
   const entries = await Entry.find(mongoQuery)
     .sort({ createdAt: -1 })
     .limit(limitCount)
-    .skip(0);
+    .skip((pageNum) * limitCount);
   //add skip-count into req.query
-  res.status(200).json(entries); //also add in length
+  res.status(200).json({'entries':entries, 'recordCount':recordCount}); //also add in length
 };
 
 const deleteEntry = async (req, res) => {
@@ -73,6 +86,7 @@ const updateEntry = async (req, res) => {
   res.status(200).json(entry);
 };
 const createEntry = async (req, res) => {
+  console.log(req.body)
   const {
     entryNumber,
     author,

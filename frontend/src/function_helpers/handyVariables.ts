@@ -1,4 +1,19 @@
 export const API_URL='http://localhost:4000/api/film-entries'
+export const allLC = [
+  'chi',
+  'eng',
+  'ncl',
+  'jpn',
+  'ctfal',
+  'worldcat',
+  'duxiu',
+  'zh-cn',
+  'ja',
+  'ko',
+  'zh-tw',
+  'fre',
+  'ita'
+]
 export const allSubjects = [
     "Film / Movie Theatre",
     "Digital Filmmaking",

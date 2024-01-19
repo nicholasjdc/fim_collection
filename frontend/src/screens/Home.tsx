@@ -12,6 +12,8 @@ import Suggestions from "../screen_helpers/Suggestions";
 import { returnPossibleKeyWords } from "../function_helpers/keywordVariables";
 import {getEntries} from "../function_helpers/mongoFunctions";
 import { API_URL } from "../function_helpers/handyVariables";
+import Pagination from '@mui/material/Pagination';
+
 const Home = () => {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("")
@@ -19,26 +21,39 @@ const Home = () => {
   const [bookResultCount, setBookResultCount] = useState(null);
   const [isPending, setIsPending] = useState<boolean | null>(null);
   const [error, setError] = useState(null);
-  const [loadSearch, setLoadSearch] = useState("");
+  const [resultPageNumber, setResultPageNumber] = useState(1)
   const [search, setSearch] = useSearchParams();
 
-  useGetEntries(search);
-  var docResultCount;
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setResultPageNumber(value)
+    const tempSearch = search
+    tempSearch.set('resultPageNumber', value.toString())
+    setSearch(tempSearch)
+  };
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    setLoadSearch(keyword)
+    
     const queryParams = {}
     if(keyword){
       queryParams['keyword'] = keyword
     }
-    navigate({pathname: "/",
-    search: createSearchParams(queryParams).toString()});
+    queryParams['resultPageNumber'] = resultPageNumber.toString()
+    setSearch(createSearchParams(queryParams).toString());
   };
   useEffect(() => {
     setIsPending(true);
-    getEntries(API_URL + '?' +search, 1).then((result) => {
-      var entries = result
-      setBookResultCount(docResultCount);
+    const queryParams = {}
+    if(keyword){
+      queryParams['keyword'] = keyword
+    }
+    queryParams['resultPageNumber'] = resultPageNumber.toString()
+    if(search.get('resultPageNumber')){
+      setResultPageNumber(parseInt(search.get('resultPageNumber')))
+    }
+    getEntries(API_URL + '?' +search).then((result) => {
+      var entries = result['entries']
+      setBookResultCount(result['recordCount']);
       setBooks(entries as BookEntry[]);
       setError(null);
     })
@@ -85,6 +100,9 @@ const Home = () => {
           bookCount={bookResultCount}
         />
       )}
+      <p></p>
+             <Pagination page={resultPageNumber} count={Math.ceil(bookResultCount/25)} color="primary" onChange={handlePageChange} />
+
     </div>
   );
 };
