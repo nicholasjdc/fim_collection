@@ -1,4 +1,4 @@
-export const API_URL='http://localhost:4000/api/film-entries'
+export const API_URL='https://fallback.uber.space/api/film-entries'
 export const allLC = [
   'chi',
   'eng',

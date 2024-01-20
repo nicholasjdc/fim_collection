@@ -6,10 +6,6 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import useGetEntries from "../function_helpers/useGetEntries";
-import Collapsible from "react-collapsible";
-import Suggestions from "../screen_helpers/Suggestions";
-import { returnPossibleKeyWords } from "../function_helpers/keywordVariables";
 import {getEntries} from "../function_helpers/mongoFunctions";
 import { API_URL } from "../function_helpers/handyVariables";
 import Pagination from '@mui/material/Pagination';

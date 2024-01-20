@@ -1,10 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
-import useGetEntry from "../function_helpers/useGetEntry";
-import CheckboxList from "./CheckboxList";
 import {
   deleteEntry,
-  getEntries,
-  getEntry,
+
 } from "../function_helpers/mongoFunctions";
 import useGetEntryMongo from "../function_helpers/useGetEntryMongo";
 const BookDetails = () => {

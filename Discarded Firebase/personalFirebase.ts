@@ -16,12 +16,12 @@ import {
   CollectionReference,
 } from "firebase/firestore";
 import { collection, getDocs, setDoc } from "firebase/firestore";
-import { BookEntry } from "../screen_helpers/BookEntry";
+import { BookEntry } from "../frontend/src/screen_helpers/BookEntry";
 import {
   capitalizeFirstLetter,
   firebaseJSONPump,
-} from "./qualityOfLifeFunctions";
-import { createKeywordsByWord, createKeywordsGranular } from "./keyword";
+} from "../frontend/src/function_helpers/qualityOfLifeFunctions";
+import { createKeywordsByWord, createKeywordsGranular } from "../frontend/src/function_helpers/keyword";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCgto0p4sk5aiXJvZM9CpuSmfYdzmhQiWY",

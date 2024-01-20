@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getEntries, queryEntriesByKeywordsPaginated } from "./personalFirebase";
+import { getEntries, queryEntriesByKeywordsPaginated } from "../../../Discarded Firebase/personalFirebase";
 import { BookEntry } from "../screen_helpers/BookEntry";
 
 const useGetEntries= (keyword) => {
