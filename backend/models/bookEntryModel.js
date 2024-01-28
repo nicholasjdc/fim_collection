@@ -5,7 +5,8 @@ const Schema = mongoose.Schema
 const bookEntrySchema = new Schema({
     entryNumber: {
         type:String,
-        required:true
+        required:true,
+        unique: true
     },
     author:{
         type:String,
