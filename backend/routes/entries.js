@@ -6,7 +6,15 @@ const {
   deleteEntry,
   updateEntry,
 } = require("../controller/entryController");
+
+const requireAuth = require('../middleware/requireAuth')
+
 const router = express.Router();
+
+//require auth for all workout routes 
+//middleware, fire before all code below
+router.use(requireAuth)
+
 //Get all entries
 router.get("/", getEntries);
 

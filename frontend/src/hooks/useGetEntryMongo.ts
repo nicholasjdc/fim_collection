@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
-import { getEntry } from "./mongoFunctions";
+import { getEntry } from "../function_helpers/mongoFunctions";
 import { BookEntry } from "../screen_helpers/BookEntry";
+import { useAuthContext } from "./useAuthContext";
 const useGetEntryMongo= (id:string) => {
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
     const [data, setData] = useState<BookEntry>(null);
-
+    const {user} = useAuthContext();
     useEffect(()=> {
+        if(!user){
+            return
+        }
         const abortCont = new AbortController(); 
 
 
-        getEntry(id)
+        getEntry(id, user.token)
             .then(res => {
                 if(!res){ 
                     throw Error('could not fetch data for that resource');
@@ -37,7 +41,7 @@ const useGetEntryMongo= (id:string) => {
 
     
     return () => abortCont.abort(); 
-    }, [id]); 
+    }, [id, user]); 
 
     return {data, isPending, error};
 }

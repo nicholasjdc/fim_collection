@@ -1,13 +1,15 @@
 import { BookEntry } from "../screen_helpers/BookEntry";
-import { API_URL } from "./handyVariables";
+import { API_URL} from "./handyVariables";
 
-export async function postEntry(entryBody: {}){
-
+export async function postEntry(entryBody: {}, authToken:string){
+    
     const response = await fetch(API_URL, {
     method: "POST",
     body: JSON.stringify(entryBody),
     headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${authToken}`
+
     },
     });
     const entryjson = await response.json();
@@ -21,46 +23,11 @@ export async function postEntry(entryBody: {}){
     }
 
 }
-export async function getEntry(id: string){
+export async function getEntry(id: string, authToken:string){
     const response = await fetch(API_URL +'/'+ id, {
         method: "GET",
         headers: {
-        },
-        });
-        const entryjson = await response.json();
-    
-        if (!response.ok) {
-            throw Error(JSON.stringify(entryjson.body))
-            
-        }
-        if (response.ok) {
-            return entryjson;
-        }
-    
-}
-export async function getEntries(url: string){
-    const response = await fetch(url, {
-        method: "GET",
-        headers: {
-        },
-        });
-        const entryjson = await response.json();
-    
-        if (!response.ok) {
-            throw Error(JSON.stringify(entryjson.body))
-            
-        }
-        if (response.ok) {
-            return entryjson;
-        }
-    
-}
-export async function patchEntry(url: string, entryBody: {}){
-    const response = await fetch(url, {
-        method: "PATCH",
-        body: JSON.stringify(entryBody),
-        headers: {
-            "Content-Type": "application/json",
+            'Authorization': `Bearer ${authToken}`
 
         },
         });
@@ -75,7 +42,46 @@ export async function patchEntry(url: string, entryBody: {}){
         }
     
 }
-export async function deleteEntry(id: string){
+export async function getEntries(url: string, authToken:string){
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            'Authorization': `Bearer ${authToken}`
+        },
+        });
+        const entryjson = await response.json();
+    
+        if (!response.ok) {
+            throw Error(JSON.stringify(entryjson.body))
+            
+        }
+        if (response.ok) {
+            return entryjson;
+        }
+    
+}
+export async function patchEntry(url: string, entryBody: {}, authToken: string){
+    const response = await fetch(url, {
+        method: "PATCH",
+        body: JSON.stringify(entryBody),
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${authToken}`
+
+        },
+        });
+        const entryjson = await response.json();
+    
+        if (!response.ok) {
+            throw Error(JSON.stringify(entryjson.body))
+            
+        }
+        if (response.ok) {
+            return entryjson;
+        }
+    
+}
+export async function deleteEntry(id: string, authToken:string){
     const response = await fetch(API_URL +'/'+ id, {
         method: "DELETE",
         headers: {

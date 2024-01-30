@@ -1,20 +1,20 @@
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  deleteEntry,
-
-} from "../function_helpers/mongoFunctions";
-import useGetEntryMongo from "../function_helpers/useGetEntryMongo";
+import { deleteEntry } from "../function_helpers/mongoFunctions";
+import useGetEntryMongo from "../hooks/useGetEntryMongo";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useEffect } from "react";
 const BookDetails = () => {
   const { id } = useParams(); //Grab route parameters from current route
-  const { data: book, error, isPending } = useGetEntryMongo(id);
+    const { data: book, error, isPending } = useGetEntryMongo(id);
   const navigate = useNavigate();
   const handleDelete = () => {
-    deleteEntry(id);
+    //deleteEntry(id, user.token);
     navigate("/");
   };
-  const handleEdit = ()=>{
-    navigate("/edit/" + id)
-  }
+  const handleEdit = () => {
+    navigate("/edit/" + id);
+  };
+
   return (
     <div className="blog-details">
       {isPending && <div>loading...</div>}
@@ -41,7 +41,7 @@ const BookDetails = () => {
             {book.languageCode.map((lc) => (
               <p key={lc}>{lc}</p>
             ))}
-            </div>
+          </div>
           <p>ISBN: {book.ISBN}</p>
           <p>Series Title: {book.seriesTitle}</p>
           <p>Note: {book.note}</p>
@@ -53,10 +53,20 @@ const BookDetails = () => {
         </article>
       )}
       <div className="alterButtons">
-        <button type="button" onClick={() => {handleEdit()}}>
+        <button
+          type="button"
+          onClick={() => {
+            handleEdit();
+          }}
+        >
           Edit
         </button>
-        <button type="button" onClick={() => {handleEdit()}}>
+        <button
+          type="button"
+          onClick={() => {
+            handleEdit();
+          }}
+        >
           Suggest Edit
         </button>
         <button

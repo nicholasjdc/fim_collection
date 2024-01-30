@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BookEntry } from "../screen_helpers/BookEntry";
 import { deleteEntry, getEntry, patchEntry, postEntry } from "../function_helpers/mongoFunctions";
 import { API_URL, allLC, allSubjects } from "../function_helpers/handyVariables";
+import { useAuthContext } from "../hooks/useAuthContext";
 const Edit = () => {
   const { id } = useParams(); //Grab route parameters from current route
 
@@ -25,8 +26,13 @@ const Edit = () => {
   const [resource, setResource] = useState("");
   const [curLC, setCurLC] = useState("");
   const [isPending, setIsPending] = useState(false);
+
+  const {user} = useAuthContext()
     useEffect(()=>{
-        getEntry(id).then((e:BookEntry)=>{
+      if(!user){
+        return
+      }
+        getEntry(id, user.token).then((e:BookEntry)=>{
             const be: BookEntry = e
             setTitle(be.title)
             setTitlec(e.titlec)
@@ -88,14 +94,14 @@ const Edit = () => {
       titleKeyWords: [],
       authorKeyWords: [],
     };
-    patchEntry(API_URL +'/' +id, newBookEntry).then((v) => {
+    patchEntry(API_URL +'/' +id, newBookEntry, user.token).then((v) => {
       setIsPending(false);
       navigate("/");
     });
   };
   return (
     <div className="create">
-      <h2>Add a New Entry</h2>
+      <h2>Edit Entry: {entryNumber}</h2>
       <form onSubmit={handleSubmit}>
         <label>Entry Number:</label>
         <input

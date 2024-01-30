@@ -7,6 +7,7 @@ import { getSearchParamsForLocation } from "react-router-dom/dist/dom";
 import { API_URL, allLC, allSubjects } from "../function_helpers/handyVariables";
 import {Pagination} from "@mui/material"
 import Collapsible from "react-collapsible";
+import { useAuthContext } from "../hooks/useAuthContext";
 const AdvancedSearch = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -27,6 +28,8 @@ const AdvancedSearch = () => {
   const [curSubject, setCurSubject] = useState("");
   const [recordCount, setRecordCount] = useState(null)
   const [curLC, setCurLC] = useState("");
+
+  const {user} = useAuthContext()
   const navigate = useNavigate();
   const onDeleteSubject = (e:React.ChangeEvent<unknown>, subject: string)=>{
     e.preventDefault() 
@@ -102,6 +105,9 @@ const AdvancedSearch = () => {
     setSearch(tempSearch)
   };
   useEffect(() => {
+    if(!user){
+      return
+    }
     setIsPending(true);
     if(search.get('resultPageNumber')){
       setResultPageNumber(parseInt(search.get('resultPageNumber')))
@@ -127,7 +133,8 @@ const AdvancedSearch = () => {
       setResource(search.get('resource'))
 
     }
-    getEntries(API_URL+ '?' +search)
+    if(user){
+    getEntries(API_URL+ '?' +search, user.token)
       .then((result) => {
         const entries: BookEntry[] = []
         result['entries'].forEach(e => {
@@ -142,6 +149,7 @@ const AdvancedSearch = () => {
         setIsPending(false);
         setError(err.message);
       });
+    }
 
     setIsPending(false);
   }, [search]);

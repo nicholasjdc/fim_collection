@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {postEntry } from "../function_helpers/mongoFunctions";
 import { allLC, allSubjects } from "../function_helpers/handyVariables";
+import { useAuthContext } from "../hooks/useAuthContext";
 const Create = () => {
   const [title, setTitle] = useState("");
   const [titlec, setTitlec] = useState("");
@@ -24,7 +25,7 @@ const Create = () => {
   const [isPending, setIsPending] = useState(false);
 
   const navigate = useNavigate();
-
+  const {user} = useAuthContext();
 
   const onAddSubjectClick = (e) => {
     e.preventDefault();
@@ -67,7 +68,7 @@ const Create = () => {
       titleKeyWords: [],
       authorKeyWords: [],
     };
-    postEntry(newBookEntry).then((v) => {
+    postEntry(newBookEntry, user.token).then((v) => {
       setIsPending(false);
       navigate("/");
     });

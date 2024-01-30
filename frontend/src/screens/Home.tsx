@@ -6,64 +6,69 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import {getEntries} from "../function_helpers/mongoFunctions";
+import { getEntries } from "../function_helpers/mongoFunctions";
 import { API_URL } from "../function_helpers/handyVariables";
-import Pagination from '@mui/material/Pagination';
-
+import Pagination from "@mui/material/Pagination";
+import { useAuthContext } from "../hooks/useAuthContext";
 const Home = () => {
   const navigate = useNavigate();
-  const [keyword, setKeyword] = useState("")
+  const [keyword, setKeyword] = useState("");
   const [books, setBooks] = useState<BookEntry[] | null>(null);
   const [bookResultCount, setBookResultCount] = useState(null);
   const [isPending, setIsPending] = useState<boolean | null>(null);
   const [error, setError] = useState(null);
-  const [resultPageNumber, setResultPageNumber] = useState(1)
+  const [resultPageNumber, setResultPageNumber] = useState(1);
   const [search, setSearch] = useSearchParams();
 
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setResultPageNumber(value)
-    const tempSearch = search
-    tempSearch.set('resultPageNumber', value.toString())
-    setSearch(tempSearch)
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setResultPageNumber(value);
+    const tempSearch = search;
+    tempSearch.set("resultPageNumber", value.toString());
+    setSearch(tempSearch);
   };
+  const { user } = useAuthContext();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    
-    const queryParams = {}
-    if(keyword){
-      queryParams['keyword'] = keyword
+
+    const queryParams = {};
+    if (keyword) {
+      queryParams["keyword"] = keyword;
     }
-    queryParams['resultPageNumber'] = resultPageNumber.toString()
+    queryParams["resultPageNumber"] = resultPageNumber.toString();
     setSearch(createSearchParams(queryParams).toString());
   };
   useEffect(() => {
     setIsPending(true);
-    const queryParams = {}
-    if(keyword){
-      queryParams['keyword'] = keyword
+    const queryParams = {};
+    if (keyword) {
+      queryParams["keyword"] = keyword;
     }
-    queryParams['resultPageNumber'] = resultPageNumber.toString()
-    if(search.get('resultPageNumber')){
-      setResultPageNumber(parseInt(search.get('resultPageNumber')))
+    queryParams["resultPageNumber"] = resultPageNumber.toString();
+    if (search.get("resultPageNumber")) {
+      setResultPageNumber(parseInt(search.get("resultPageNumber")));
     }
-    getEntries(API_URL + '?' +search).then((result) => {
-      var entries = result['entries']
-      setBookResultCount(result['recordCount']);
-      setBooks(entries as BookEntry[]);
-      setError(null);
-    })
-    .catch((err) => {
-      setIsPending(false);
-      setError(err.message);
-    });
-   
+    if (user) {
+      getEntries(API_URL + "?" + search, user.token)
+        .then((result) => {
+          var entries = result["entries"];
+          setBookResultCount(result["recordCount"]);
+          setBooks(entries as BookEntry[]);
+          setError(null);
+        })
+        .catch((err) => {
+          setIsPending(false);
+          setError(err.message);
+        });
+    }
     setIsPending(false);
-  }, [search]);
+  }, [search, user]);
 
   return (
     <div className="home">
-
       <div className="search">
         <form id="form" onSubmit={handleSubmit}>
           <div className="searchbar">
@@ -97,8 +102,12 @@ const Home = () => {
         />
       )}
       <p></p>
-             <Pagination page={resultPageNumber} count={Math.ceil(bookResultCount/25)} color="primary" onChange={handlePageChange} />
-
+      <Pagination
+        page={resultPageNumber}
+        count={Math.ceil(bookResultCount / 25)}
+        color="primary"
+        onChange={handlePageChange}
+      />
     </div>
   );
 };
