@@ -11,7 +11,9 @@ const Navbar = () => {
   };
   return (
     <nav className="navbar">
-      <h1>Film Studies Bibliography</h1>
+      <Link to="/">
+        <h1>Film Studies Bibliography</h1>
+      </Link>
 
       {!user && (
         <div className="notLoggedInButtons">

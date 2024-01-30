@@ -1,13 +1,5 @@
 current Road Map:
 AUTH:
-    - enable user authentication
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
         - Make the edit, search, update body a component
-    -Allow non-authenticated users to suggest edits
-ETC. 
-    -Provide instant citation option
-    - Graphical Redesign
-    - Enable deleting subjects and language codes
-    - Add subject and language code options to Create & Update
-
