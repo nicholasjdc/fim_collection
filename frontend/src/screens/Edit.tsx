@@ -94,7 +94,7 @@ const Edit = () => {
       titleKeyWords: [],
       authorKeyWords: [],
     };
-    patchEntry(API_URL +'/' +id, newBookEntry, user.token).then((v) => {
+    patchEntry(API_URL +'film-entries/' +id, newBookEntry, user.token).then((v) => {
       setIsPending(false);
       navigate("/");
     });

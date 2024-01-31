@@ -1,9 +1,9 @@
-export const PROD = false;
+export const PROD = true;
 let apiURL
 if(PROD){
-  apiURL='https://fallback.uber.space/api/film-entries'
+  apiURL='https://fallback.uber.space/api/'
 }else{
-  apiURL='http://localhost:4000/api/film-entries'
+  apiURL='http://localhost:4000/api/'
 }
 export const API_URL = apiURL
 

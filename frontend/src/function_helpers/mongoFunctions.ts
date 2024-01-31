@@ -3,7 +3,7 @@ import { API_URL} from "./handyVariables";
 
 export async function postEntry(entryBody: {}, authToken:string){
     
-    const response = await fetch(API_URL, {
+    const response = await fetch(API_URL + 'film-entries', {
     method: "POST",
     body: JSON.stringify(entryBody),
     headers: {
@@ -24,7 +24,7 @@ export async function postEntry(entryBody: {}, authToken:string){
 
 }
 export async function getEntry(id: string, authToken:string){
-    const response = await fetch(API_URL +'/'+ id, {
+    const response = await fetch(API_URL +'film-entries/'+ id, {
         method: "GET",
         headers: {
             'Authorization': `Bearer ${authToken}`
@@ -82,7 +82,7 @@ export async function patchEntry(url: string, entryBody: {}, authToken: string){
     
 }
 export async function deleteEntry(id: string, authToken:string){
-    const response = await fetch(API_URL +'/'+ id, {
+    const response = await fetch(API_URL +'film-entries/'+ id, {
         method: "DELETE",
         headers: {
         },

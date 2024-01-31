@@ -134,7 +134,7 @@ const AdvancedSearch = () => {
 
     }
     if(user){
-    getEntries(API_URL+ '?' +search, user.token)
+    getEntries(API_URL+ "film-entries?" +search, user.token)
       .then((result) => {
         const entries: BookEntry[] = []
         result['entries'].forEach(e => {
