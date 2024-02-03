@@ -10,6 +10,7 @@ import { getEntries } from "../function_helpers/mongoFunctions";
 import { API_URL } from "../function_helpers/handyVariables";
 import Pagination from "@mui/material/Pagination";
 import { useAuthContext } from "../hooks/useAuthContext";
+import searchbutton from "../assets/searchbutton.svg"
 const Home = () => {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
@@ -84,7 +85,7 @@ const Home = () => {
               <img
                 height="15px"
                 id="searchimg"
-                src="src/assets/searchbutton.svg"
+                src= {searchbutton}
               />
             </button>
           </div>

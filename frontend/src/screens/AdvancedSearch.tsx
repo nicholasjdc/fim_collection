@@ -8,6 +8,7 @@ import { API_URL, allLC, allSubjects } from "../function_helpers/handyVariables"
 import {Pagination} from "@mui/material"
 import Collapsible from "react-collapsible";
 import { useAuthContext } from "../hooks/useAuthContext";
+import trashcan from "../assets/trashcan.svg"
 const AdvancedSearch = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -216,7 +217,7 @@ const AdvancedSearch = () => {
             <img
                 height="15px"
                 id={subject}
-                src="src/assets/trashcan.svg"
+                src={trashcan}
               />
             </button>
 
