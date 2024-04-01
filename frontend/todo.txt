@@ -1,4 +1,9 @@
 current Road Map:
+General Requirements:
+    - Fix search x
+    - Fix author search
+    - Add subject bar to website
+    - simplified subject
 AUTH:
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users

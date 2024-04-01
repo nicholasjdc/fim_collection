@@ -41,6 +41,25 @@ const Create = () => {
     setLanguageCode(tempLC);
     setCurLC("");
   };
+  const onChangeSubjectInput = (e)=>{
+    setCurSubject(e)
+    checkCompletion(e, allSubjects)
+  }
+
+
+function checkCompletion(val, opts) {
+    for (var i = 0; i < opts.length; i++) {
+      if (opts[i] === val) {
+        // An item was selected from the list!
+        // yourCallbackHere()
+        let tempSubjects = subjects;
+        tempSubjects.add(val);
+        setSubjects(tempSubjects);
+        setCurSubject("");
+        break;
+      }
+    }
+  }
   const handleSubmit = (e: any) => {
     e.preventDefault();
     setIsPending(true);
@@ -136,7 +155,7 @@ const Create = () => {
           id="subject-choice"
           name="subject-choice"
           value={curSubject}
-          onChange={(e) => setCurSubject(e.target.value)}
+          onChange={(e) => onChangeSubjectInput(e.target.value)}//setCurSubject(e.target.value)}
         />
         <datalist id="subjects">
           {allSubjects.map((sub) => (

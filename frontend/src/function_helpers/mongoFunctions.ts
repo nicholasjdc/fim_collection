@@ -85,6 +85,8 @@ export async function deleteEntry(id: string, authToken:string){
     const response = await fetch(API_URL +'film-entries/'+ id, {
         method: "DELETE",
         headers: {
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${authToken}`
         },
         });
         const entryjson = await response.json();

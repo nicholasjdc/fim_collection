@@ -77,7 +77,7 @@ const Home = () => {
               type="search"
               id="query"
               name="q"
-              placeholder="Search by author or title"
+              placeholder="Search by keyword"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
             />
@@ -89,8 +89,10 @@ const Home = () => {
               />
             </button>
           </div>
+          
         </form>
       </div>
+    
 
       {error && <div>{error}</div>}
       {isPending && <div>Searching...</div>}

@@ -4,11 +4,12 @@ import useGetEntryMongo from "../hooks/useGetEntryMongo";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useEffect } from "react";
 const BookDetails = () => {
+  const { user } = useAuthContext();
   const { id } = useParams(); //Grab route parameters from current route
     const { data: book, error, isPending } = useGetEntryMongo(id);
   const navigate = useNavigate();
   const handleDelete = () => {
-    //deleteEntry(id, user.token);
+    deleteEntry(id, user.token);
     navigate("/");
   };
   const handleEdit = () => {
@@ -61,6 +62,7 @@ const BookDetails = () => {
         >
           Edit
         </button>
+        {/*
         <button
           type="button"
           onClick={() => {
@@ -69,6 +71,7 @@ const BookDetails = () => {
         >
           Suggest Edit
         </button>
+        */}
         <button
           type="button"
           onClick={() => {

@@ -16,39 +16,46 @@ const getEntry = async (req, res) => {
   res.status(200).json(entry);
 };
 const getEntries = async (req, res) => {
-  let pageNum = 0
-  let mongoQuery = req.query
+  let pageNum = 0;
+  let mongoQuery = req.query;
   //pageination time
-  console.log(req.query)
-  if(mongoQuery.resultPageNumber){
-    pageNum = mongoQuery.resultPageNumber
-    delete mongoQuery.resultPageNumber
+  console.log(req.query);
+  if (mongoQuery.resultPageNumber) {
+    pageNum = mongoQuery.resultPageNumber;
+    delete mongoQuery.resultPageNumber;
   }
-  if(mongoQuery.title){
-    mongoQuery.title = {$regex: mongoQuery.title, $options:'i'}
+  if (mongoQuery.title) {
+    mongoQuery.title = { $regex: mongoQuery.title, $options: "i" };
   }
-  if(mongoQuery.author){
-    mongoQuery.author = {$regex: mongoQuery.author, $options: 'i'}
+  if (mongoQuery.author) {
+    mongoQuery.author = { $regex: mongoQuery.author, $options: "i" };
   }
-  if (mongoQuery.keyword){
-    mongoQuery.$or = [{'title': {$regex: mongoQuery.keyword, $options: 'i'}}, {'author': {$regex: mongoQuery.keyword, $options:'i'}}, {'authorp': {$regex: mongoQuery.keyword, $options:'i'}}, {'authorc': {$regex: mongoQuery.keyword, $options:'i'}}]
-    delete mongoQuery.keyword
+  if (mongoQuery.keyword) {
+    mongoQuery.$or = [
+      { title: { $regex: mongoQuery.keyword, $options: "i" } },
+      { titlec: { $regex: mongoQuery.keyword, $options: "i" } },
+      { titlep: { $regex: mongoQuery.keyword, $options: "i" } },
+      { author: { $regex: mongoQuery.keyword, $options: "i" } },
+      { authorp: { $regex: mongoQuery.keyword, $options: "i" } },
+      { authorc: { $regex: mongoQuery.keyword, $options: "i" } },
+    ];
+    delete mongoQuery.keyword;
   }
-  if(mongoQuery.subjects){
-    mongoQuery.subjects = {$in: mongoQuery.subjects.split("$#")}
+  if (mongoQuery.subjects) {
+    mongoQuery.subjects = { $in: mongoQuery.subjects.split("$#") };
   }
-  if(mongoQuery.languageCode){
-    mongoQuery.languageCode = {$in: mongoQuery.languageCode.split("$#")}
+  if (mongoQuery.languageCode) {
+    mongoQuery.languageCode = { $in: mongoQuery.languageCode.split("$#") };
   }
-  console.log(mongoQuery)
-  if(pageNum>0) pageNum-=1;
-  const recordCount  = await Entry.find(mongoQuery).countDocuments()
+  console.log(mongoQuery);
+  if (pageNum > 0) pageNum -= 1;
+  const recordCount = await Entry.find(mongoQuery).countDocuments();
   const entries = await Entry.find(mongoQuery)
     .sort({ createdAt: -1 })
     .limit(limitCount)
-    .skip((pageNum) * limitCount);
+    .skip(pageNum * limitCount);
   //add skip-count into req.query
-  res.status(200).json({'entries':entries, 'recordCount':recordCount}); //also add in length
+  res.status(200).json({ entries: entries, recordCount: recordCount }); //also add in length
 };
 
 const deleteEntry = async (req, res) => {
@@ -86,7 +93,7 @@ const updateEntry = async (req, res) => {
   res.status(200).json(entry);
 };
 const createEntry = async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   const {
     entryNumber,
     author,
