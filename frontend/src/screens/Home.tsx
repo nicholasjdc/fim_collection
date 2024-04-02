@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { allSubjects } from "../function_helpers/handyVariables";
 import BookList from "../screen_helpers/BookList";
 import { BookEntry } from "../screen_helpers/BookEntry";
 import {
@@ -20,7 +21,7 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [resultPageNumber, setResultPageNumber] = useState(1);
   const [search, setSearch] = useSearchParams();
-
+  const [curSubject, setCurSubject] = useState("")
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     value: number
@@ -39,6 +40,9 @@ const Home = () => {
     if (keyword) {
       queryParams["keyword"] = keyword;
     }
+    if(curSubject){
+      queryParams["subjects"] = curSubject;
+    }
     queryParams["resultPageNumber"] = resultPageNumber.toString();
     setSearch(createSearchParams(queryParams).toString());
   };
@@ -47,6 +51,9 @@ const Home = () => {
     const queryParams = {};
     if (keyword) {
       queryParams["keyword"] = keyword;
+    }
+    if(curSubject){
+      queryParams["subject"] = curSubject;
     }
     queryParams["resultPageNumber"] = resultPageNumber.toString();
     if (search.get("resultPageNumber")) {
@@ -89,8 +96,22 @@ const Home = () => {
               />
             </button>
           </div>
-          
+        <input
+          list="subjects"
+          id="subject-choice"
+          name="subject-choice"
+          placeholder="Subject"
+
+          value={curSubject}
+          onChange={(e) => setCurSubject(e.target.value)}//setCurSubject(e.target.value)}
+        />
+        <datalist id="subjects">
+          {allSubjects.map((sub) => (
+            <option key = {sub}value={sub}></option>
+          ))}
+        </datalist>
         </form>
+        
       </div>
     
 

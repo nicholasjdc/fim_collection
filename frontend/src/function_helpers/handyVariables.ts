@@ -1,4 +1,4 @@
-export const PROD = false;
+export const PROD = true;
 let apiURL
 if(PROD){
   apiURL='https://sillysillycreatures.xyz/api/'
