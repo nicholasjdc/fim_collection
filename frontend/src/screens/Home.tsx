@@ -43,7 +43,8 @@ const Home = () => {
     if(curSubject){
       queryParams["subjects"] = curSubject;
     }
-    queryParams["resultPageNumber"] = resultPageNumber.toString();
+    queryParams["resultPageNumber"] = 1;
+    setResultPageNumber(1)
     setSearch(createSearchParams(queryParams).toString());
   };
   useEffect(() => {
