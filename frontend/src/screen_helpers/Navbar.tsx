@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <Link to="/">
-        <h1>Film Studies Bibliography</h1>
+        <h1>Taiwanese and Chinese Film Studies Bibliography</h1>
       </Link>
 
       {!user && (

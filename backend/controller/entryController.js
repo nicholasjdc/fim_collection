@@ -32,7 +32,7 @@ const getEntries = async (req, res) => {
   }
   if (mongoQuery.keyword) {
     authorKeyword = mongoQuery.keyword
-    if(authorKeyword.split(" ").length == 2){
+    if(!authorKeyword.match(/[\u3400-\u9FBF]/) && authorKeyword.split(" ").length >= 2){
       keywordArr = mongoQuery.keyword.split(" ")
       authorKeyword = `(?=.*${keywordArr[0]})(?=.*${keywordArr[1]})`
     }
