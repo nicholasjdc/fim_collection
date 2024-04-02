@@ -38,6 +38,8 @@ const getEntries = async (req, res) => {
       { author: { $regex: mongoQuery.keyword, $options: "i" } },
       { authorp: { $regex: mongoQuery.keyword, $options: "i" } },
       { authorc: { $regex: mongoQuery.keyword, $options: "i" } },
+      { note: { $regex: mongoQuery.keyword, $options: "i" } },
+
     ];
     delete mongoQuery.keyword;
   }
