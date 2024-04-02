@@ -47,16 +47,6 @@ const getEntries = async (req, res) => {
       { note: { $regex: mongoQuery.keyword, $options: "i" } },
 
     ];
-    if(mongoQuery.keyword.length ==2){
-      keywordArr = mongoQuery.keyword.split(" ")
-      mongoQuery.$or.push({author: {$regex: keywordArr[0], $option: "i"}})
-      mongoQuery.$or.push({author: {$regex: keywordArr[1], $option: "i"}})
-      mongoQuery.$or.push({authorp: {$regex: keywordArr[0], $option: "i"}})
-
-      mongoQuery.$or.push({authorp: {$regex: keywordArr[1], $option: "i"}})
-
-
-    }
     
     delete mongoQuery.keyword;
   }
