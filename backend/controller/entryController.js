@@ -31,16 +31,33 @@ const getEntries = async (req, res) => {
     mongoQuery.author = { $regex: mongoQuery.author, $options: "i" };
   }
   if (mongoQuery.keyword) {
+    authorKeyword = mongoQuery.keyword
+    if(authorKeyword.split(" ").length == 2){
+      keywordArr = mongoQuery.keyword.split(" ")
+      authorKeyword = `(?=.*${keywordArr[0]})(?=.*${keywordArr[1]})`
+    }
+
     mongoQuery.$or = [
       { title: { $regex: mongoQuery.keyword, $options: "i" } },
       { titlec: { $regex: mongoQuery.keyword, $options: "i" } },
       { titlep: { $regex: mongoQuery.keyword, $options: "i" } },
-      { author: { $regex: mongoQuery.keyword, $options: "i" } },
-      { authorp: { $regex: mongoQuery.keyword, $options: "i" } },
+      { author: { $regex: authorKeyword, $options: "i" } },
+      { authorp: { $regex: authorKeyword, $options: "i" } },
       { authorc: { $regex: mongoQuery.keyword, $options: "i" } },
       { note: { $regex: mongoQuery.keyword, $options: "i" } },
 
     ];
+    if(mongoQuery.keyword.length ==2){
+      keywordArr = mongoQuery.keyword.split(" ")
+      mongoQuery.$or.push({author: {$regex: keywordArr[0], $option: "i"}})
+      mongoQuery.$or.push({author: {$regex: keywordArr[1], $option: "i"}})
+      mongoQuery.$or.push({authorp: {$regex: keywordArr[0], $option: "i"}})
+
+      mongoQuery.$or.push({authorp: {$regex: keywordArr[1], $option: "i"}})
+
+
+    }
+    
     delete mongoQuery.keyword;
   }
   if (mongoQuery.subjects) {

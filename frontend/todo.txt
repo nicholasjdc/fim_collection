@@ -1,9 +1,9 @@
 current Road Map:
 General Requirements:
-    - Fix search x
     - Fix author search
-    - Add subject bar to website
-    - simplified subject
+        - Issue: Authors stored very poorly right now
+            - Author Pinyn & Author eng
+            - just check if all character in search
 AUTH:
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
