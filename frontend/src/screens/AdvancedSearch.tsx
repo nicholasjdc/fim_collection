@@ -60,6 +60,36 @@ const AdvancedSearch = () => {
     setLanguageCode(tempLC);
     setCurLC("");
   };
+  const onChangeLCInput = (e) => {
+    e.preventDefault();
+    setCurLC(e.target.value);
+    checkCompletion(e.target.value, allLC, "lc");
+  };
+  const onChangeSubjectInput = (e) => {
+    e.preventDefault();
+    setCurSubject(e.target.value);
+    checkCompletion(e.target.value, allSubjects, "subject");
+  };
+
+  function checkCompletion(val, opts, type) {
+    for (var i = 0; i < opts.length; i++) {
+      if (opts[i] === val) {
+        // An item was selected from the list!
+        // yourCallbackHere()
+        if (type == "subject") {
+          let tempSubjects = subjects;
+          tempSubjects.add(val);
+          setSubjects(tempSubjects);
+        } else if (type == "lc") {
+          let tempLC = languageCode;
+          tempLC.add(val);
+          setLanguageCode(tempLC);
+        }
+        //setCurSubject("");
+        break;
+      }
+    }
+  }
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const queryParams = {}
@@ -204,7 +234,7 @@ const AdvancedSearch = () => {
           id="subject-choice"
           name="subject-choice"
           value={curSubject}
-          onChange={(e) => setCurSubject(e.target.value)}
+          onChange={(e) => onChangeSubjectInput(e)}
         />
         <datalist id="subjects"> 
           {allSubjects.map((sub) => (
@@ -215,6 +245,7 @@ const AdvancedSearch = () => {
           {Array.from(subjects).map((subject) => (
             <div id={subject}key={subject}>
             <p >{subject}</p>
+            {/*
             <button onClick={(e)=>onDeleteSubject(e, subject)}>
             <img
                 height="15px"
@@ -222,11 +253,10 @@ const AdvancedSearch = () => {
                 src={trashcan}
               />
             </button>
-
+          */}
               </div>
           ))}
         </div>
-        <button onClick={(e) => onAddSubjectClick(e)}>Add Subject</button>
           <label>Page Count:</label>
           <input
             type="text"
@@ -260,7 +290,7 @@ const AdvancedSearch = () => {
           id="lc-choice"
           name="lc-choice"
           value={curLC}
-          onChange={(e) => setCurLC(e.target.value)}
+          onChange={(e) => onChangeLCInput(e)}
         />
         <datalist id="lc"> 
           {allLC.map((sub) => (
@@ -272,7 +302,6 @@ const AdvancedSearch = () => {
             <p key={lc}>{lc}</p>
           ))}
         </div>
-        <button onClick={(e) => onAddLCClick(e)}>Add Language Code</button>
           <label>Page Count:</label>
           <input
             type="text"
