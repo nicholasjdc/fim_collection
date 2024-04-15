@@ -5,6 +5,7 @@ const {
   getEntries,
   deleteEntry,
   updateEntry,
+  updateEntries
 } = require("../controller/entryController");
 
 const requireAuth = require('../middleware/requireAuth')
@@ -29,5 +30,8 @@ router.delete("/:id", deleteEntry);
 
 //UPDATE a entry
 router.patch("/:id", updateEntry);
+
+//UPDATE multiple entries
+router.patch("/updateAll/something", updateEntries)
 
 module.exports = router;

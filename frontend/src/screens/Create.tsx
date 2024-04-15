@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {postEntry } from "../function_helpers/mongoFunctions";
+import { postEntry } from "../function_helpers/mongoFunctions";
 import { allLC, allSubjects } from "../function_helpers/handyVariables";
 import { useAuthContext } from "../hooks/useAuthContext";
 const Create = () => {
   const [title, setTitle] = useState("");
   const [titlec, setTitlec] = useState("");
   const [titlep, setTitlep] = useState("");
-  const [subjects, setSubjects] = useState(new Set([]));
+  const [subjects, setSubjects] = useState(new Set(""));
   const [curSubject, setCurSubject] = useState("");
   const [author, setAuthor] = useState("");
   const [authorc, setAuthorc] = useState("");
@@ -19,14 +19,16 @@ const Create = () => {
   const [publication, setPublication] = useState("");
   const [pageCount, setPageCount] = useState("");
   const [seriesTitle, setSeriesTitle] = useState("");
-  const [languageCode, setLanguageCode] = useState(new Set(''));
+  const [languageCode, setLanguageCode] = useState(new Set(""));
   const [resource, setResource] = useState("");
-  const[curLC, setCurLC] = useState("")
+  const [curLC, setCurLC] = useState("");
   const [isPending, setIsPending] = useState(false);
 
   const navigate = useNavigate();
-  const {user} = useAuthContext();
-
+  const { user } = useAuthContext();
+  useEffect(() => {
+    console.log("SUBJECTS CHANGED");
+  }, [subjects, curSubject]);
   const onAddSubjectClick = (e) => {
     e.preventDefault();
     let tempSubjects = subjects;
@@ -41,21 +43,32 @@ const Create = () => {
     setLanguageCode(tempLC);
     setCurLC("");
   };
-  const onChangeSubjectInput = (e)=>{
-    setCurSubject(e)
-    checkCompletion(e, allSubjects)
-  }
+  const onChangeLCInput = (e) => {
+    e.preventDefault();
+    setCurLC(e.target.value);
+    checkCompletion(e.target.value, allLC, "lc");
+  };
+  const onChangeSubjectInput = (e) => {
+    e.preventDefault();
+    setCurSubject(e.target.value);
+    checkCompletion(e.target.value, allSubjects, "subject");
+  };
 
-
-function checkCompletion(val, opts) {
+  function checkCompletion(val, opts, type) {
     for (var i = 0; i < opts.length; i++) {
       if (opts[i] === val) {
         // An item was selected from the list!
         // yourCallbackHere()
-        let tempSubjects = subjects;
-        tempSubjects.add(val);
-        setSubjects(tempSubjects);
-        setCurSubject("");
+        if (type == "subject") {
+          let tempSubjects = subjects;
+          tempSubjects.add(val);
+          setSubjects(tempSubjects);
+        } else if (type == "lc") {
+          let tempLC = languageCode;
+          tempLC.add(val);
+          setLanguageCode(tempLC);
+        }
+        //setCurSubject("");
         break;
       }
     }
@@ -133,7 +146,6 @@ function checkCompletion(val, opts) {
         <label>Authors:</label>
         <input
           type="text"
-          
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         ></input>
@@ -155,11 +167,11 @@ function checkCompletion(val, opts) {
           id="subject-choice"
           name="subject-choice"
           value={curSubject}
-          onChange={(e) => onChangeSubjectInput(e.target.value)}//setCurSubject(e.target.value)}
+          onChange={(e) => onChangeSubjectInput(e)} //setCurSubject(e.target.value)}
         />
         <datalist id="subjects">
           {allSubjects.map((sub) => (
-            <option key = {sub}value={sub}></option>
+            <option key={sub} value={sub}></option>
           ))}
         </datalist>
         <div className="subject-list">
@@ -167,7 +179,6 @@ function checkCompletion(val, opts) {
             <p key={subject}>{subject}</p>
           ))}
         </div>
-        <button onClick={(e) => onAddSubjectClick(e)}>Add Subject</button>
         <label>Publication:</label>
         <input
           type="text"
@@ -202,15 +213,15 @@ function checkCompletion(val, opts) {
           onChange={(e) => setNote(e.target.value)}
         ></textarea>
 
-<label>Language Code(s):</label>
+        <label>Language Code(s):</label>
         <input
           list="lc"
           id="lc-choice"
           name="lc-choice"
           value={curLC}
-          onChange={(e) => setCurLC(e.target.value)}
+          onChange={(e) => onChangeLCInput(e)}
         />
-        <datalist id="lc"> 
+        <datalist id="lc">
           {allLC.map((sub) => (
             <option key={sub} value={sub}></option>
           ))}
@@ -221,7 +232,6 @@ function checkCompletion(val, opts) {
           ))}
         </div>
         <p></p>
-        <button onClick={(e) => onAddLCClick(e)}>Add Language Code</button>
         {!isPending && <button>Add Entry</button>}
         {isPending && <button disabled>Adding Entry...</button>}
       </form>

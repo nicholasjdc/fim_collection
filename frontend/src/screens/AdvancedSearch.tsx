@@ -64,7 +64,9 @@ const AdvancedSearch = () => {
     e.preventDefault();
     const queryParams = {}
     if(title){
+
       queryParams['title'] = title;
+      
     }
     if(author){
       queryParams['author'] = author

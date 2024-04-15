@@ -121,7 +121,9 @@
   margin-right: auto;
   text-align: left;
 }
-
+.home .searchbar {
+  padding-bottom: 6px;
+}
 .home .search button{
   display: inline-block;
   width:10%
@@ -133,6 +135,8 @@
   color: black;
   
 }
+
+
 .checkboxList {
   background-color: antiquewhite;
   
@@ -194,4 +198,13 @@
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
+}
+
+.Collapsible {
+  background-color: #ddd;
+  padding: 6px;
+  cursor: pointer;
+}
+.home .Collapsible {
+  width: 50%;
 }

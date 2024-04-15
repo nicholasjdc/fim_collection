@@ -1,9 +1,12 @@
 current Road Map:
 General Requirements:
-    - Fix author search
-        - Issue: Authors stored very poorly right now
-            - Author Pinyn & Author eng
-            - just check if all character in search
+    - Advanced Search:
+        - Make functional
+    - Home Page:
+        - Add specific author, subject, and title dropdown menu
+            - Replace 
+    - Create & Edit Page:
+        - Remove Subject and language code buttons
 AUTH:
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users

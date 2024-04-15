@@ -8,6 +8,9 @@ const bookEntrySchema = new Schema({
         required:true,
         unique: true
     },
+    authorAgg:{
+      type:String
+    },
     author:{
         type:String,
     },

@@ -11,17 +11,20 @@ import { getEntries } from "../function_helpers/mongoFunctions";
 import { API_URL } from "../function_helpers/handyVariables";
 import Pagination from "@mui/material/Pagination";
 import { useAuthContext } from "../hooks/useAuthContext";
-import searchbutton from "../assets/searchbutton.svg"
+import searchbutton from "../assets/searchbutton.svg";
+import Collapsible from "react-collapsible";
 const Home = () => {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
   const [books, setBooks] = useState<BookEntry[] | null>(null);
   const [bookResultCount, setBookResultCount] = useState(null);
   const [isPending, setIsPending] = useState<boolean | null>(null);
   const [error, setError] = useState(null);
   const [resultPageNumber, setResultPageNumber] = useState(1);
   const [search, setSearch] = useSearchParams();
-  const [curSubject, setCurSubject] = useState("")
+  const [curSubject, setCurSubject] = useState("");
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     value: number
@@ -40,11 +43,17 @@ const Home = () => {
     if (keyword) {
       queryParams["keyword"] = keyword;
     }
-    if(curSubject){
+    if (curSubject) {
       queryParams["subjects"] = curSubject;
     }
+    if (title) {
+      queryParams["title"] = title;
+    }
+    if (author) {
+      queryParams["author"] = author;
+    }
     queryParams["resultPageNumber"] = 1;
-    setResultPageNumber(1)
+    setResultPageNumber(1);
     setSearch(createSearchParams(queryParams).toString());
   };
   useEffect(() => {
@@ -53,7 +62,7 @@ const Home = () => {
     if (keyword) {
       queryParams["keyword"] = keyword;
     }
-    if(curSubject){
+    if (curSubject) {
       queryParams["subject"] = curSubject;
     }
     queryParams["resultPageNumber"] = resultPageNumber.toString();
@@ -90,31 +99,44 @@ const Home = () => {
               onChange={(e) => setKeyword(e.target.value)}
             />
             <button>
-              <img
-                height="15px"
-                id="searchimg"
-                src= {searchbutton}
-              />
+              <img height="15px" id="searchimg" src={searchbutton} />
             </button>
           </div>
-        <input
-          list="subjects"
-          id="subject-choice"
-          name="subject-choice"
-          placeholder="Subject"
-
-          value={curSubject}
-          onChange={(e) => setCurSubject(e.target.value)}//setCurSubject(e.target.value)}
-        />
-        <datalist id="subjects">
-          {allSubjects.map((sub) => (
-            <option key = {sub}value={sub}></option>
-          ))}
-        </datalist>
+          <Collapsible trigger="Search Paramaters (Collapsible)">
+            <div className="extra_inputs">
+              <input
+                list="subjects"
+                id="subject-choice"
+                name="subject-choice"
+                placeholder="Subject"
+                value={curSubject}
+                onChange={(e) => setCurSubject(e.target.value)} //setCurSubject(e.target.value)}
+              />
+            </div>
+            <datalist id="subjects">
+              {allSubjects.map((sub) => (
+                <option key={sub} value={sub}></option>
+              ))}
+            </datalist>
+            <input
+              type="search"
+              id="title_input"
+              name="q"
+              placeholder="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <input
+              type="search"
+              id="author_input"
+              name="q"
+              placeholder="author"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+            />
+          </Collapsible>
         </form>
-        
       </div>
-    
 
       {error && <div>{error}</div>}
       {isPending && <div>Searching...</div>}
