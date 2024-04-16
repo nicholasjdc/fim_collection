@@ -65,6 +65,24 @@ const getEntries = async (req, res) => {
   if (mongoQuery.languageCode) {
     currQuery.languageCode = {$in: mongoQuery.languageCode.split("$#")}
   }
+  if (mongoQuery.entryNumber) {
+    currQuery.entryNumber = mongoQuery.entryNumber
+  }
+  if (mongoQuery.pageCount) {
+    currQuery.pageCount = {$regex: new RegExp(mongoQuery.pageCount, "i")}
+  }
+  if (mongoQuery.ISBN) {
+    currQuery.ISBN = {$regex: new RegExp(mongoQuery.ISBN, 'i')}
+  }
+  if (mongoQuery.seriesTitle){
+    currQuery.seriesTitle = {$regex: new RegExp(mongoQuery.seriesTitle, "i")}
+  }
+  if (mongoQuery.publication){
+    currQuery.publication = {$regex: new RegExp(mongoQuery.publication, "i")}
+  }
+  if (mongoQuery.note) {
+    currQuery.note = {$regex: new RegExp(mongoQuery.note, "i")}
+  }
   console.log(currQuery)
   if (pageNum > 0) pageNum -= 1;
   const recordCount =  (await Entry.find(currQuery).countDocuments());
