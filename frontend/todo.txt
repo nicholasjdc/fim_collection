@@ -1,13 +1,21 @@
 current Road Map:
 General Requirements:
-    - Advanced Search:
-        - Make functional
-    - Home Page:
-        - Add specific author, subject, and title dropdown menu
-            - Replace 
-    - Create & Edit Page:
-        - Remove Subject and language code buttons
-AUTH:
+    - Edit Page (REQ: Feedback from dad for create / advanced search page)
+    - Get Web Domain (REQ: Specifications)
+    - Upgrade MongoDB (REQ: Product Ready to Deploy)
+    - Add additional ISBN button
+
+AUTH (REQ: Specifications from Dad):
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
         - Make the edit, search, update body a component
+
+Home:
+    - Get rid of collapsible for sub-fields
+    - Advanced Search collapsible Boolean
+        - AND is technically nonfunctional: serves as an internal OR instead
+            - Longterm solution: sql migration
+
+Advanced Search:
+    - Boolean Search AND/OR/NOT
+    - Can use any fields

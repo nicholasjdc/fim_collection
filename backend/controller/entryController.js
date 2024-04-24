@@ -2,7 +2,6 @@ const { default: mongoose } = require("mongoose");
 const Entry = require("../models/bookEntryModel");
 
 const limitCount = 25;
-
 const getEntry = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -16,28 +15,86 @@ const getEntry = async (req, res) => {
   res.status(200).json(entry);
 };
 const getEntries = async (req, res) => {
+  const booleanCode = "$!";
   let pageNum = 0;
-  let currQuery = {}
-  let mongoQuery = req.query;
-  //pageination time
-  console.log(req.query);
-  if (mongoQuery.resultPageNumber) {
-    pageNum = mongoQuery.resultPageNumber;
+  let currQuery = {};
+  currQuery.$or = { titleAgg: { $in: [] }, $authorAgg: { $in: [] } };
+  if (req.query.resultPageNumber) {
+    pageNum = req.query.resultPageNumber;
   }
-  if (mongoQuery.title) {
-    currQuery.titleAgg = {$regex: new RegExp(mongoQuery.title, "i")}
-  
-  }
-  if (mongoQuery.author) {
-    authorKeyword = mongoQuery.author;
-    if (
-      !authorKeyword.match(/[\u3400-\u9FBF]/) &&
-      authorKeyword.split(" ").length >= 2
-    ) {
-      authorArr = mongoQuery.author.split(" ");
-      authorKeyword = `(?=.*${authorArr[0]})(?=.*${authorArr[1]})`;
+  const sortRequestQuery = (request) => {
+    let sortedQuery = {};
+    for (const [key, value] of Object.entries(request.query)) {
+      if (key =="resultPageNumber") continue;
+      sortedQuery[key] = [];
+
+      if (value instanceof Array) {
+        let tempValue = value;
+        for (v of tempValue) {
+          sortedQuery[key].push(v.split(booleanCode));
+        }
+      } else {
+        sortedQuery[key].push(value.split(booleanCode));
+      }
     }
-    currQuery.authorAgg = {$regex: new RegExp(authorKeyword, "i")}
+    return sortedQuery;
+  };
+  const setQueryField = (fieldname, inclusiveSearch, receivedQuery) => {
+    currQuery[fieldName] = { $in: [], $nin: [] };
+    for (v of receivedQuery) {
+
+      boolOp = v[0];
+      val = v[1];
+      if (inclusiveSearch == true) {
+        val = /val/i;
+      }
+
+      if (boolOp == "AND") {
+        currQuery[fieldname].$in.push(val);
+      } else if (boolOp == "OR") {
+        currQuery.$or[fieldname].$in.push(val);
+      } else if (boolOp == "NOT") {
+        currQuery[fieldname].$nin.push(val);
+      } else {
+        throw Error("Non-permissible Operation Code: " + boolOp);
+      }
+    }
+  };
+  sortedQuery = sortRequestQuery(req.query)
+  inclusiveSearchFields = ["titleAgg", "authorAgg"]
+  for (const [key, value] of Object.entries(sortedQuery)){
+    inclusiveSearch = false
+    if(key in inclusiveSearchFields){
+      inclusiveSearch=true
+    }
+    setQueryField(field, inclusiveSearch, value)
+  }
+
+  if (mongoQuery.author) {
+    currQuery.authorAgg = { $in: [], $nin: [] };
+    boolOp = v[0];
+    val = v[1];
+    for (v of mongoQuery.title) {
+      boolOp = v[0];
+      val = v[1];
+      authorKeyword = val;
+      if (
+        !authorKeyword.match(/[\u3400-\u9FBF]/) &&
+        authorKeyword.split(" ").length >= 2
+      ) {
+        authorArr = mongoQuery.author.split(" ");
+        authorKeyword = `(?=.*${authorArr[0]})(?=.*${authorArr[1]})`;
+      }
+      if (boolOp == "AND") {
+        currQuery.authorAgg.$in.push(/authorKeyword/i);
+      } else if (boolOp == "OR") {
+        currQuery.$or.authorAgg.$in.push(/authorKeyword/i);
+      } else if (boolOp == "NOT") {
+        currQuery.authorAgg.$nin.push(authorKeyword);
+      } else {
+        throw Error("Non-permissible Operation Code: " + boolOp);
+      }
+    }
   }
   if (mongoQuery.keyword) {
     authorKeyword = mongoQuery.keyword;
@@ -56,39 +113,38 @@ const getEntries = async (req, res) => {
       { authorp: { $regex: authorKeyword, $options: "i" } },
       { authorc: { $regex: mongoQuery.keyword, $options: "i" } },
       { note: { $regex: mongoQuery.keyword, $options: "i" } },
-    ]
-
+    ];
   }
-  if (mongoQuery.subjects) {
-    currQuery.subjects = {$in: mongoQuery.subjects.split("$#")}
-  }
+  /*
   if (mongoQuery.languageCode) {
-    currQuery.languageCode = {$in: mongoQuery.languageCode.split("$#")}
+    currQuery.languageCode = { $in: mongoQuery.languageCode.split("$#") };
   }
   if (mongoQuery.entryNumber) {
-    currQuery.entryNumber = mongoQuery.entryNumber
+    currQuery.entryNumber = mongoQuery.entryNumber;
   }
   if (mongoQuery.pageCount) {
-    currQuery.pageCount = {$regex: new RegExp(mongoQuery.pageCount, "i")}
+    currQuery.pageCount = { $regex: new RegExp(mongoQuery.pageCount, "i") };
   }
   if (mongoQuery.ISBN) {
-    currQuery.ISBN = {$regex: new RegExp(mongoQuery.ISBN, 'i')}
+    currQuery.ISBN = { $regex: new RegExp(mongoQuery.ISBN, "i") };
   }
-  if (mongoQuery.seriesTitle){
-    currQuery.seriesTitle = {$regex: new RegExp(mongoQuery.seriesTitle, "i")}
+  if (mongoQuery.seriesTitle) {
+    currQuery.seriesTitle = { $regex: new RegExp(mongoQuery.seriesTitle, "i") };
   }
-  if (mongoQuery.publication){
-    currQuery.publication = {$regex: new RegExp(mongoQuery.publication, "i")}
+  if (mongoQuery.publication) {
+    currQuery.publication = { $regex: new RegExp(mongoQuery.publication, "i") };
   }
   if (mongoQuery.note) {
-    currQuery.note = {$regex: new RegExp(mongoQuery.note, "i")}
+    currQuery.note = { $regex: new RegExp(mongoQuery.note, "i") };
   }
-  console.log(currQuery)
+  console.log(currQuery);
+  */
   if (pageNum > 0) pageNum -= 1;
-  const recordCount =  (await Entry.find(currQuery).countDocuments());
-  const entries = await Entry.find(currQuery).sort({ createdAt: -1 })
-  .limit(limitCount)
-  .skip(pageNum * limitCount);
+  const recordCount = await Entry.find(currQuery).countDocuments();
+  const entries = await Entry.find(currQuery)
+    .sort({ createdAt: -1 })
+    .limit(limitCount)
+    .skip(pageNum * limitCount);
   //add skip-count into req.query
   res.status(200).json({ entries: entries, recordCount: recordCount }); //also add in length
 };
@@ -114,7 +170,7 @@ const updateEntries = async (req, res) => {
     const result = await Entry.updateMany({}, [
       {
         $set: {
-          titleAgg: { $concat: ["$title", " ", "$titlep", " ","$titlec"] },
+          titleAgg: { $concat: ["$title", " ", "$titlep", " ", "$titlec"] },
         },
       },
     ]);

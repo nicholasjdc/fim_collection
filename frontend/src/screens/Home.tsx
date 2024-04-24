@@ -54,18 +54,12 @@ const Home = () => {
     }
     queryParams["resultPageNumber"] = 1;
     setResultPageNumber(1);
+    console.log(createSearchParams(queryParams).toString())
     setSearch(createSearchParams(queryParams).toString());
   };
   useEffect(() => {
     setIsPending(true);
-    const queryParams = {};
-    if (keyword) {
-      queryParams["keyword"] = keyword;
-    }
-    if (curSubject) {
-      queryParams["subject"] = curSubject;
-    }
-    queryParams["resultPageNumber"] = resultPageNumber.toString();
+    
     if (search.get("resultPageNumber")) {
       setResultPageNumber(parseInt(search.get("resultPageNumber")));
     }
@@ -102,7 +96,6 @@ const Home = () => {
               <img height="15px" id="searchimg" src={searchbutton} />
             </button>
           </div>
-          <Collapsible trigger="Search Paramaters (Collapsible)">
             <div className="extra_inputs">
               <input
                 list="subjects"
@@ -134,7 +127,6 @@ const Home = () => {
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
             />
-          </Collapsible>
         </form>
       </div>
 
