@@ -1,11 +1,19 @@
 current Road Map:
 General Requirements:
-    - Edit Page (REQ: Feedback from dad for create / advanced search page)
-    - Get Web Domain (REQ: Specifications)
-    - Upgrade MongoDB (REQ: Product Ready to Deploy)
-    - Add additional ISBN button
-
-AUTH (REQ: Specifications from Dad):
+    - Databse Adjustment
+        - Create temporary entry controller
+        - test entry controller
+        - Create temporary user controller
+        - test temp user controller 
+        - test both controllers together
+        - replace controller
+        - check JWT tokens still functional
+    -Boolean Search:
+        - Backend: 
+    - Home Page:
+        - Add specific author, subject, and title 
+        - add advanced search dropdown
+AUTH:
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
         - Make the edit, search, update body a component
