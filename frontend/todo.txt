@@ -1,12 +1,18 @@
 current Road Map:
 General Requirements:
-    - Advanced Search:
-        - Make functional
+    - Databse Adjustment
+        - Create temporary entry controller
+        - test entry controller
+        - Create temporary user controller
+        - test temp user controller 
+        - test both controllers together
+        - replace controller
+        - check JWT tokens still functional
+    -Boolean Search:
+        - Backend: 
     - Home Page:
-        - Add specific author, subject, and title dropdown menu
-            - Replace 
-    - Create & Edit Page:
-        - Remove Subject and language code buttons
+        - Add specific author, subject, and title 
+        - add advanced search dropdown
 AUTH:
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
