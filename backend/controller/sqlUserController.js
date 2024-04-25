@@ -1,18 +1,25 @@
 require("dotenv").config();
-const supabase = require('@supabase/supabase-js')
-const supabaseUrl = 'https://raifuhqmtrdvncpkonjm.supabase.co'
-const supabaseKey = process.env.SUPABASE_KEY
-const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey)
-const getUser = async () =>{
+
+const getUser = async (req, res) =>{
 
 }
-const getUsers = async() =>{
+const getUsers = async(req, res) =>{
 
 }
-const updateUser = async() =>{
+const updateUser = async(req, res) =>{
 
 }
 
-const deleteUser = async() =>{
+const deleteUser = async(req, res) =>{
 
+}
+const createUser = async() =>{
+
+}
+module.exports = {
+    getUser,
+    getUsers,
+    updateUser,
+    deleteUser,
+    createUser,
 }
