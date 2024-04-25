@@ -5,8 +5,7 @@ const {
   getEntries,
   deleteEntry,
   updateEntry,
-  updateEntries
-} = require("../controller/entryController");
+} = require("../controller/sqlEntryController");
 
 const requireAuth = require('../middleware/requireAuth')
 
@@ -14,7 +13,7 @@ const router = express.Router();
 
 //require auth for all workout routes 
 //middleware, fire before all code below
-router.use(requireAuth)
+//router.use(requireAuth)
 
 //Get all entries
 router.get("/", getEntries);
@@ -32,6 +31,6 @@ router.delete("/:id", deleteEntry);
 router.patch("/:id", updateEntry);
 
 //UPDATE multiple entries
-router.patch("/updateAll/something", updateEntries)
+//router.patch("/updateAll/something", updateEntries)
 
 module.exports = router;
