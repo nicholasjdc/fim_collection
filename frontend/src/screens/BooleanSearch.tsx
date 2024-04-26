@@ -1,12 +1,15 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Input from "../screen_helpers/Input";
 import './Input.css'
+import { createSearchParams, useSearchParams } from "react-router-dom";
 function BooleanSearch() {
-  const [formValues, setFormValues] = useState([]);
+    const [search, setSearch] = useSearchParams();
+  const [formValues, setFormValues] = useState([{
+    type: "Subject",
+    op: "OR",
+    value: "",
+  }]);
 
-  
-  const inputRef = useRef();
-  const selectRef = useRef();
 
   const handleChange = (e, index) => {
     const values = [...formValues];
@@ -18,8 +21,8 @@ function BooleanSearch() {
     e.preventDefault();
     const values = [...formValues];
     values.push({
-      label: "label",
-      type: "text",
+      type: "Subject",
+      op: "OR",
       value: "",
     });
     setFormValues(values);
@@ -35,23 +38,27 @@ function BooleanSearch() {
   const handleOperatorChange = (e, index)=>{
     e.preventDefault()
     const values = [...formValues];
-    values[index].type = e.target.value;
+    values[index].op = e.target.value;
     setFormValues(values);
 
   }
   const handleTypeChange = (e, index)=>{
     e.preventDefault()
     const values = [...formValues];
-    values[index].op = e.target.value;
+    values[index].type = e.target.value;
     setFormValues(values);
 
   }
-  const addBtnClick = (e) => {
-    e.preventDefault();
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formValues)
+    const queryParams = {}
+    formValues.map((val) => {
+        let opKey= `${val.op}$!${val.type}`
+        console.log(opKey)
+
+        queryParams[opKey] = val.value
+      })
+    setSearch(createSearchParams(queryParams).toString())
     
   };
   return (
@@ -80,6 +87,7 @@ function BooleanSearch() {
           Search
         </button>
       </form>
+      {search}
     </div>
   );
 }

@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 export default function Input({ objValue, onChange, onTypeChange, onOperatorChange, index, deleteField }) {
-  const { label, type, value } = objValue;
-    const [label2, setLabel] = useState('')
-    const [type2, setType] = useState('')
-    const [value2, setValue] = useState('')
+  const { type, value } = objValue;
   return (
     <div className="input-group">
         
@@ -15,7 +12,6 @@ export default function Input({ objValue, onChange, onTypeChange, onOperatorChan
             </select>
         <input
           type={type || "text"}
-          id={label}
           value={value || ""}
           onChange={(e) => onChange(e, index)}
         />
