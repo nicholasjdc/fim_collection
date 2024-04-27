@@ -8,6 +8,7 @@ import Edit from './screens/Edit';
 import Signup from './screens/Signup';
 import Login from './screens/Login';
 import { useAuthContext } from './hooks/useAuthContext';
+import BooleanSearch from './screens/BooleanSearch';
 function App() {
   
  const {user} = useAuthContext()
@@ -25,7 +26,7 @@ function App() {
           <Route path ="/search" element = {<AdvancedSearch/>}/>
           <Route path="/login" element={user ? <Navigate to = "/"/>: <Login/>} />
           <Route path="/signup" element={user ? <Navigate to = "/"/>:<Signup/>} />
-
+          <Route path ="/booleanSearch" element ={<BooleanSearch></BooleanSearch>} />
         </Routes>
       </div>
     </Router>
