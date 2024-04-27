@@ -7,6 +7,8 @@ const BookDetails = () => {
   const { user } = useAuthContext();
   const { id } = useParams(); //Grab route parameters from current route
     const { data: book, error, isPending } = useGetEntryMongo(id);
+    console.log("KLAJDSL")
+    console.log(book)
   const navigate = useNavigate();
   const handleDelete = () => {
     deleteEntry(id, user.token);

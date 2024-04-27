@@ -16,9 +16,14 @@ const getEntry = async (req, res) => {
   if (data.length <= 0) {
     return res.status(404).json({ error: "No such entry" });
   }
-  res.status(status).json(data);
+  res.status(status).json(data[0]);
 };
 const getEntries = async (req, res) => {
+  const limitCount = 25
+  let pageNum = 0;
+  if (req.query.resultPageNumber) {
+    pageNum = req.query.resultPageNumber;
+  }
   const sortRequestQuery = (query) => {
     const booleanCode = "$!";
     let sortedQuery = { OR: {}, AND: {}, NOT: {} };
@@ -35,7 +40,6 @@ const getEntries = async (req, res) => {
       } else {
         sortedQuery[boolVal][fieldVal].push(value);
       }
-      console.log(sortedQuery[boolVal][fieldVal]);
     }
     return sortedQuery;
   };
@@ -49,7 +53,6 @@ const getEntries = async (req, res) => {
     orClauses = query.OR;
     andClauses = query.AND;
     notClauses = query.NOT;
-    console.log(andClauses);
     stringQuery = "";
     for (const [key, value] of Object.entries(orClauses)) {
       for (v in value) {
@@ -59,7 +62,7 @@ const getEntries = async (req, res) => {
     }
     if (
       Object.keys(notClauses).length === 0 &&
-      Object.keys(notClauses).length === 0
+      Object.keys(andClauses).length === 0
     ) {
       stringQuery = stringQuery.slice(0, -1);
       return stringQuery;
@@ -67,7 +70,6 @@ const getEntries = async (req, res) => {
     stringQuery += "and(";
 
     for (const [key, value] of Object.entries(andClauses)) {
-      console.log("GOING AND");
       for (v in value) {
         currString = `${key}.eq.${value[v]},`;
         stringQuery += currString;
@@ -86,22 +88,44 @@ const getEntries = async (req, res) => {
 
   sortedQuery = sortRequestQuery(req.query);
   stringifiedQuery = stringifyQuery(sortedQuery);
-  const { data, error, status } = await supabaseClient
+  if(stringifiedQuery){
+    const { count} = await supabaseClient
+    .from("entries")
+    .select('*', { count: 'exact', head: true })
+    .or(stringifiedQuery)
+    
+    const { data, error, status } = await supabaseClient
     .from("entries")
     .select()
-    .or(stringifiedQuery);
+    .or(stringifiedQuery).range(pageNum*limitCount, pageNum*limitCount+limitCount)
+    console.log("COLLECTED")
     if (error) {
       return res.status(status).json({ error: error.message });
     }
     if (data.length <= 0) {
       return res.status(404).json({ error: "No such entry" });
     }
-    res.status(status).json(data);
+    res.status(status).json({"entries": data, "count": count});
+  }else{
+    const { count} = await supabaseClient
+    .from("entries")
+    .select('*', { count: 'exact', head: true })
+    const { data, error, status } = await supabaseClient
+    .from("entries")
+    .select().range(pageNum*limitCount, pageNum*limitCount+limitCount);
+    if (error) {
+      return res.status(status).json({ error: error.message });
+    }
+    if (data.length <= 0) {
+      return res.status(404).json({ error: "No such entry" });
+    }
+    res.status(status).json({"entries":data, "count": count});
+  }
+
 };
 const updateEntry = async (req, res) => {
   const { id } = req.params;
   const changes = { ...req.body };
-  console.log(changes);
   const stat = await supabaseClient
     .from("entries")
     .update(changes)
@@ -120,7 +144,6 @@ const deleteEntry = async (req, res) => {
   const { id } = req.params;
   const stat = await supabaseClient.from("entries").delete().eq("id", id);
 
-  console.log(stat);
   if (stat.error) {
     return res.status(stat.status).json({ error: stat.error });
   }
@@ -131,7 +154,6 @@ const createEntry = async (req, res) => {
   const { status, error, statusText } = await supabaseClient
     .from("entries")
     .insert(content);
-  console.log(content);
   if (error) {
     return res.status(status).json(error);
   }

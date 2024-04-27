@@ -2,7 +2,9 @@ import { useState } from "react";
 import Input from "../screen_helpers/Input";
 import './Input.css'
 import { createSearchParams, useSearchParams } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 function BooleanSearch() {
+  const {user} = useAuthContext()
     const [search, setSearch] = useSearchParams();
   const [formValues, setFormValues] = useState([{
     type: "Subject",

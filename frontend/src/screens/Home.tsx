@@ -41,10 +41,10 @@ const Home = () => {
 
     const queryParams = {};
     if (keyword) {
-      queryParams["keyword"] = keyword;
+      queryParams["OR$!keyword"] = keyword;
     }
     if (curSubject) {
-      queryParams["subjects"] = curSubject;
+      queryParams["$!subjects"] = curSubject;
     }
     if (title) {
       queryParams["title"] = title;
@@ -66,8 +66,8 @@ const Home = () => {
     if (user) {
       getEntries(API_URL + "film-entries?" + search, user.token)
         .then((result) => {
-          var entries = result["entries"];
-          setBookResultCount(result["recordCount"]);
+          var entries = result['entries'];
+          setBookResultCount(result['count']);
           setBooks(entries as BookEntry[]);
           setError(null);
         })
@@ -133,6 +133,7 @@ const Home = () => {
       {error && <div>{error}</div>}
       {isPending && <div>Searching...</div>}
       {/*Make sure books exists when loading*/}
+      
       {books && (
         <BookList
           books={books}

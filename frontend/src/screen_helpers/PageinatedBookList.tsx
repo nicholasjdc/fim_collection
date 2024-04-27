@@ -1,16 +1,18 @@
 import { Pagination } from "@mui/material";
 import BookList from "./BookList";
 
-const PageinatedBookList = (
+export const PageinatedBookList = (
   error,
   recordCount,
   searchResults,
   resultPageNumber,
-  handlePageChange
+  handlePageChange,
+  isPending
 ) => {
   return (
     <div className="PageinatedBookList">
-      {error && <div>{error}</div>}
+     {error && <div>{error}</div>}
+      {isPending && <div>Searching...</div>}
       <div className="results">
         <h2></h2>
         <BookList

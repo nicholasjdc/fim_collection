@@ -50,7 +50,7 @@ export async function getEntries(url: string, authToken:string){
         },
         });
         const entryjson = await response.json();
-    
+        console.log(entryjson)
         if (!response.ok) {
             throw Error(JSON.stringify(entryjson.body))
             
