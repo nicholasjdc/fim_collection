@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 export default function Input({ objValue, onChange, onTypeChange, onOperatorChange, index, deleteField }) {
   const { type, value } = objValue;
+  const typeValues = ['subject', 'author', 'title', 'publication']
   return (
     <div className="input-group">
         

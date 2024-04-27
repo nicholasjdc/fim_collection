@@ -62,7 +62,7 @@ function BooleanSearch() {
     
   };
   return (
-    <div className="App">
+    <div className="BooleanSearch">
       <form onSubmit ={handleSubmit}>
         {formValues.map((obj, index) => (
           <Input
