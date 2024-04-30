@@ -22,7 +22,7 @@ const getEntries = async (req, res) => {
   const limitCount = 25
   let pageNum = 0;
   if (req.query.resultPageNumber) {
-    pageNum = req.query.resultPageNumber;
+    pageNum = req.query.resultPageNumber-1;
   }
   const sortRequestQuery = (query) => {
     const booleanCode = "$!";
@@ -45,15 +45,16 @@ const getEntries = async (req, res) => {
   };
 
   const stringifyQuery = (query) => {
-    //subject, language code in
-    //author, title, check regex
+    //subject, language code in .in
+    //author, title, check regex .ilike %%
+    //add author agg and title agg
     arrayColumns = ['subject', 'languageCode']
     regexColumns = ['author', 'authorc', 'authorp', 'title', 'titlec', 'titlep']
 
     orClauses = query.OR;
     andClauses = query.AND;
     notClauses = query.NOT;
-    stringQuery = "";
+    stringQuery = '';
     for (const [key, value] of Object.entries(orClauses)) {
       for (v in value) {
         currString = `${key}.eq.${value[v]},`;
@@ -67,7 +68,7 @@ const getEntries = async (req, res) => {
       stringQuery = stringQuery.slice(0, -1);
       return stringQuery;
     }
-    stringQuery += "and(";
+    stringQuery += 'and(';
 
     for (const [key, value] of Object.entries(andClauses)) {
       for (v in value) {
@@ -82,12 +83,14 @@ const getEntries = async (req, res) => {
       }
     }
     stringQuery = stringQuery.slice(0, -1);
-    stringQuery += ")";
+    stringQuery += ')';
     return stringQuery;
   };
 
   sortedQuery = sortRequestQuery(req.query);
   stringifiedQuery = stringifyQuery(sortedQuery);
+  console.log("QUERY: ")
+  console.log(stringifiedQuery)
   if(stringifiedQuery){
     const { count} = await supabaseClient
     .from("entries")
@@ -98,13 +101,16 @@ const getEntries = async (req, res) => {
     .from("entries")
     .select()
     .or(stringifiedQuery).range(pageNum*limitCount, pageNum*limitCount+limitCount)
-    console.log("COLLECTED")
     if (error) {
       return res.status(status).json({ error: error.message });
     }
+    /*
     if (data.length <= 0) {
       return res.status(404).json({ error: "No such entry" });
     }
+    */
+    console.log("reached nonerror")
+    console.log(data)
     res.status(status).json({"entries": data, "count": count});
   }else{
     const { count} = await supabaseClient

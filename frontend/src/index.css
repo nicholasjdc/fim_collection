@@ -129,10 +129,6 @@
   width:10%
 
 }
-.home .extra_inputs {
-  padding: 5px;
-  background-color: #333;
-}
 .home form input {
   font: 16px system-ui;
   color: black;

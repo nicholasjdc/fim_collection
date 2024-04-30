@@ -1,32 +1,36 @@
 import { Pagination } from "@mui/material";
 import BookList from "./BookList";
 
-export const PageinatedBookList = (
-  error,
-  recordCount,
-  searchResults,
+const PageinatedBookList = (
+  {error,
+  bookResultCount,
+  books,
   resultPageNumber,
   handlePageChange,
-  isPending
+  isPending}
 ) => {
   return (
     <div className="PageinatedBookList">
-     {error && <div>{error}</div>}
+     
+      {error && <div>{error}</div>}
       {isPending && <div>Searching...</div>}
-      <div className="results">
-        <h2></h2>
+      {/*Make sure books exists when loading*/}
+      
+      {books && (
         <BookList
-          bookCount={recordCount}
-          books={searchResults}
-          title="Result Entries"
+          books={books}
+          title="Found Entries"
+          bookCount={bookResultCount}
         />
-      </div>
+      )}
+      <p></p>
       <Pagination
         page={resultPageNumber}
-        count={Math.ceil(recordCount / 25)}
+        count={Math.ceil(bookResultCount / 25)}
         color="primary"
         onChange={handlePageChange}
       />
     </div>
   );
 };
+export default PageinatedBookList;

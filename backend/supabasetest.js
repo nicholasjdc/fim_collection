@@ -39,10 +39,10 @@ const queryTest = async()=>{
     //keyword ilike for title, titlec, titlep, author, authorc, authorp, in subject
     // strings: for all or, concatenate with commas
     // for all the and, concatenate them together and stick them inside an 'and()'
-    queryLove = 'titlep.ilike.%taiwan%'
+    queryLove = 'title.eq.An annotated bibliography for Taiwan Film Studies, title.eq.lovelythings'
     const { data, getError } = await supabaseClient
     .from('entries')
-    .select('titlep').or(queryLove)
+    .select('title').or(queryLove)
     console.log(data)
 }
 const mongoToSupabaseUpload = async() =>{

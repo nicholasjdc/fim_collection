@@ -1,13 +1,5 @@
 current Road Map:
 General Requirements:
-    - Databse Adjustment
-        - Create temporary entry controller
-        - test entry controller
-        - Create temporary user controller
-        - test temp user controller 
-        - test both controllers together
-        - replace controller
-        - check JWT tokens still functional
     -Boolean Search:
         - Backend: 
     - Home Page:
@@ -19,11 +11,9 @@ AUTH:
         - Make the edit, search, update body a component
 
 Home:
-    - Get rid of collapsible for sub-fields
     - Advanced Search collapsible Boolean
         - AND is technically nonfunctional: serves as an internal OR instead
-            - Longterm solution: sql migration
+
 
 Advanced Search:
-    - Boolean Search AND/OR/NOT
-    - Can use any fields
+    - Add Pageinated Search below

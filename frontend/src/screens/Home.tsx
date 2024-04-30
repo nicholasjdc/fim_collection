@@ -13,6 +13,7 @@ import Pagination from "@mui/material/Pagination";
 import { useAuthContext } from "../hooks/useAuthContext";
 import searchbutton from "../assets/searchbutton.svg";
 import Collapsible from "react-collapsible";
+import PageinatedBookList from "../screen_helpers/PageinatedBookList";
 const Home = () => {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
@@ -44,13 +45,13 @@ const Home = () => {
       queryParams["OR$!keyword"] = keyword;
     }
     if (curSubject) {
-      queryParams["$!subjects"] = curSubject;
+      queryParams["OR$!subjects"] = curSubject;
     }
     if (title) {
-      queryParams["title"] = title;
+      queryParams["OR$!title"] = title;
     }
     if (author) {
-      queryParams["author"] = author;
+      queryParams["OR$!author"] = author;
     }
     queryParams["resultPageNumber"] = 1;
     setResultPageNumber(1);
@@ -59,7 +60,7 @@ const Home = () => {
   };
   useEffect(() => {
     setIsPending(true);
-    
+
     if (search.get("resultPageNumber")) {
       setResultPageNumber(parseInt(search.get("resultPageNumber")));
     }
@@ -96,44 +97,51 @@ const Home = () => {
               <img height="15px" id="searchimg" src={searchbutton} />
             </button>
           </div>
-            <div className="extra_inputs">
-              <input
-                list="subjects"
-                id="subject-choice"
-                name="subject-choice"
-                placeholder="Subject"
-                value={curSubject}
-                onChange={(e) => setCurSubject(e.target.value)} //setCurSubject(e.target.value)}
-              />
-            </div>
-            <datalist id="subjects">
-              {allSubjects.map((sub) => (
-                <option key={sub} value={sub}></option>
-              ))}
-            </datalist>
-            <input
-              type="search"
-              id="title_input"
-              name="q"
-              placeholder="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <input
-              type="search"
-              id="author_input"
-              name="q"
-              placeholder="author"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
-            />
-        </form>
-      </div>
+          <input
+            list="subjects"
+            id="subject-choice"
+            name="subject-choice"
+            placeholder="Subject"
+            value={curSubject}
+            onChange={(e) => setCurSubject(e.target.value)} //setCurSubject(e.target.value)}
+          />
+          <p></p>
+          <datalist id="subjects">
+            {allSubjects.map((sub) => (
+              <option key={sub} value={sub}></option>
+            ))}
+          </datalist>
+          <input
+            type="search"
+            id="title_input"
+            name="q"
+            placeholder="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <p></p>
+          <input
+            type="search"
+            id="author_input"
+            name="q"
+            placeholder="author"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+          />
 
+        </form>
+        <Collapsible trigger="Boolean Search(Expandable)"></Collapsible>
+      </div>
+      {<PageinatedBookList books={books} bookResultCount={bookResultCount}
+        resultPageNumber={resultPageNumber}
+        handlePageChange={handlePageChange}
+        isPending={isPending}
+        error={error} />
+  }
+      {/*
       {error && <div>{error}</div>}
       {isPending && <div>Searching...</div>}
-      {/*Make sure books exists when loading*/}
-      
+a      
       {books && (
         <BookList
           books={books}
@@ -148,6 +156,7 @@ const Home = () => {
         color="primary"
         onChange={handlePageChange}
       />
+      */}
     </div>
   );
 };
