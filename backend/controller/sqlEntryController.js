@@ -32,32 +32,54 @@ const getEntries = async (req, res) => {
       splitKey = key.split(booleanCode);
       boolVal = splitKey[0];
       fieldVal = splitKey[1];
+  
       if (!(fieldVal in sortedQuery[boolVal])) {
         sortedQuery[boolVal][fieldVal] = [];
       }
+
       if (value instanceof Array) {
         sortedQuery[boolVal][fieldVal].push(...value);
       } else {
-        sortedQuery[boolVal][fieldVal].push(value);
+        
+        sortedQuery[boolVal][fieldVal].push(...value.split(','));
       }
     }
     return sortedQuery;
   };
-
+  const experimentalQuery = async(query)=>{
+    
+  }
   const stringifyQuery = (query) => {
     //subject, language code in .in
     //author, title, check regex .ilike %%
     //add author agg and title agg
-    arrayColumns = ['subject', 'languageCode']
-    regexColumns = ['author', 'authorc', 'authorp', 'title', 'titlec', 'titlep']
+    
+    const genSingleQuery =(key, value) =>{
+      arrayColumns = ['subjects', 'languageCode']
+    regexColumns = ['author', 'authorc', 'authorp', 'title', 'authorAgg','titleAgg','titlec', 'titlep']
+    console.log(regexColumns.includes(key))
+      type = 'eq'
+      if(arrayColumns.includes(key)){
+        type = 'cs'
+        return `${key}.${type}.{${value}},`
 
+      }else if(regexColumns.includes(key)){
+        type ='ilike'
+        return `${key}.${type}.%${value}%,`
+
+      } else if(key ==='keyword'){
+        return `authorAgg.ilike.%${value}%, titleAgg.ilike.%${value}%, note.ilike.%${value}%,`
+
+      }
+      return `${key}.${type}.${value},`
+    }
     orClauses = query.OR;
     andClauses = query.AND;
     notClauses = query.NOT;
     stringQuery = '';
     for (const [key, value] of Object.entries(orClauses)) {
       for (v in value) {
-        currString = `${key}.eq.${value[v]},`;
+        currString = genSingleQuery(key, value[v])
         stringQuery += currString;
       }
     }
@@ -72,13 +94,13 @@ const getEntries = async (req, res) => {
 
     for (const [key, value] of Object.entries(andClauses)) {
       for (v in value) {
-        currString = `${key}.eq.${value[v]},`;
+        currString = genSingleQuery(key, value[v]);
         stringQuery += currString;
       }
     }
     for (const [key, value] of Object.entries(notClauses)) {
       for (v in value) {
-        currString = `${key}.neq.${value[v]},`;
+        currString = '.not.' +genSingleQuery(key, value[v]);
         stringQuery += currString;
       }
     }
@@ -109,7 +131,6 @@ const getEntries = async (req, res) => {
       return res.status(404).json({ error: "No such entry" });
     }
     */
-    console.log("reached nonerror")
     console.log(data)
     res.status(status).json({"entries": data, "count": count});
   }else{

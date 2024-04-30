@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../screen_helpers/Input";
 import './Input.css'
 import { createSearchParams, useSearchParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
+import PageinatedBookList from "../screen_helpers/PageinatedBookList";
+import { BookEntry } from "../screen_helpers/BookEntry";
+import { getEntries } from "../function_helpers/mongoFunctions";
+import { API_URL } from "../function_helpers/handyVariables";
 function BooleanSearch() {
-  const {user} = useAuthContext()
-    const [search, setSearch] = useSearchParams();
+  const { user } = useAuthContext()
+  const [books, setBooks] = useState<BookEntry[] | null>(null);
+  const [bookResultCount, setBookResultCount] = useState(null);
+  const [isPending, setIsPending] = useState<boolean | null>(null);
+  const [error, setError] = useState(null);
+  const [resultPageNumber, setResultPageNumber] = useState(1);
+  const [search, setSearch] = useSearchParams();
   const [formValues, setFormValues] = useState([{
     type: "Subject",
     op: "OR",
@@ -34,17 +43,17 @@ function BooleanSearch() {
     const values = [...formValues];
     values.splice(index, 1);
     setFormValues(values);
-    
+
   };
 
-  const handleOperatorChange = (e, index)=>{
+  const handleOperatorChange = (e, index) => {
     e.preventDefault()
     const values = [...formValues];
     values[index].op = e.target.value;
     setFormValues(values);
 
   }
-  const handleTypeChange = (e, index)=>{
+  const handleTypeChange = (e, index) => {
     e.preventDefault()
     const values = [...formValues];
     values[index].type = e.target.value;
@@ -55,17 +64,52 @@ function BooleanSearch() {
     e.preventDefault();
     const queryParams = {}
     formValues.map((val) => {
-        let opKey= `${val.op}$!${val.type}`
-        console.log(opKey)
+      let opKey = `${val.op}$!${val.type}`
+      if(queryParams[opKey]){
+        queryParams[opKey] = queryParams[opKey] +','+val.value
 
+      }else{
         queryParams[opKey] = val.value
-      })
+
+      }
+    })
+    setResultPageNumber(1);
     setSearch(createSearchParams(queryParams).toString())
-    
+
   };
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setResultPageNumber(value);
+    const tempSearch = search;
+    tempSearch.set("resultPageNumber", value.toString());
+    setSearch(tempSearch);
+  };
+  useEffect(() => {
+    setIsPending(true);
+
+    if (search.get("resultPageNumber")) {
+      setResultPageNumber(parseInt(search.get("resultPageNumber")));
+    }
+    if (user) {
+      getEntries(API_URL + "film-entries?" + search, user.token)
+        .then((result) => {
+          var entries = result['entries'];
+          setBookResultCount(result['count']);
+          setBooks(entries as BookEntry[]);
+          setError(null);
+        })
+        .catch((err) => {
+          setIsPending(false);
+          setError(err.message);
+        });
+    }
+    setIsPending(false);
+  }, [search, user]);
   return (
     <div className="BooleanSearch">
-      <form onSubmit ={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         {formValues.map((obj, index) => (
           <Input
             key={index}
@@ -78,18 +122,19 @@ function BooleanSearch() {
             deleteField={handleDeleteField}
           />
         ))}
-        
-          <div className="center">
-            <button className="add-btn" onClick={handleAddField}>
-              Add new
-            </button>
-          </div>
-        
+
+        <div className="center">
+          <button className="add-btn" onClick={handleAddField}>
+            Add new
+          </button>
+        </div>
+
         <button type="submit" className="submit-btn">
           Search
         </button>
       </form>
       {search}
+      {<PageinatedBookList books={books} bookResultCount={bookResultCount} error={error} isPending={isPending} handlePageChange={handlePageChange} resultPageNumber={resultPageNumber} />}
     </div>
   );
 }

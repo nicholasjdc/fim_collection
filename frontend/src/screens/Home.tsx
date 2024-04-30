@@ -48,10 +48,10 @@ const Home = () => {
       queryParams["OR$!subjects"] = curSubject;
     }
     if (title) {
-      queryParams["OR$!title"] = title;
+      queryParams["OR$!titleAgg"] = title;
     }
     if (author) {
-      queryParams["OR$!author"] = author;
+      queryParams["OR$!authorAgg"] = author;
     }
     queryParams["resultPageNumber"] = 1;
     setResultPageNumber(1);

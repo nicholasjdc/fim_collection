@@ -45,6 +45,9 @@ const queryTest = async()=>{
     .select('title').or(queryLove)
     console.log(data)
 }
+const aggUpload = async()=>{
+  
+}
 const mongoToSupabaseUpload = async() =>{
     approvedFields = ['entryNumber', 'author', 'authorc', 'authorp', 'title', 'titlec', 'titlep', 'publication', 'pageCount', 'ISBN', 'seriesTitle', 'note', 'resource']
     mongoose
