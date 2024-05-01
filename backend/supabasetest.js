@@ -46,7 +46,16 @@ const queryTest = async()=>{
     console.log(data)
 }
 const aggUpload = async()=>{
-  
+    const condition1 = { 'titleAgg': { ilike: '%taiwan%' }  };
+    testQuery = supabaseClient
+  .from('entries')
+  .select('*', {count: 'exact', head:true})
+
+  testQuery = testQuery.ilike('titleAgg', '%china%' )
+  const {count, error} = await testQuery
+  console.log(error)
+
+  console.log(count)
 }
 const mongoToSupabaseUpload = async() =>{
     approvedFields = ['entryNumber', 'author', 'authorc', 'authorp', 'title', 'titlec', 'titlep', 'publication', 'pageCount', 'ISBN', 'seriesTitle', 'note', 'resource']
@@ -72,4 +81,4 @@ const mongoToSupabaseUpload = async() =>{
     console.log("finished")
 }
 
-queryTest()
+aggUpload()

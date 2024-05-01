@@ -1,10 +1,4 @@
 current Road Map:
-General Requirements:
-    -Boolean Search:
-        - Backend: 
-    - Home Page:
-        - Add specific author, subject, and title 
-        - add advanced search dropdown
 AUTH:
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
@@ -12,8 +6,9 @@ AUTH:
 
 Home:
     - Advanced Search collapsible Boolean
-        - AND is technically nonfunctional: serves as an internal OR instead
 
 
 Advanced Search:
-    - Add Pageinated Search below
+    - Redo search:
+        - AND is non restrictive
+        - BUILD SEQUENTIALLY (simple as)

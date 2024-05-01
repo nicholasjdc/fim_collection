@@ -17,10 +17,20 @@ export default function Input({ objValue, onChange, onTypeChange, onOperatorChan
           onChange={(e) => onChange(e, index)}
         />
         <select onChange = {(e) =>onTypeChange(e, index)}>
-              <option value="subject">Subject</option>
+              <option value="subjects">Subject</option>
               <option value="author">Author</option>
               <option value="title">Title</option>
               <option value="publication">Publication</option>
+              <option value="entryNumber">Entry Number</option>
+
+              <option value="pageCount">Page Count</option>
+              <option value="seriesTitle">Series Title</option>
+              <option value="pageCount">Page Count</option>
+              <option value="note">Note</option>
+              <option value="resource">Resource</option>
+
+
+
             </select>
         {/* Add this */}
         <div onClick={(e) => deleteField(e, index)}>X</div>

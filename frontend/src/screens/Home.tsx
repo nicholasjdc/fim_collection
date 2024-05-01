@@ -26,6 +26,11 @@ const Home = () => {
   const [resultPageNumber, setResultPageNumber] = useState(1);
   const [search, setSearch] = useSearchParams();
   const [curSubject, setCurSubject] = useState("");
+  const [formValues, setFormValues] = useState([{
+    type: "subjects",
+    op: "OR",
+    value: "",
+  }]);
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     value: number
@@ -130,7 +135,10 @@ const Home = () => {
           />
 
         </form>
-        <Collapsible trigger="Boolean Search(Expandable)"></Collapsible>
+        <Collapsible trigger="Boolean Search(Expandable)">
+        {/*<BooleanInputs formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField}/>*/}
+
+        </Collapsible>
       </div>
       {<PageinatedBookList books={books} bookResultCount={bookResultCount}
         resultPageNumber={resultPageNumber}
