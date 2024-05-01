@@ -17,7 +17,7 @@ function BooleanSearch() {
   const [resultPageNumber, setResultPageNumber] = useState(1);
   const [search, setSearch] = useSearchParams();
   const [formValues, setFormValues] = useState([{
-    type: "subjects",
+    type: "titleAgg",
     op: "OR",
     value: "",
   }]);
@@ -33,7 +33,7 @@ function BooleanSearch() {
     e.preventDefault();
     const values = [...formValues];
     values.push({
-      type: "Subject",
+      type: "titleAgg",
       op: "OR",
       value: "",
     });

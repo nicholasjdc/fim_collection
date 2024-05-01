@@ -17,9 +17,9 @@ export default function Input({ objValue, onChange, onTypeChange, onOperatorChan
           onChange={(e) => onChange(e, index)}
         />
         <select onChange = {(e) =>onTypeChange(e, index)}>
+        <option value="titleAgg">Title</option>
               <option value="subjects">Subject</option>
-              <option value="author">Author</option>
-              <option value="title">Title</option>
+              <option value="authorAgg">Author</option>
               <option value="publication">Publication</option>
               <option value="entryNumber">Entry Number</option>
 

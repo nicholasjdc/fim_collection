@@ -56,7 +56,11 @@ const getEntries = async (req, res) => {
     searchValues = value.split(","); //Arbitrary search values
     compValue = "eq";
     if (arrayColumns.includes(fieldVal)) {
-      compValue = "in";
+      compValue = "cs";
+        for (let i = 0; i < searchValues.length; i++) {
+          searchValues[i] = "{" + searchValues[i] + "}";
+        
+      }
     } else if (regexColumns.includes(fieldVal)) {
       compValue = "ilike";
       for (let i = 0; i < searchValues.length; i++) {
@@ -68,8 +72,8 @@ const getEntries = async (req, res) => {
         currVal = searchValues[s]
         if (compValue === "eq") {
           supaQuery = supaQuery.eq(fieldVal, currval);
-        } else if (compValue === "in") {
-          supaQuery = supaQuery.in(fieldVal, currVal);
+        } else if (compValue === "cs") {
+          supaQuery = supaQuery.contains(fieldVal, currVal);
         } else if (compValue === "ilike") {
           supaQuery = supaQuery.ilike(fieldVal, currVal);
         }

@@ -14,6 +14,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import searchbutton from "../assets/searchbutton.svg";
 import Collapsible from "react-collapsible";
 import PageinatedBookList from "../screen_helpers/PageinatedBookList";
+import BooleanInputs from "../screen_helpers/BooleanInputs";
 const Home = () => {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
@@ -27,7 +28,7 @@ const Home = () => {
   const [search, setSearch] = useSearchParams();
   const [curSubject, setCurSubject] = useState("");
   const [formValues, setFormValues] = useState([{
-    type: "subjects",
+    type: "titleAgg",
     op: "OR",
     value: "",
   }]);
@@ -50,19 +51,68 @@ const Home = () => {
       queryParams["OR$!keyword"] = keyword;
     }
     if (curSubject) {
-      queryParams["OR$!subjects"] = curSubject;
+      queryParams["AND$!subjects"] = curSubject;
     }
     if (title) {
-      queryParams["OR$!titleAgg"] = title;
+      queryParams["AND$!titleAgg"] = title;
     }
     if (author) {
-      queryParams["OR$!authorAgg"] = author;
+      queryParams["AND$!authorAgg"] = author;
     }
     queryParams["resultPageNumber"] = 1;
+    formValues.map((val) => {
+      let opKey = `${val.op}$!${val.type}`
+      if(queryParams[opKey]){
+        queryParams[opKey] = queryParams[opKey] +','+val.value
+
+      }else{
+        queryParams[opKey] = val.value
+
+      }
+    })
     setResultPageNumber(1);
     console.log(createSearchParams(queryParams).toString())
     setSearch(createSearchParams(queryParams).toString());
   };
+  const handleChange = (e, index) => {
+    const values = [...formValues];
+    values[index].value = e.target.value;
+    setFormValues(values);
+  };
+
+  const handleAddField = (e) => {
+    e.preventDefault();
+    const values = [...formValues];
+    values.push({
+      type: "titleAgg",
+      op: "OR",
+      value: "",
+    });
+    setFormValues(values);
+  };
+
+  const handleDeleteField = (e, index) => {
+    const values = [...formValues];
+    values.splice(index, 1);
+    setFormValues(values);
+
+  };
+
+  const handleOperatorChange = (e, index) => {
+    e.preventDefault()
+    const values = [...formValues];
+    values[index].op = e.target.value;
+    setFormValues(values);
+
+  }
+  const handleTypeChange = (e, index) => {
+    e.preventDefault()
+    const values = [...formValues];
+    values[index].type = e.target.value;
+    console.log(e.target.value)
+    setFormValues(values);
+
+  }
   useEffect(() => {
     setIsPending(true);
 
@@ -136,7 +186,7 @@ const Home = () => {
 
         </form>
         <Collapsible trigger="Boolean Search(Expandable)">
-        {/*<BooleanInputs formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField}/>*/}
+        {<BooleanInputs formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField}/>}
 
         </Collapsible>
       </div>
