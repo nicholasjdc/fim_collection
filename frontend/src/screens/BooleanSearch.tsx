@@ -66,6 +66,9 @@ function BooleanSearch() {
     e.preventDefault();
     const queryParams = {}
     formValues.map((val) => {
+
+      if (val.value.length){
+
       let opKey = `${val.op}$!${val.type}`
       if(queryParams[opKey]){
         queryParams[opKey] = queryParams[opKey] +','+val.value
@@ -74,6 +77,9 @@ function BooleanSearch() {
         queryParams[opKey] = val.value
 
       }
+    }else{
+      ;
+    }
     })
     setResultPageNumber(1);
     setSearch(createSearchParams(queryParams).toString())

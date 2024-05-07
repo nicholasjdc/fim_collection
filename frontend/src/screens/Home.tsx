@@ -61,6 +61,7 @@ const Home = () => {
     }
     queryParams["resultPageNumber"] = 1;
     formValues.map((val) => {
+      if(val.value.length){
       let opKey = `${val.op}$!${val.type}`
       if(queryParams[opKey]){
         queryParams[opKey] = queryParams[opKey] +','+val.value
@@ -69,6 +70,9 @@ const Home = () => {
         queryParams[opKey] = val.value
 
       }
+    }else{
+      ;
+    }
     })
     setResultPageNumber(1);
     console.log(createSearchParams(queryParams).toString())
