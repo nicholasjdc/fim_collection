@@ -13,7 +13,7 @@ const router = express.Router();
 
 //require auth for all workout routes 
 //middleware, fire before all code below
-//router.use(requireAuth)
+router.use(requireAuth)
 
 //Get all entries
 router.get("/", getEntries);
