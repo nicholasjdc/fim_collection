@@ -2,4 +2,17 @@ current Road Map:
 AUTH:
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
+<<<<<<< HEAD
         - Make the edit, search, update body a component
+=======
+        - Make the edit, search, update body a component
+
+Home:
+    - Advanced Search collapsible Boolean
+
+
+Advanced Search:
+    - Redo search:
+        - AND is non restrictive
+        - BUILD SEQUENTIALLY (simple as)
+>>>>>>> 3ec56490a5053023f0804d7717897c2553bb2bcc

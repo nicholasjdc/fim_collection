@@ -7,6 +7,7 @@ import PageinatedBookList from "../screen_helpers/PageinatedBookList";
 import { BookEntry } from "../screen_helpers/BookEntry";
 import { getEntries } from "../function_helpers/mongoFunctions";
 import { API_URL } from "../function_helpers/handyVariables";
+import BooleanInputs from "../screen_helpers/BooleanInputs";
 function BooleanSearch() {
   const { user } = useAuthContext()
   const [books, setBooks] = useState<BookEntry[] | null>(null);
@@ -16,7 +17,7 @@ function BooleanSearch() {
   const [resultPageNumber, setResultPageNumber] = useState(1);
   const [search, setSearch] = useSearchParams();
   const [formValues, setFormValues] = useState([{
-    type: "Subject",
+    type: "titleAgg",
     op: "OR",
     value: "",
   }]);
@@ -32,7 +33,7 @@ function BooleanSearch() {
     e.preventDefault();
     const values = [...formValues];
     values.push({
-      type: "Subject",
+      type: "titleAgg",
       op: "OR",
       value: "",
     });
@@ -57,6 +58,7 @@ function BooleanSearch() {
     e.preventDefault()
     const values = [...formValues];
     values[index].type = e.target.value;
+    console.log(e.target.value)
     setFormValues(values);
 
   }
@@ -64,6 +66,9 @@ function BooleanSearch() {
     e.preventDefault();
     const queryParams = {}
     formValues.map((val) => {
+
+      if (val.value.length){
+
       let opKey = `${val.op}$!${val.type}`
       if(queryParams[opKey]){
         queryParams[opKey] = queryParams[opKey] +','+val.value
@@ -72,6 +77,9 @@ function BooleanSearch() {
         queryParams[opKey] = val.value
 
       }
+    }else{
+      ;
+    }
     })
     setResultPageNumber(1);
     setSearch(createSearchParams(queryParams).toString())
@@ -110,24 +118,8 @@ function BooleanSearch() {
   return (
     <div className="BooleanSearch">
       <form onSubmit={handleSubmit}>
-        {formValues.map((obj, index) => (
-          <Input
-            key={index}
-            objValue={obj}
-            onChange={handleChange}
-            onOperatorChange={handleOperatorChange}
-            onTypeChange={handleTypeChange}
-            index={index}
-            // Add this
-            deleteField={handleDeleteField}
-          />
-        ))}
-
-        <div className="center">
-          <button className="add-btn" onClick={handleAddField}>
-            Add new
-          </button>
-        </div>
+        {<BooleanInputs formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField}/>}
+       
 
         <button type="submit" className="submit-btn">
           Search
