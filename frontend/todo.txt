@@ -1,4 +1,8 @@
 current Road Map:
+General:
+    - Make update, make, and delete functional
+    - Chnage author and title sections
+    - Revise Contract
 AUTH:
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
