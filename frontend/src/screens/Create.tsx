@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postEntry } from "../function_helpers/mongoFunctions";
+import { postEntry } from "../function_helpers/sqlFunctions";
 import { allLC, allSubjects } from "../function_helpers/handyVariables";
 import { useAuthContext } from "../hooks/useAuthContext";
 const Create = () => {

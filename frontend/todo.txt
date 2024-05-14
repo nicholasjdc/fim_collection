@@ -1,8 +1,17 @@
 current Road Map:
 General:
     - Make update, make, and delete functional
+    - Remove General search
+    - Make ISBN and Keyword Categories
+    - make Keyword search change with Quote search
+    - Make keyword sections
+    - Allow users to search by year? (Check publication)
+    - Change title
+    - Sort books into Thesis/Book/Script/Screenplay (Check Publication)
+    - Change book entry titles to 
+    - Make new entry code automatic, 
+    - Add clear to Boolean Search
     - Chnage author and title sections
-    - Revise Contract
 AUTH:
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users

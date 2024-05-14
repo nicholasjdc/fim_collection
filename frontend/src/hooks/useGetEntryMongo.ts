@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getEntry } from "../function_helpers/mongoFunctions";
+import { getEntry } from "../function_helpers/sqlFunctions";
 import { BookEntry } from "../screen_helpers/BookEntry";
 import { useAuthContext } from "./useAuthContext";
 const useGetEntryMongo= (id:string) => {

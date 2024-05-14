@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BookEntry } from "../screen_helpers/BookEntry";
-import { deleteEntry, getEntry, patchEntry, postEntry } from "../function_helpers/mongoFunctions";
+import { deleteEntry, getEntry, patchEntry, postEntry } from "../function_helpers/sqlFunctions";
 import { API_URL, allLC, allSubjects } from "../function_helpers/handyVariables";
 import { useAuthContext } from "../hooks/useAuthContext";
 const Edit = () => {

@@ -12,7 +12,9 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <Link to="/">
-        <h1>Online Sinophone Film Studies Bibliography</h1>
+        <h1>An Annotated Bibliography for Sinopone Film Studies
+華語電影研究書目提要 （中國大陸，台灣，香港）
+华语电影研究书目提要 （中国大陆，台湾，香港）</h1>
       </Link>
 
       {!user && (

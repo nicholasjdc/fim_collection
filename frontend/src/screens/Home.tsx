@@ -7,7 +7,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { getEntries } from "../function_helpers/mongoFunctions";
+import { getEntries } from "../function_helpers/sqlFunctions";
 import { API_URL } from "../function_helpers/handyVariables";
 import Pagination from "@mui/material/Pagination";
 import { useAuthContext } from "../hooks/useAuthContext";

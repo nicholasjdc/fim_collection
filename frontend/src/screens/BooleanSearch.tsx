@@ -5,7 +5,7 @@ import { createSearchParams, useSearchParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import PageinatedBookList from "../screen_helpers/PageinatedBookList";
 import { BookEntry } from "../screen_helpers/BookEntry";
-import { getEntries } from "../function_helpers/mongoFunctions";
+import { getEntries } from "../function_helpers/sqlFunctions";
 import { API_URL } from "../function_helpers/handyVariables";
 import BooleanInputs from "../screen_helpers/BooleanInputs";
 function BooleanSearch() {

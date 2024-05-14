@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BookEntry } from "../screen_helpers/BookEntry";
 import BookList from "../screen_helpers/BookList";
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
-import { getEntries, getEntry } from "../function_helpers/mongoFunctions";
+import { getEntries, getEntry } from "../function_helpers/sqlFunctions";
 import { getSearchParamsForLocation } from "react-router-dom/dist/dom";
 import { API_URL, allLC, allSubjects } from "../function_helpers/handyVariables";
 import {Pagination} from "@mui/material"

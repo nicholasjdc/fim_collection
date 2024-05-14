@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteEntry } from "../function_helpers/mongoFunctions";
+import { deleteEntry } from "../function_helpers/sqlFunctions";
 import useGetEntryMongo from "../hooks/useGetEntryMongo";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useEffect } from "react";
