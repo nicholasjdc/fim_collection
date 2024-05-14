@@ -12,10 +12,11 @@ export async function postEntry(entryBody: {}, authToken:string){
 
     },
     });
+    console.log(response)
     const entryjson = await response.json();
 
     if (!response.ok) {
-        throw Error(JSON.stringify(entryjson.body))
+        throw Error(JSON.stringify(entryjson.error))
         
     }
     if (response.ok) {
@@ -70,8 +71,9 @@ export async function patchEntry(url: string, entryBody: {}, authToken: string){
 
         },
         });
-        const entryjson = await response.json();
-    
+        const entryjson = response
+        console.log("WAOH FUNCTION")
+        console.log(entryjson)
         if (!response.ok) {
             throw Error(JSON.stringify(entryjson.body))
             

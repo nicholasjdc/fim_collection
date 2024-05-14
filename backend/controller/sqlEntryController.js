@@ -115,7 +115,8 @@ const updateEntry = async (req, res) => {
     .from("entries")
     .update(changes)
     .eq("id", id);
-
+    console.log(changes)
+  console.log(stat)
   if (stat.error) {
     return res.status(stat.status).json({ error: stat });
   }

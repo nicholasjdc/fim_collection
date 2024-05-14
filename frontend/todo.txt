@@ -1,12 +1,11 @@
 current Road Map:
 General:
-    - Make update, make, and delete functional
-    - Remove General search
+    - Make update, make, and delete functional x
+    - Remove General search x
     - Make ISBN and Keyword Categories
     - make Keyword search change with Quote search
     - Make keyword sections
-    - Allow users to search by year? (Check publication)
-    - Change title
+    - Change title X
     - Sort books into Thesis/Book/Script/Screenplay (Check Publication)
     - Change book entry titles to 
     - Make new entry code automatic, 

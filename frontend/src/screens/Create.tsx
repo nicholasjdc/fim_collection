@@ -93,12 +93,8 @@ const Create = () => {
       seriesTitlec: "",
       languageCode: Array.from(languageCode),
       resource: resource,
-      instantiatedAt: currentDate,
       subjects: Array.from(subjects),
-      missingFields: [],
-      keyWords: [],
-      titleKeyWords: [],
-      authorKeyWords: [],
+      
     };
     postEntry(newBookEntry, user.token).then((v) => {
       setIsPending(false);

@@ -72,7 +72,6 @@ const Edit = () => {
     setIsPending(true);
     let currentDate: Date = new Date(Date.now());
     let newBookEntry = {
-      entryNumber: entryNumber,
       author: author,
       authorc: authorc,
       authorp: authorp,
@@ -87,13 +86,9 @@ const Edit = () => {
       seriesTitlec: "",
       languageCode: Array.from(languageCode),
       resource: resource,
-      instantiatedAt: currentDate,
       subjects: Array.from(subjects),
-      missingFields: [],
-      keyWords: [],
-      titleKeyWords: [],
-      authorKeyWords: [],
     };
+    console.log(newBookEntry)
     patchEntry(API_URL +'film-entries/' +id, newBookEntry, user.token).then((v) => {
       setIsPending(false);
       navigate("/");

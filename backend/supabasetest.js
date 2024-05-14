@@ -80,5 +80,16 @@ const mongoToSupabaseUpload = async() =>{
     }
     console.log("finished")
 }
+const testUpdate = async() =>{
+  const something =
+  {
+    author: "WAOH",
+    
+  };
+  const { updateError } = await supabaseClient
+    .from('entries')
+    .update(something)
+    .eq('entryNumber', 10000)
+}
 
-aggUpload()
+testUpdate()
