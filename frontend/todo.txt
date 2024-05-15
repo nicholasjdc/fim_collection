@@ -2,15 +2,15 @@ current Road Map:
 General:
     - Make update, make, and delete functional x
     - Remove General search x
-    - Make ISBN and Keyword Categories
+    - Make ISBN and Keyword Categories x
     - make Keyword search change with Quote search
-    - Make keyword sections
+    - Revise keyword section in Supabase
+    - Change input: make pressing enter activates handle submit
     - Change title X
     - Sort books into Thesis/Book/Script/Screenplay (Check Publication)
     - Change book entry titles to 
     - Make new entry code automatic, 
-    - Add clear to Boolean Search
-    - Chnage author and title sections
+    - Add clear to Boolean Search x
 AUTH:
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users

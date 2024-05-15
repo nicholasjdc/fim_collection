@@ -43,7 +43,7 @@ const Home = () => {
     queryParams["resultPageNumber"] = 1;
     formValues.map((val) => {
       if(val.value.length){
-      let opKey = `${val.op}$!${val.type}`
+        let opKey = `${val.op}$!${val.type}`
       if(queryParams[opKey]){
         queryParams[opKey] = queryParams[opKey] +','+val.value
 
@@ -149,25 +149,7 @@ const Home = () => {
         isPending={isPending}
         error={error} />
   }
-      {/*
-      {error && <div>{error}</div>}
-      {isPending && <div>Searching...</div>}
-a      
-      {books && (
-        <BookList
-          books={books}
-          title="Found Entries"
-          bookCount={bookResultCount}
-        />
-      )}
-      <p></p>
-      <Pagination
-        page={resultPageNumber}
-        count={Math.ceil(bookResultCount / 25)}
-        color="primary"
-        onChange={handlePageChange}
-      />
-      */}
+
     </div>
   );
 };

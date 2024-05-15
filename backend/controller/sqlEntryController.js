@@ -40,6 +40,7 @@ const getEntries = async (req, res) => {
     "pageCount",
     "seriesTitle",
     "publication",
+    "ISBN",
   ];
   supaQuery = supabaseClient
     .from("entries")
@@ -47,13 +48,25 @@ const getEntries = async (req, res) => {
 
   const booleanCode = "$!";
   orQuery =""
-
-  for (const [key, value] of Object.entries(req.query)) {
-    if (key == "resultPageNumber") continue;
+  let reqQuery = req.query
+  if (reqQuery.keyword){
     splitKey = key.split(booleanCode);
     boolVal = splitKey[0]; //or, and, not
     fieldVal = splitKey[1]; //subjects, authoarAgg, titleAgg, etc
     searchValues = value.split(","); //Arbitrary search values
+  }
+  for (const [key, value] of Object.entries(req.query)) {
+    if (key == "resultPageNumber") continue;
+
+    splitKey = key.split(booleanCode);
+    boolVal = splitKey[0]; //or, and, not
+    fieldVal = splitKey[1]; //subjects, authoarAgg, titleAgg, etc
+    searchValues = value.split(","); //Arbitrary search values
+
+    
+
+      
+    }
     compValue = "eq";
     if (arrayColumns.includes(fieldVal)) {
       compValue = "cs";
@@ -67,6 +80,18 @@ const getEntries = async (req, res) => {
         searchValues[i] = "%" + searchValues[i] + "%";
       }
     }
+    
+    if (key ==="keyword" && !(value[0] == `"` && value.slice(-1) == `"`)){
+      let tempValues = []
+      for(i in searchValues){
+        tempValue.push(...searchValues[i].split(' '))
+      }
+      searchValues = tempValues
+      if(boolVal ==="AND"){
+        orSearch = `${fieldVal}.${compValue}.${searchValues[s]},`;
+        supaQuery.or()
+      }
+       
     if (boolVal === "AND") {
       for (s in searchValues) {
         currVal = searchValues[s]
@@ -80,8 +105,8 @@ const getEntries = async (req, res) => {
       }
     } else if (boolVal === "OR") {
       for (s in searchValues) {
-        notSearch = `${fieldVal}.${compValue}.${searchValues[s]},`;
-        orQuery +=notSearch
+        orSearch = `${fieldVal}.${compValue}.${searchValues[s]},`;
+        orQuery +=orSearch
       }
     } else if (boolVal === "NOT") {
       for (s in searchValues) {
@@ -94,7 +119,6 @@ const getEntries = async (req, res) => {
   }
   if(orQuery){
     orQuery =orQuery.slice(0,-1)
-    console.log(orQuery)
     supaQuery.or(orQuery)
   }
   const { data, error, status, count } = await supaQuery.range(
