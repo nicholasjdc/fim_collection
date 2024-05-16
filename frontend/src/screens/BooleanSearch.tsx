@@ -22,7 +22,11 @@ function BooleanSearch() {
     value: "",
   }]);
 
-
+  const handleFieldSubmit = (e, index) =>{
+    e.preventDefault()
+    console.log("WAOH FIELD SUB")
+    handleSubmit(e)
+  }
   const handleChange = (e, index) => {
     const values = [...formValues];
     values[index].value = e.target.value;
@@ -117,15 +121,8 @@ function BooleanSearch() {
   }, [search, user]);
   return (
     <div className="BooleanSearch">
-      <form onSubmit={handleSubmit}>
-        {<BooleanInputs formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField}/>}
+        {<BooleanInputs formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField} handleSubmit={handleSubmit}/>}
        
-
-        <button type="submit" className="submit-btn">
-          Search
-        </button>
-      </form>
-      {search}
       {<PageinatedBookList books={books} bookResultCount={bookResultCount} error={error} isPending={isPending} handlePageChange={handlePageChange} resultPageNumber={resultPageNumber} />}
     </div>
   );

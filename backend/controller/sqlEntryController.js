@@ -4,6 +4,7 @@ const supabaseUrl = "https://raifuhqmtrdvncpkonjm.supabase.co";
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 const getEntry = async (req, res) => {
+
   const { id } = req.params;
 
   const { data, error, status } = await supabaseClient
@@ -19,6 +20,7 @@ const getEntry = async (req, res) => {
   res.status(status).json(data[0]);
 };
 const getEntries = async (req, res) => {
+  console.log(req.query)
   const limitCount = 25;
   let pageNum = 0;
   if (req.query.resultPageNumber) {
@@ -47,14 +49,7 @@ const getEntries = async (req, res) => {
     .select("*", { count: "exact", head: false });
 
   const booleanCode = "$!";
-  orQuery =""
-  let reqQuery = req.query
-  if (reqQuery.keyword){
-    splitKey = key.split(booleanCode);
-    boolVal = splitKey[0]; //or, and, not
-    fieldVal = splitKey[1]; //subjects, authoarAgg, titleAgg, etc
-    searchValues = value.split(","); //Arbitrary search values
-  }
+  orQuery = ""
   for (const [key, value] of Object.entries(req.query)) {
     if (key == "resultPageNumber") continue;
 
@@ -63,62 +58,81 @@ const getEntries = async (req, res) => {
     fieldVal = splitKey[1]; //subjects, authoarAgg, titleAgg, etc
     searchValues = value.split(","); //Arbitrary search values
 
-    
 
-      
-    }
-    compValue = "eq";
-    if (arrayColumns.includes(fieldVal)) {
-      compValue = "cs";
-        for (let i = 0; i < searchValues.length; i++) {
-          searchValues[i] = "{" + searchValues[i] + "}";
-        
-      }
-    } else if (regexColumns.includes(fieldVal)) {
-      compValue = "ilike";
-      for (let i = 0; i < searchValues.length; i++) {
-        searchValues[i] = "%" + searchValues[i] + "%";
-      }
-    }
+
+
+  
+  compValue = "eq";
+  if (arrayColumns.includes(fieldVal)) {
+    compValue = "cs";
+
+  } else if (regexColumns.includes(fieldVal)) {
+    compValue = "ilike";
     
-    if (key ==="keyword" && !(value[0] == `"` && value.slice(-1) == `"`)){
-      let tempValues = []
-      for(i in searchValues){
-        tempValue.push(...searchValues[i].split(' '))
-      }
-      searchValues = tempValues
-      if(boolVal ==="AND"){
-        orSearch = `${fieldVal}.${compValue}.${searchValues[s]},`;
-        supaQuery.or()
-      }
-       
-    if (boolVal === "AND") {
-      for (s in searchValues) {
-        currVal = searchValues[s]
-        if (compValue === "eq") {
-          supaQuery = supaQuery.eq(fieldVal, currval);
-        } else if (compValue === "cs") {
-          supaQuery = supaQuery.contains(fieldVal, currVal);
-        } else if (compValue === "ilike") {
-          supaQuery = supaQuery.ilike(fieldVal, currVal);
+  }
+
+  if (fieldVal === "keyword") {
+    for (i in searchValues) {
+      if (searchValues[i][0] == `"` && searchValues[i].slice(-1) == `"`) {
+
+        searchValues[i] = searchValues[i].slice(1, -1)
+      } else {
+
+        if (boolVal === "AND") {
+          orSearch = `${fieldVal}.${compValue}.${searchValues[i]},`;
+          supaQuery.or(orSearch)
+
+        } else {
+          let tempValues = []
+
+          for (i in searchValues) {
+            tempValues.push(...searchValues[i].split(' '))
+          }
+          searchValues = tempValues
         }
       }
-    } else if (boolVal === "OR") {
-      for (s in searchValues) {
-        orSearch = `${fieldVal}.${compValue}.${searchValues[s]},`;
-        orQuery +=orSearch
-      }
-    } else if (boolVal === "NOT") {
-      for (s in searchValues) {
-        notSearch = `${fieldVal}, ${compValue}, ${searchValues[s]}`;
-        supaQuery = supaQuery.not(notSearch);
-      }
-    } else {
-      continue;
+    }
+    if (boolVal === "AND") {
+      return; 
+    }
+
+  }
+  for (let i = 0; i < searchValues.length; i++) {
+    if(compValue=="ilike"){
+    searchValues[i] = "%" + searchValues[i] + "%";
+    }else  if(compValue=="cs"){
+      searchValues[i] = "{" + searchValues[i] + "}";
+
     }
   }
-  if(orQuery){
-    orQuery =orQuery.slice(0,-1)
+  console.log(searchValues)
+
+  if (boolVal === "AND") {
+    for (s in searchValues) {
+      currVal = searchValues[s]
+      if (compValue === "eq") {
+        supaQuery = supaQuery.eq(fieldVal, currval);
+      } else if (compValue === "cs") {
+        supaQuery = supaQuery.contains(fieldVal, currVal);
+      } else if (compValue === "ilike") {
+        supaQuery = supaQuery.ilike(fieldVal, currVal);
+      }
+    }
+  } else if (boolVal === "OR") {
+    for (s in searchValues) {
+      orSearch = `${fieldVal}.${compValue}.${searchValues[s]},`;
+      orQuery += orSearch
+    }
+  } else if (boolVal === "NOT") {
+    for (s in searchValues) {
+      notSearch = `${fieldVal}, ${compValue}, ${searchValues[s]}`;
+      supaQuery = supaQuery.not(notSearch);
+    }
+  }
+}
+
+  if (orQuery) {
+    orQuery = orQuery.slice(0, -1)
     supaQuery.or(orQuery)
   }
   const { data, error, status, count } = await supaQuery.range(
@@ -139,7 +153,7 @@ const updateEntry = async (req, res) => {
     .from("entries")
     .update(changes)
     .eq("id", id);
-    console.log(changes)
+  console.log(changes)
   console.log(stat)
   if (stat.error) {
     return res.status(stat.status).json({ error: stat });

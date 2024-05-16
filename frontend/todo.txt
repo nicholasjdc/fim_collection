@@ -3,9 +3,9 @@ General:
     - Make update, make, and delete functional x
     - Remove General search x
     - Make ISBN and Keyword Categories x
-    - make Keyword search change with Quote search
-    - Revise keyword section in Supabase
-    - Change input: make pressing enter activates handle submit
+    - make Keyword search change with Quote search x
+    - Revise keyword section in Supabase x
+    - Change input: make pressing enter activates handle submit (NEXT)
     - Change title X
     - Sort books into Thesis/Book/Script/Screenplay (Check Publication)
     - Change book entry titles to 
