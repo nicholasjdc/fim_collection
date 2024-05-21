@@ -1,11 +1,12 @@
 import React from "react";
 import Input from "./Input";
 import '../screens/Input.css'
-export default function BooleanInputs({ formValues, handleChange, handleOperatorChange, handleTypeChange, handleDeleteField, handleAddField, handleSubmit }) {
+export default function BooleanInputs({ formValues, handleChange, handleOperatorChange, handleTypeChange, handleDeleteField, handleAddField, handleSubmit, handleClear }) {
   return (
-    <div className="center">
+    <div className="booleanInput">
       <form onSubmit={handleSubmit}>
-        <div className="BooleanInputs">
+      <div className="center">
+
           {formValues.map((obj, index) => (
             <Input
               key={index}
@@ -18,16 +19,21 @@ export default function BooleanInputs({ formValues, handleChange, handleOperator
               deleteField={handleDeleteField}
             />
           ))}
+                  </div>
+
           <p></p>
           <button type="submit" className="submit-btn">
             Search
+          </button>
+          <p></p>
+          <button className="clear-btn" onClick={handleClear}>
+            Clear
           </button>
           <p></p>
           <button className="add-btn" onSubmit={(e) => "waoh"} onClick={handleAddField}>
             Add new
           </button>
 
-        </div>
       </form>
     </div>
   );

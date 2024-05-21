@@ -47,6 +47,11 @@ form {
     font-weight: 700;
     cursor: pointer;
   }
+  .booleanInput {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
   .center {
     display: flex;
     justify-content: center;

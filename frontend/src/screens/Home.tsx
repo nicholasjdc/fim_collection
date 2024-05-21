@@ -133,15 +133,9 @@ const Home = () => {
   return (
     <div className="home">
       <div className="search">
-        <form id="form" onSubmit={handleSubmit}>
-        {<BooleanInputs formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField}/>}
-        <button type="submit" className="submit-btn">
-          Search
-          </button>
-          <button className="clear-btn" onClick={handleClear}>
-            Clear
-          </button>
-        </form>
+        {<BooleanInputs handleClear={handleClear}handleSubmit = {handleSubmit}formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField}/>}
+
+
       </div>
       {<PageinatedBookList books={books} bookResultCount={bookResultCount}
         resultPageNumber={resultPageNumber}

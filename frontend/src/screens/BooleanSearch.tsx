@@ -21,12 +21,17 @@ function BooleanSearch() {
     op: "OR",
     value: "",
   }]);
+  const handleClear = (e) =>{
+    e.preventDefault();
+    const values = [...formValues]
+    values.map((val)=>{
+      val.value = ""
+    })
+    setFormValues(values)
 
-  const handleFieldSubmit = (e, index) =>{
-    e.preventDefault()
-    console.log("WAOH FIELD SUB")
-    handleSubmit(e)
+
   }
+ 
   const handleChange = (e, index) => {
     const values = [...formValues];
     values[index].value = e.target.value;
@@ -121,7 +126,7 @@ function BooleanSearch() {
   }, [search, user]);
   return (
     <div className="BooleanSearch">
-        {<BooleanInputs formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField} handleSubmit={handleSubmit}/>}
+        {<BooleanInputs handleClear={handleClear}formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField} handleSubmit={handleSubmit}/>}
        
       {<PageinatedBookList books={books} bookResultCount={bookResultCount} error={error} isPending={isPending} handlePageChange={handlePageChange} resultPageNumber={resultPageNumber} />}
     </div>
