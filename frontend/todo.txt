@@ -5,12 +5,14 @@ General:
     - Make ISBN and Keyword Categories x
     - make Keyword search change with Quote search x
     - Revise keyword section in Supabase x
-    - Change input: make pressing enter activates handle submit (NEXT)
+    - Change input: make pressing enter activates handle submit x
     - Change title X
-    - Sort books into Thesis/Book/Script/Screenplay (Check Publication)
-    - Change book entry titles to 
-    - Make new entry code automatic, 
+    - Css for boolean search
+    - Sort books into Thesis/Book/Script/Screenplay (Check Publication) x
+    - Make new entry code automatic
     - Add clear to Boolean Search x
+    - Adjust authors to be searchable x
+    - Add type and year selection
 AUTH:
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
