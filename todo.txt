@@ -12,10 +12,12 @@ General:
     - Adjust authors to be searchable x
     
     - Css for boolean search
+NEW ENTRY/EDIT ENTRY
     - Make new entry code automatic
+    - Add multiple subject/entry code
+    - Allow deleting subjects/entry codes
     - Add type and year selection
     - Change Entry Numbers (HK0001, C0001, T0001)
-    - 
 AUTH:
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
