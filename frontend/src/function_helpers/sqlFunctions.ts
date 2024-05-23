@@ -102,3 +102,13 @@ export async function deleteEntry(id: string, authToken:string){
         }
     
 }
+export async function getHighestEntryNumber(){
+    
+}
+/*
+SELECT pro_id, pro_name, pro_price, pro_quantity
+FROM product_details
+WHERE pro_quantity = ( SELECT 
+MAX(pro_quantity) 
+FROM product_details);
+ */

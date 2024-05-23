@@ -13,7 +13,7 @@ General:
     
     - Css for boolean search
 NEW ENTRY/EDIT ENTRY
-    - Make new entry code automatic
+    - Make new entry code automatic (Implement RPC call directory for backend)
     - Add multiple subject/entry code
     - Allow deleting subjects/entry codes
     - Add type and year selection
