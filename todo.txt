@@ -14,8 +14,8 @@ General:
     - Css for boolean search
 NEW ENTRY/EDIT ENTRY
     - Make new entry code automatic (Implement RPC call directory for backend)
-    - Add multiple subject/entry code
-    - Allow deleting subjects/entry codes
+    - Add multiple subject/entry code x
+    - Allow deleting subjects/entry codes x
     - Add type and year selection
     - Change Entry Numbers (HK0001, C0001, T0001)
 AUTH:

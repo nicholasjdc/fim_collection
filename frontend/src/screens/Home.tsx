@@ -24,6 +24,14 @@ const Home = () => {
     type: "keyword",
     op: "OR",
     value: "",
+  }, {
+    type: "keyword",
+    op: "OR",
+    value: "",
+  }, {
+    type: "keyword",
+    op: "OR",
+    value: "",
   }]);
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -132,11 +140,8 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div className="search">
-        {<BooleanInputs handleClear={handleClear}handleSubmit = {handleSubmit}formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField}/>}
+        {<BooleanInputs hiddenFields = {{'add':true, 'clear':true}} handleClear={handleClear}handleSubmit = {handleSubmit}formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField}/>}
 
-
-      </div>
       {<PageinatedBookList books={books} bookResultCount={bookResultCount}
         resultPageNumber={resultPageNumber}
         handlePageChange={handlePageChange}

@@ -4,6 +4,7 @@ import { BookEntry } from "../screen_helpers/BookEntry";
 import { deleteEntry, getEntry, patchEntry, postEntry } from "../function_helpers/sqlFunctions";
 import { API_URL, allLC, allSubjects } from "../function_helpers/handyVariables";
 import { useAuthContext } from "../hooks/useAuthContext";
+import GrayBox from "../screen_helpers/GrayBox";
 const Edit = () => {
   const { id } = useParams(); //Grab route parameters from current route
 
@@ -51,7 +52,26 @@ const Edit = () => {
             setResource(e.resource)
           })
     }, [id])
+    const onLCClose = (e, lc) =>{
+      e.preventDefault()
+      let tempLC = languageCode
+      tempLC.delete(lc)
+      setLanguageCode(tempLC)
+      //Hacky solution to forcing a reload -- REDO LOW PRIORITY
+      if (curLC == "") setCurLC(" ")
+        else setCurLC("")
   
+    }
+    const onClose = (e, subject) => {
+      e.preventDefault()
+      let tempSubjects = subjects;
+      tempSubjects.delete(subject)
+      setSubjects(tempSubjects)
+      //Hacky solution to forcing a reload -- REDO LOW PRIORITY
+      if (curSubject == "") setCurSubject(" ")
+      else setCurSubject("")
+  
+    }
   const navigate = useNavigate();
   const onAddLCClick = (e) => {
     e.preventDefault();
@@ -88,6 +108,7 @@ const Edit = () => {
       resource: resource,
       subjects: Array.from(subjects),
     };
+    
     console.log(newBookEntry)
     patchEntry(API_URL +'film-entries/' +id, newBookEntry, user.token).then((v) => {
       setIsPending(false);
@@ -151,13 +172,13 @@ const Edit = () => {
           value={authorp}
           onChange={(e) => setAuthorp(e.target.value)}
         ></input>
-        <label>Subject(s):</label>
+    <label>Subject(s):</label>
         <input
           list="subjects"
           id="subject-choice"
           name="subject-choice"
           value={curSubject}
-          onChange={(e) => setCurSubject(e.target.value)}
+          onChange={(e) => setCurSubject(e.target.value)} //onChangeSubjectInput(e)
         />
         <datalist id="subjects">
           {allSubjects.map((sub) => (
@@ -166,10 +187,11 @@ const Edit = () => {
         </datalist>
         <div className="subject-list">
           {Array.from(subjects).map((subject) => (
-            <p key={subject}>{subject}</p>
+            GrayBox({ text: subject, onClose: (e) => onClose(e, subject) })
           ))}
         </div>
         <button onClick={(e) => onAddSubjectClick(e)}>Add Subject</button>
+
         <label>Publication:</label>
         <input
           type="text"
@@ -212,17 +234,17 @@ const Edit = () => {
           value={curLC}
           onChange={(e) => setCurLC(e.target.value)}
         />
-        <datalist id="lc"> 
+        <datalist id="lc">
           {allLC.map((sub) => (
             <option key={sub} value={sub}></option>
           ))}
         </datalist>
         <div className="lc-list">
           {Array.from(languageCode).map((lc) => (
-            <p key={lc}>{lc}</p>
+            GrayBox({ text: lc, onClose: (e) => onLCClose(e, lc) })
           ))}
         </div>
-        <button onClick={(e) => onAddLCClick(e)}>Add Language Code</button>
+        <button onClick={(e)=>onAddLCClick(e)}>Add Language Code</button>
         <p></p>
         {!isPending && <button>Update</button>}
         {isPending && <button disabled>Updating Entry...</button>}

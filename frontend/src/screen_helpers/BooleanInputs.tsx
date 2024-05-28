@@ -1,7 +1,6 @@
 import React from "react";
 import Input from "./Input";
-import '../screens/Input.css'
-export default function BooleanInputs({ formValues, handleChange, handleOperatorChange, handleTypeChange, handleDeleteField, handleAddField, handleSubmit, handleClear }) {
+export default function BooleanInputs({ formValues, handleChange, handleOperatorChange, handleTypeChange, handleDeleteField, handleAddField, handleSubmit, handleClear, hiddenFields }) {
   return (
     <div className="booleanInput">
       <form onSubmit={handleSubmit}>
@@ -19,20 +18,21 @@ export default function BooleanInputs({ formValues, handleChange, handleOperator
               deleteField={handleDeleteField}
             />
           ))}
-                  </div>
-
-          <p></p>
-          <button type="submit" className="submit-btn">
-            Search
-          </button>
-          <p></p>
-          <button className="clear-btn" onClick={handleClear}>
-            Clear
-          </button>
-          <p></p>
-          <button className="add-btn" onSubmit={(e) => "waoh"} onClick={handleAddField}>
+          {!hiddenFields['add'] && ( <button className="add-btn"  onClick={handleAddField} onSubmit={handleSubmit}>
             Add new
-          </button>
+          </button>)}
+          {!hiddenFields['clear'] && ( <button className="clear-btn" onClick={handleClear}>
+            Clear
+          </button>)}
+          {!hiddenFields['searcb'] && (   <button type="submit" className="submit-btn">
+            Search
+          </button>)}
+          
+          <p>{hiddenFields['add']}</p>
+          
+                  </div>
+                 
+          
 
       </form>
     </div>

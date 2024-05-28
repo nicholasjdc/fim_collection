@@ -13,7 +13,6 @@ export const allLC = [
   'ncl',
   'jpn',
   'ctfal',
-  'worldcat',
   'duxiu',
   'zh-cn',
   'ja',

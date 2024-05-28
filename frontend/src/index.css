@@ -70,7 +70,16 @@
   padding: 8px;
   cursor: pointer;
 }
-
+/* Subject list for edit and create*/
+.subject-list {
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 5px;
+  justify-content: space-between;
+}
 /* blog form */
 .create {
   max-width: 400px;
@@ -206,4 +215,112 @@
 }
 .home .Collapsible {
   width: 100%;
+}
+
+/* Gray Box */
+.gray-box {
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gray-box button {
+  border: none;
+  background: none;
+  font-size: 1.2rem;
+  color: black;
+  cursor: pointer;
+}
+
+/* Boolean Input */
+.booleanInput form {
+  margin: 3rem auto;
+  width: 500px;
+  max-width: 80%;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.booleanInput form > div {
+  display: flex;
+}
+.booleanInput .input-group {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+}
+.booleanInput .input-group > label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+.booleanInput .input {
+  width: 100%;
+  display: flex;
+}
+.booleanInput .input > input {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  width: 100%;
+}
+.booleanInput .input > input:focus {
+  outline: none;
+}
+.booleanInput .input > div {
+  padding: 0.5rem 1rem;
+  background: #e34728;
+  margin-left: 0.5rem;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+.booleanInput .add-btn {
+  padding: 0.5rem 1rem;
+  background: #ccc;
+  border: none;
+  font-size: 0.9rem;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+.booleanInput {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.booleanInput .center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.booleanInput .submit-btn {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px solid #e34728;
+  background: #fff;
+  margin: 1.2rem 0;
+  color: #e34728;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.booleanInput .dialog-box {
+  margin: 0.5rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(4rem, 1fr));
+  grid-gap: 1rem;
+}
+.booleanInput .dialog-box > input,
+.booleanInput .dialog-box > select {
+  padding: 0.5rem 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.booleanInput .dialog-box > input:focus,
+.booleanInput .dialog-box > select:focus {
+  outline: none;
+}
+.booleanInput .hide {
+  display: none;
 }

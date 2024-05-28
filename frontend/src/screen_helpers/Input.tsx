@@ -6,19 +6,19 @@ export default function Input({ objValue, onChange, onTypeChange, onOperatorChan
     <div className="input-group">
         
       <div className="input">
+       
       <select onChange={(e) =>onOperatorChange(e, index)}>
               <option value="OR">OR</option>
               <option value="AND">AND</option>
               <option value="NOT">NOT</option>
             </select>
-        <input
+      <input
           type={type || "text"}
           value={value || ""}
           onChange={(e) => onChange(e, index)}
         />
         <select onChange = {(e) =>onTypeChange(e, index)}>
         <option value="keyword">Keyword</option>
-
         <option value="titleAgg">Title</option>
               <option value="ISBN">ISBN</option>
               <option value="subjects">Subject</option>

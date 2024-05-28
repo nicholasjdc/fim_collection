@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Input from "../screen_helpers/Input";
-import './Input.css'
 import { createSearchParams, useSearchParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import PageinatedBookList from "../screen_helpers/PageinatedBookList";
@@ -126,7 +125,7 @@ function BooleanSearch() {
   }, [search, user]);
   return (
     <div className="BooleanSearch">
-        {<BooleanInputs handleClear={handleClear}formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField} handleSubmit={handleSubmit}/>}
+        {<BooleanInputs hiddenFields={{}} handleClear={handleClear}formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField} handleSubmit={handleSubmit}/>}
        
       {<PageinatedBookList books={books} bookResultCount={bookResultCount} error={error} isPending={isPending} handlePageChange={handlePageChange} resultPageNumber={resultPageNumber} />}
     </div>

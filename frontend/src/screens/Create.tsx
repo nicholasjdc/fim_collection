@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { postEntry } from "../function_helpers/sqlFunctions";
 import { allLC, allSubjects } from "../function_helpers/handyVariables";
 import { useAuthContext } from "../hooks/useAuthContext";
+import GrayBox from "../screen_helpers/GrayBox";
 const Create = () => {
   const [title, setTitle] = useState("");
   const [titlec, setTitlec] = useState("");
@@ -27,15 +28,36 @@ const Create = () => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
   useEffect(() => {
-    console.log("SUBJECTS CHANGED");
+    
   }, [subjects, curSubject]);
   const onAddSubjectClick = (e) => {
     e.preventDefault();
     let tempSubjects = subjects;
     tempSubjects.add(curSubject);
+    console.log(tempSubjects)
     setSubjects(tempSubjects);
     setCurSubject("");
   };
+  const onLCClose = (e, lc) =>{
+    e.preventDefault()
+    let tempLC = languageCode
+    tempLC.delete(lc)
+    setLanguageCode(tempLC)
+    //Hacky solution to forcing a reload -- REDO LOW PRIORITY
+    if (curLC == "") setCurLC(" ")
+      else setCurLC("")
+
+  }
+  const onClose = (e, subject) => {
+    e.preventDefault()
+    let tempSubjects = subjects;
+    tempSubjects.delete(subject)
+    setSubjects(tempSubjects)
+    //Hacky solution to forcing a reload -- REDO LOW PRIORITY
+    if (curSubject == "") setCurSubject(" ")
+    else setCurSubject("")
+
+  }
   const onAddLCClick = (e) => {
     e.preventDefault();
     let tempLC = languageCode;
@@ -94,7 +116,7 @@ const Create = () => {
       languageCode: Array.from(languageCode),
       resource: resource,
       subjects: Array.from(subjects),
-      
+
     };
     postEntry(newBookEntry, user.token).then((v) => {
       setIsPending(false);
@@ -163,7 +185,7 @@ const Create = () => {
           id="subject-choice"
           name="subject-choice"
           value={curSubject}
-          onChange={(e) => onChangeSubjectInput(e)} //setCurSubject(e.target.value)}
+          onChange={(e) => setCurSubject(e.target.value)} //onChangeSubjectInput(e)
         />
         <datalist id="subjects">
           {allSubjects.map((sub) => (
@@ -172,9 +194,11 @@ const Create = () => {
         </datalist>
         <div className="subject-list">
           {Array.from(subjects).map((subject) => (
-            <p key={subject}>{subject}</p>
+            GrayBox({ text: subject, onClose: (e) => onClose(e, subject) })
           ))}
         </div>
+        <button onClick={(e) => onAddSubjectClick(e)}>Add Subject</button>
+
         <label>Publication:</label>
         <input
           type="text"
@@ -215,7 +239,7 @@ const Create = () => {
           id="lc-choice"
           name="lc-choice"
           value={curLC}
-          onChange={(e) => onChangeLCInput(e)}
+          onChange={(e) => setCurLC(e.target.value)}
         />
         <datalist id="lc">
           {allLC.map((sub) => (
@@ -224,9 +248,10 @@ const Create = () => {
         </datalist>
         <div className="lc-list">
           {Array.from(languageCode).map((lc) => (
-            <p key={lc}>{lc}</p>
+            GrayBox({ text: lc, onClose: (e) => onLCClose(e, lc) })
           ))}
         </div>
+        <button onClick={(e)=>onAddLCClick(e)}>Add Language Code</button>
         <p></p>
         {!isPending && <button>Add Entry</button>}
         {isPending && <button disabled>Adding Entry...</button>}
