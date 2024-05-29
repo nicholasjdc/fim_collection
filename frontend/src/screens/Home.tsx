@@ -13,25 +13,32 @@ import PageinatedBookList from "../screen_helpers/PageinatedBookList";
 import BooleanInputs from "../screen_helpers/BooleanInputs";
 const Home = () => {
   const navigate = useNavigate();
- 
+
   const [books, setBooks] = useState<BookEntry[] | null>(null);
   const [bookResultCount, setBookResultCount] = useState(null);
   const [isPending, setIsPending] = useState<boolean | null>(null);
   const [error, setError] = useState(null);
   const [resultPageNumber, setResultPageNumber] = useState(1);
-  const [search, setSearch] = useSearchParams();
+  const [search, setSearch] = useSearchParams(); 
+  const [extraValues, setExtraValues] = useState({
+    'checkValues': [{ 'name': 'Book', 'checked': true }, { 'name': 'Thesis', 'checked': true }, { 'name': 'Script', 'checked': true }, { 'name': 'Screenplay', 'checked': true }], 
+    'years': { 'begin': '-1', 'end': '-1' }
+  })
   const [formValues, setFormValues] = useState([{
     type: "keyword",
     op: "OR",
     value: "",
+    hidden: { 'op': true, 'del': true }
   }, {
     type: "keyword",
     op: "OR",
     value: "",
+    hidden: { 'del': true }
   }, {
     type: "keyword",
     op: "OR",
     value: "",
+    hidden: { 'del': true }
   }]);
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -50,27 +57,27 @@ const Home = () => {
     const queryParams = {};
     queryParams["resultPageNumber"] = 1;
     formValues.map((val) => {
-      if(val.value.length){
+      if (val.value.length) {
         let opKey = `${val.op}$!${val.type}`
-      if(queryParams[opKey]){
-        queryParams[opKey] = queryParams[opKey] +','+val.value
+        if (queryParams[opKey]) {
+          queryParams[opKey] = queryParams[opKey] + ',' + val.value
 
-      }else{
-        queryParams[opKey] = val.value
+        } else {
+          queryParams[opKey] = val.value
 
+        }
+      } else {
+        ;
       }
-    }else{
-      ;
-    }
     })
     setResultPageNumber(1);
     console.log(createSearchParams(queryParams).toString())
     setSearch(createSearchParams(queryParams).toString());
   };
-  const handleClear = (e) =>{
+  const handleClear = (e) => {
     e.preventDefault();
     const values = [...formValues]
-    values.map((val)=>{
+    values.map((val) => {
       val.value = ""
     })
     setFormValues(values)
@@ -90,6 +97,7 @@ const Home = () => {
       type: "keyword",
       op: "OR",
       value: "",
+      hidden: { 'del': true }
     });
     setFormValues(values);
   };
@@ -116,6 +124,11 @@ const Home = () => {
     setFormValues(values);
 
   }
+  const handleChecked = (e, index) =>{
+    e.preventDefault()
+    const tempExtraValues = extraValues
+    
+}
   useEffect(() => {
     setIsPending(true);
 
@@ -140,14 +153,14 @@ const Home = () => {
 
   return (
     <div className="home">
-        {<BooleanInputs hiddenFields = {{'add':true, 'clear':true}} handleClear={handleClear}handleSubmit = {handleSubmit}formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField}/>}
+      {<BooleanInputs checkValues={extraValues['checkValues']}hiddenFields={{ 'add': true }} handleClear={handleClear} handleSubmit={handleSubmit} formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField} />}
 
       {<PageinatedBookList books={books} bookResultCount={bookResultCount}
         resultPageNumber={resultPageNumber}
         handlePageChange={handlePageChange}
         isPending={isPending}
         error={error} />
-  }
+      }
 
     </div>
   );

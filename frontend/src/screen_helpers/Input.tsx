@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 export default function Input({ objValue, onChange, onTypeChange, onOperatorChange, index, deleteField }) {
-  const { type, value } = objValue;
+  const { type, value, op } = objValue;
+  let hiddenVals = {}
+  if(objValue['hidden']){
+    hiddenVals = objValue['hidden']
+  }
   const typeValues = ['subject', 'author', 'title', 'publication']
   return (
     <div className="input-group">
         
       <div className="input">
-       
+       {!hiddenVals['op'] &&(
       <select onChange={(e) =>onOperatorChange(e, index)}>
               <option value="OR">OR</option>
               <option value="AND">AND</option>
               <option value="NOT">NOT</option>
-            </select>
+            </select>)
+}
       <input
           type={type || "text"}
           value={value || ""}
@@ -35,8 +40,9 @@ export default function Input({ objValue, onChange, onTypeChange, onOperatorChan
 
 
             </select>
-        {/* Add this */}
+        {!hiddenVals['del'] &&
         <div onClick={(e) => deleteField(e, index)}>X</div>
+}
       </div>
     </div>
   );
