@@ -20,10 +20,9 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [resultPageNumber, setResultPageNumber] = useState(1);
   const [search, setSearch] = useSearchParams(); 
-  const [extraValues, setExtraValues] = useState({
-    'checkValues': [{ 'name': 'Book', 'checked': true }, { 'name': 'Thesis', 'checked': true }, { 'name': 'Script', 'checked': true }, { 'name': 'Screenplay', 'checked': true }], 
-    'years': { 'begin': '-1', 'end': '-1' }
-  })
+  const [checkValues, setCheckValues] = useState([{ 'name': 'book', 'checked': true }, { 'name': 'thesis', 'checked': true }, { 'name': 'script', 'checked': true }, { 'name': 'screenplay', 'checked': true }])
+  const [yearValues, setYearValues] = useState({ 'begin': -1, 'end': -1})
+  
   const [formValues, setFormValues] = useState([{
     type: "keyword",
     op: "OR",
@@ -70,10 +69,32 @@ const Home = () => {
         ;
       }
     })
+    checkValues.map((val)=>{
+      const opKey = 'OR$!type'
+      if(val.checked){
+        if(queryParams[opKey]){
+        queryParams[opKey] = queryParams[opKey] +',' + val.name
+        }else{
+          queryParams[opKey] = val.name
+        }
+      }
+    })
+    if(yearValues.begin >0){
+
+    }
+    if(yearValues.end >0){
+
+    }
     setResultPageNumber(1);
     console.log(createSearchParams(queryParams).toString())
     setSearch(createSearchParams(queryParams).toString());
   };
+  const handleYearChange = (e, name) =>{
+    const yValues = {...yearValues}
+    yValues[name] = e.target.value 
+    setYearValues(yValues)
+
+  }
   const handleClear = (e) => {
     e.preventDefault();
     const values = [...formValues]
@@ -120,15 +141,17 @@ const Home = () => {
     e.preventDefault()
     const values = [...formValues];
     values[index].type = e.target.value;
-    console.log(e.target.value)
     setFormValues(values);
 
   }
-  const handleChecked = (e, index) =>{
-    e.preventDefault()
-    const tempExtraValues = extraValues
+  const handleChecked = (e, index) => {
+    const values = [...checkValues]
+    values[index].checked = e.currentTarget.checked
+
+    setCheckValues(values)
     
-}
+  };
+
   useEffect(() => {
     setIsPending(true);
 
@@ -153,7 +176,8 @@ const Home = () => {
 
   return (
     <div className="home">
-      {<BooleanInputs checkValues={extraValues['checkValues']}hiddenFields={{ 'add': true }} handleClear={handleClear} handleSubmit={handleSubmit} formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField} />}
+
+      {<BooleanInputs handleYearChange={handleYearChange}handleCheck={handleChecked}checkValues={checkValues}hiddenFields={{ 'add': true }} handleClear={handleClear} handleSubmit={handleSubmit} formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField} yearValues={yearValues}/>}
 
       {<PageinatedBookList books={books} bookResultCount={bookResultCount}
         resultPageNumber={resultPageNumber}
@@ -161,7 +185,6 @@ const Home = () => {
         isPending={isPending}
         error={error} />
       }
-
     </div>
   );
 };

@@ -54,35 +54,30 @@ const Edit = () => {
     }, [id])
     const onLCClose = (e, lc) =>{
       e.preventDefault()
-      let tempLC = languageCode
+      let tempLC = new Set(languageCode)
       tempLC.delete(lc)
       setLanguageCode(tempLC)
-      //Hacky solution to forcing a reload -- REDO LOW PRIORITY
-      if (curLC == "") setCurLC(" ")
-        else setCurLC("")
   
     }
     const onClose = (e, subject) => {
       e.preventDefault()
-      let tempSubjects = subjects;
+      let tempSubjects = new Set(subjects);
       tempSubjects.delete(subject)
       setSubjects(tempSubjects)
-      //Hacky solution to forcing a reload -- REDO LOW PRIORITY
-      if (curSubject == "") setCurSubject(" ")
-      else setCurSubject("")
+
   
     }
   const navigate = useNavigate();
   const onAddLCClick = (e) => {
     e.preventDefault();
-    let tempLC = languageCode;
+    let tempLC = new Set(languageCode);
     tempLC.add(curLC);
     setLanguageCode(tempLC);
     setCurLC("");
   };
   const onAddSubjectClick = (e) => {
     e.preventDefault();
-    let tempSubjects = subjects;
+    let tempSubjects = new Set(subjects);
     tempSubjects.add(curSubject);
     setSubjects(tempSubjects);
     setCurSubject("");

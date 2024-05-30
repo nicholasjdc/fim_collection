@@ -1,11 +1,11 @@
 import React from "react";
 import Input from "./Input";
 import BasicCheckbox from "./BasicCheckbox";
-export default function BooleanInputs({ formValues, handleChange, handleOperatorChange, handleTypeChange, handleDeleteField, handleAddField, handleSubmit, handleClear, hiddenFields, checkValues }) {
+export default function BooleanInputs({ formValues, handleChange, handleOperatorChange, handleTypeChange, handleDeleteField, handleAddField, handleSubmit, handleClear, hiddenFields, checkValues, handleCheck, yearValues, handleYearChange }) {
   return (
     <div className="booleanInput">
       <form onSubmit={handleSubmit}>
-      <div className="center">
+        <div className="center">
 
           {formValues.map((obj, index) => (
             <Input
@@ -19,25 +19,31 @@ export default function BooleanInputs({ formValues, handleChange, handleOperator
               deleteField={handleDeleteField}
             />
           ))}
-          
-          {!hiddenFields['add'] && ( <button className="add-btn"  onClick={handleAddField} onSubmit={handleSubmit}>
+
+          {!hiddenFields['add'] && (<button className="add-btn" onClick={handleAddField} onSubmit={handleSubmit}>
             Add new
-          </button>)}
-          {!hiddenFields['clear'] && ( <button className="clear-btn" onClick={handleClear}>
-            Clear
           </button>)}
 
           <p>Text Type</p>
-          <BasicCheckbox checkValues={[{'name': 'Book', 'checked': true}, {'name': 'Thesis', 'checked': true}, {'name': 'Script', 'checked': true}, {'name': 'Screenplay', 'checked': true}]} checkHandler={()=>{}}/>
-                  </div>
-                 <br></br>
-          <p>Year</p>
-          <input type="number"></input> <p>-</p> <input type="number"></input>
+          <BasicCheckbox checkValues={checkValues} checkHandler={handleCheck} />
           <br></br>
-          {!hiddenFields['searcb'] && (   <button type="submit" className="submit-btn">
+          <p>Published After(Year)</p>
+          <input type="number" name="year_begin" min="0" max="9999"id="year_begin"value={yearValues.begin >0 &&yearValues.begin || ""} onChange={(e)=>handleYearChange(e, "begin")}></input>
+
+          <p>Published Before (Year)</p>
+          <input type="number" name="year_end" min="0" max="9999"id="year_end"value={yearValues.end>0 && yearValues.end || ""} onChange={(e)=>handleYearChange(e, "end")}></input>
+
+          <br></br>
+          {!hiddenFields['clear'] && (<button className="clear-btn" onClick={handleClear}>
+            Clear
+          </button>)}
+
+
+          {!hiddenFields['searcb'] && (<button type="submit" className="submit-btn">
             Search
           </button>)}
-         
+        </div>
+
       </form>
     </div>
   );

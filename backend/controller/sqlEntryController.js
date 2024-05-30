@@ -131,8 +131,9 @@ const getEntries = async (req, res) => {
   }
 }
 
+
   if (orQuery) {
-    orQuery = orQuery.slice(0, -1)
+    orQuery = orQuery.slice(0, -1) //Remove last comma
     supaQuery.or(orQuery)
   }
   const { data, error, status, count } = await supaQuery.range(
