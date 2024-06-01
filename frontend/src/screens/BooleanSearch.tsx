@@ -15,6 +15,9 @@ function BooleanSearch() {
   const [error, setError] = useState(null);
   const [resultPageNumber, setResultPageNumber] = useState(1);
   const [search, setSearch] = useSearchParams();
+  const [checkValues, setCheckValues] = useState([{ 'name': 'book', 'checked': true }, { 'name': 'thesis', 'checked': true }, { 'name': 'script', 'checked': true }, { 'name': 'screenplay', 'checked': true }])
+  const [yearValues, setYearValues] = useState({ 'begin': -1, 'end': -1})
+  
   const [formValues, setFormValues] = useState([{
     type: "titleAgg",
     op: "OR",
@@ -54,7 +57,19 @@ function BooleanSearch() {
     setFormValues(values);
 
   };
+ const handleYearChange = (e, name) =>{
+    const yValues = {...yearValues}
+    yValues[name] = e.target.value 
+    setYearValues(yValues)
 
+  }
+  const handleChecked = (e, index) => {
+    const values = [...checkValues]
+    values[index].checked = e.currentTarget.checked
+
+    setCheckValues(values)
+    
+  };
   const handleOperatorChange = (e, index) => {
     e.preventDefault()
     const values = [...formValues];
@@ -125,7 +140,7 @@ function BooleanSearch() {
   }, [search, user]);
   return (
     <div className="BooleanSearch">
-        {<BooleanInputs hiddenFields={{}} handleClear={handleClear}formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField} handleSubmit={handleSubmit}/>}
+        {<BooleanInputs handleCheck={handleChecked}handleYearChange={handleYearChange}checkValues={checkValues}yearValues={yearValues} hiddenFields={{}} handleClear={handleClear}formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField} handleSubmit={handleSubmit}/>}
        
       {<PageinatedBookList books={books} bookResultCount={bookResultCount} error={error} isPending={isPending} handlePageChange={handlePageChange} resultPageNumber={resultPageNumber} />}
     </div>
