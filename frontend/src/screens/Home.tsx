@@ -71,10 +71,6 @@ const Home = () => {
         ;
       }
     })
-    if(yearValues.begin >0){
-
-    }
-    if(yearValues.end >0)
     checkValues.map((val)=>{
       const opKey = 'OR$!gen_type'
       if(val.checked){
