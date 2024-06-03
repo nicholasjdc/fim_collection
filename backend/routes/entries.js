@@ -5,6 +5,7 @@ const {
   getEntries,
   deleteEntry,
   updateEntry,
+  getGreatestEntryCode
 } = require("../controller/sqlEntryController");
 
 //const requireAuth = require('../middleware/requireAuth')
@@ -15,8 +16,11 @@ const router = express.Router();
 //middleware, fire before all code below
 //router.use(requireAuth)
 
+//GET greatestEntryNumber
+router.get("/getGreatestEntryCode", getGreatestEntryCode)
 //Get all entries
 router.get("/", getEntries);
+
 
 //GET single entry
 router.get("/:id", getEntry);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postEntry } from "../function_helpers/sqlFunctions";
+import { getHighestEntryNumber, postEntry } from "../function_helpers/sqlFunctions";
 import { allLC, allSubjects } from "../function_helpers/handyVariables";
 import { useAuthContext } from "../hooks/useAuthContext";
 import GrayBox from "../screen_helpers/GrayBox";
@@ -28,8 +28,14 @@ const Create = () => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
   useEffect(() => {
-    
-  }, [subjects, curSubject]);
+    if(user){
+    getHighestEntryNumber(user.token).then((result)=>{
+      setEntryNumber(result.data +1)
+    }).catch((error)=>{
+      console.log(error)
+    })
+  }
+  }, [user]);
   const onAddSubjectClick = (e) => {
     e.preventDefault();
     let tempSubjects = new Set( subjects);

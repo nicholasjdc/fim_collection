@@ -102,8 +102,23 @@ export async function deleteEntry(id: string, authToken:string){
         }
     
 }
-export async function getHighestEntryNumber(){
+export async function getHighestEntryNumber(authToken: string){
+    const response = await fetch(API_URL +'film-entries/getGreatestEntryCode', {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${authToken}`
+        },
+        });
+        const entryjson = await response.json();
     
+        if (!response.ok) {
+            throw Error(JSON.stringify(entryjson.body))
+            
+        }
+        if (response.ok) {
+            return entryjson;
+        }
 }
 /*
 SELECT pro_id, pro_name, pro_price, pro_quantity

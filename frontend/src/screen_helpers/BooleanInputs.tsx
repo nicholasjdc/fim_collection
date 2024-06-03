@@ -20,7 +20,7 @@ export default function BooleanInputs({ formValues, handleChange, handleOperator
             />
           ))}
 
-          {!hiddenFields['add'] && (<button className="add-btn" onClick={handleAddField} onSubmit={handleSubmit}>
+          {!hiddenFields['add'] && (<button type="button"className="add-btn" onClick={handleAddField}>
             Add new
           </button>)}
 
@@ -34,7 +34,7 @@ export default function BooleanInputs({ formValues, handleChange, handleOperator
           <input type="number" name="year_end" min="0" max="9999"id="year_end"value={yearValues.end>0 && yearValues.end || ""} onChange={(e)=>handleYearChange(e, "end")}></input>
 
           <br></br>
-          {!hiddenFields['clear'] && (<button className="clear-btn" onClick={handleClear}>
+          {!hiddenFields['clear'] && (<button type="button"className="clear-btn" onClick={handleClear}>
             Clear
           </button>)}
 

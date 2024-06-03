@@ -1,10 +1,11 @@
 const limitCount = 25;
 const supabase = require("@supabase/supabase-js");
+const { log } = require("../etc/usefulThings");
 const supabaseUrl = "https://raifuhqmtrdvncpkonjm.supabase.co";
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+const logCode =0
 const getEntry = async (req, res) => {
-
   const { id } = req.params;
 
   const { data, error, status } = await supabaseClient
@@ -20,7 +21,8 @@ const getEntry = async (req, res) => {
   res.status(status).json(data[0]);
 };
 const getEntries = async (req, res) => {
-  console.log(req.query)
+  
+  log(logCode, req.query);
   const limitCount = 25;
   let pageNum = 0;
   if (req.query.resultPageNumber) {
@@ -44,12 +46,13 @@ const getEntries = async (req, res) => {
     "publication",
     "ISBN",
   ];
+  exclusiveColumns = ["gen_type"];
   supaQuery = supabaseClient
     .from("entries")
     .select("*", { count: "exact", head: false });
 
   const booleanCode = "$!";
-  orQuery = ""
+  orQuery = "";
   for (const [key, value] of Object.entries(req.query)) {
     if (key == "resultPageNumber") continue;
 
@@ -58,90 +61,94 @@ const getEntries = async (req, res) => {
     fieldVal = splitKey[1]; //subjects, authoarAgg, titleAgg, etc
     searchValues = value.split(","); //Arbitrary search values
 
+    compValue = "eq";
+    if (arrayColumns.includes(fieldVal)) {
+      compValue = "cs";
+    } else if (regexColumns.includes(fieldVal)) {
+      compValue = "ilike";
+    }
 
-
-
-  
-  compValue = "eq";
-  if (arrayColumns.includes(fieldVal)) {
-    compValue = "cs";
-
-  } else if (regexColumns.includes(fieldVal)) {
-    compValue = "ilike";
-    
-  }
-
-  if (fieldVal === "keyword") {
-    for (i in searchValues) {
-      if (searchValues[i][0] == `"` && searchValues[i].slice(-1) == `"`) {
-
-        searchValues[i] = searchValues[i].slice(1, -1)
-      } else {
-
-        if (boolVal === "AND") {
-          orSearch = `${fieldVal}.${compValue}.${searchValues[i]},`;
-          supaQuery.or(orSearch)
-
+    if (fieldVal == "gen_type") {
+      if (boolVal == "OR") {
+        orSearchTemp = "";
+        for (i in searchValues) {
+          orSearchTemp += `type.${compValue}.${searchValues[i]},`;
+        }
+        orSearchTemp = orSearchTemp.slice(0, -1); //Remove last comma
+        supaQuery.or(orSearchTemp);
+      }
+    }
+    //Keyword = ji de
+    // NOT: make sure neither ji or de are anywhere
+    //AND: ji or de should be in there
+    //OR ji or de sould be in there
+    if (fieldVal === "keyword") {
+      tempValues = [];
+      for (i in searchValues) {
+        if (searchValues[i][0] == `"` && searchValues[i].slice(-1) == `"`) {
+          searchValues[i] = searchValues[i].slice(1, -1);
         } else {
-          let tempValues = []
+          //OR doesn't function correctly, assumes all of them wrong.
 
-          for (i in searchValues) {
-            tempValues.push(...searchValues[i].split(' '))
+          tempValues.push(...searchValues[i].split(" "));
+          searchValues.splice(i, 1);
+        }
+      }
+      searchValues.push(...tempValues);
+    }
+    if (!exclusiveColumns.includes(fieldVal)) {
+      for (let i = 0; i < searchValues.length; i++) {
+        if (compValue == "ilike") {
+          searchValues[i] = "%" + searchValues[i] + "%";
+        } else if (compValue == "cs") {
+          searchValues[i] = "{" + searchValues[i] + "}";
+        }
+      }
+      log(logCode, searchValues);
+
+      if (boolVal === "AND") {
+        for (s in searchValues) {
+          currVal = searchValues[s];
+          if (compValue === "eq") {
+            supaQuery = supaQuery.eq(fieldVal, currval);
+          } else if (compValue === "cs") {
+            supaQuery = supaQuery.contains(fieldVal, currVal);
+          } else if (compValue === "ilike") {
+            supaQuery = supaQuery.ilike(fieldVal, currVal);
           }
-          searchValues = tempValues
+        }
+      } else if (boolVal === "OR") {
+        for (s in searchValues) {
+          orSearch = `${fieldVal}.${compValue}.${searchValues[s]},`;
+          orQuery += orSearch;
+        }
+      } else if (boolVal === "NOT") {
+        for (s in searchValues) {
+          notSearch = `${fieldVal}, ${compValue}, ${searchValues[s]}`;
+          supaQuery = supaQuery.not(notSearch);
+        }
+      } else if (boolVal === "GT") {
+        for (i in searchValues) {
+          supaQuery.gt(fieldVal, searchValues[i]);
+        }
+      } else if (boolVal === "LT") {
+        for (i in searchValues) {
+          supaQuery.lt(fieldVal, searchValues[i]);
         }
       }
     }
-    if (boolVal === "AND") {
-      return; 
-    }
-
   }
-  for (let i = 0; i < searchValues.length; i++) {
-    if(compValue=="ilike"){
-    searchValues[i] = "%" + searchValues[i] + "%";
-    }else  if(compValue=="cs"){
-      searchValues[i] = "{" + searchValues[i] + "}";
-
-    }
-  }
-  console.log(searchValues)
-
-  if (boolVal === "AND") {
-    for (s in searchValues) {
-      currVal = searchValues[s]
-      if (compValue === "eq") {
-        supaQuery = supaQuery.eq(fieldVal, currval);
-      } else if (compValue === "cs") {
-        supaQuery = supaQuery.contains(fieldVal, currVal);
-      } else if (compValue === "ilike") {
-        supaQuery = supaQuery.ilike(fieldVal, currVal);
-      }
-    }
-  } else if (boolVal === "OR") {
-    for (s in searchValues) {
-      orSearch = `${fieldVal}.${compValue}.${searchValues[s]},`;
-      orQuery += orSearch
-    }
-  } else if (boolVal === "NOT") {
-    for (s in searchValues) {
-      notSearch = `${fieldVal}, ${compValue}, ${searchValues[s]}`;
-      supaQuery = supaQuery.not(notSearch);
-    }
-  }
-}
-
 
   if (orQuery) {
-    orQuery = orQuery.slice(0, -1) //Remove last comma
-    supaQuery.or(orQuery)
+    orQuery = orQuery.slice(0, -1); //Remove last comma
+    supaQuery.or(orQuery);
   }
   const { data, error, status, count } = await supaQuery.range(
     pageNum * limitCount,
     pageNum * limitCount + limitCount
   );
   if (error) {
-    console.log(error)
+    log(logCode, error);
     return res.status(status).json({ error: error.message });
   }
   res.status(status).json({ entries: data, count: count });
@@ -154,8 +161,8 @@ const updateEntry = async (req, res) => {
     .from("entries")
     .update(changes)
     .eq("id", id);
-  console.log(changes)
-  console.log(stat)
+  log(logCode, changes);
+  log(logCode, stat);
   if (stat.error) {
     return res.status(stat.status).json({ error: stat });
   }
@@ -185,6 +192,15 @@ const createEntry = async (req, res) => {
   res.status(status).json({ status: statusText });
 };
 
+getGreatestEntryCode = async (req, res) => {
+  const { data, error, status } = await supabaseClient.rpc('entry_max_value')
+
+
+  if (error) {
+    return res.status(status).json(error);
+  }
+  res.status(status).json({ data });
+};
 module.exports = {
   getEntry,
   getEntries,
@@ -192,4 +208,5 @@ module.exports = {
   deleteEntry,
   createEntry,
   upsertEntry,
+  getGreatestEntryCode,
 };

@@ -35,13 +35,13 @@ const BookDetails = () => {
           <p>Page Count: {book.pageCount}</p>
           <p>Subjects:</p>
           <div id="subjectList">
-            {book.subjects.map((subject) => (
+            {book.subjects &&book.subjects.map((subject) => (
               <p key={subject}>{subject}</p>
             ))}
           </div>
           <p>Language Code(s):</p>
           <div id="lcList">
-            {book.languageCode.map((lc) => (
+            {book.languageCode &&book.languageCode.map((lc) => (
               <p key={lc}>{lc}</p>
             ))}
           </div>
@@ -50,7 +50,7 @@ const BookDetails = () => {
           <p>Note: {book.note}</p>
           <p>Missing Fields:</p>
           <p></p>
-          {book.missingFields.map((field) => (
+          {book.missingFields &&book.missingFields.map((field) => (
             <p>{field}</p>
           ))}
         </article>

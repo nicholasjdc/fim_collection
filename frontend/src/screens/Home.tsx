@@ -5,7 +5,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { getEntries } from "../function_helpers/sqlFunctions";
+import { getEntries, getHighestEntryNumber } from "../function_helpers/sqlFunctions";
 import { API_URL } from "../function_helpers/handyVariables";
 import { useAuthContext } from "../hooks/useAuthContext";
 import searchbutton from "../assets/searchbutton.svg";
@@ -39,6 +39,7 @@ const Home = () => {
     value: "",
     hidden: { 'del': true }
   }]);
+
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     value: number
@@ -49,6 +50,7 @@ const Home = () => {
     setSearch(tempSearch);
   };
   const { user } = useAuthContext();
+ 
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -69,8 +71,12 @@ const Home = () => {
         ;
       }
     })
+    if(yearValues.begin >0){
+
+    }
+    if(yearValues.end >0)
     checkValues.map((val)=>{
-      const opKey = 'OR$!type'
+      const opKey = 'OR$!gen_type'
       if(val.checked){
         if(queryParams[opKey]){
         queryParams[opKey] = queryParams[opKey] +',' + val.name
@@ -80,9 +86,13 @@ const Home = () => {
       }
     })
     if(yearValues.begin >0){
-
+      const opKey= 'GT$!publication_year'
+      queryParams[opKey] = yearValues.begin
     }
     if(yearValues.end >0){
+      const opKey= 'LT$!publication_year'
+      queryParams[opKey] = yearValues.end
+
 
     }
     setResultPageNumber(1);
@@ -98,9 +108,19 @@ const Home = () => {
   const handleClear = (e) => {
     e.preventDefault();
     const values = [...formValues]
+    const checkVals = [...checkValues]
+    const yearVals = {...yearValues}
+    
     values.map((val) => {
       val.value = ""
     })
+    checkVals.map((val)=>{
+      val.checked=true
+    })
+    yearVals.begin=-1
+    yearVals.end=-1
+    setCheckValues(checkVals)
+    setYearValues(yearVals)
     setFormValues(values)
 
 

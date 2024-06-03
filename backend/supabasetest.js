@@ -1,7 +1,8 @@
 require("dotenv").config();
 const { default: mongoose } = require("mongoose");
 const Entry = require("./models/bookEntryModel")
-const supabase = require('@supabase/supabase-js')
+const supabase = require('@supabase/supabase-js');
+const { getGreatestEntryCode } = require("./controller/sqlEntryController");
 const supabaseUrl = 'https://raifuhqmtrdvncpkonjm.supabase.co'
 const supabaseKey = process.env.SUPABASE_KEY
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey)
@@ -91,5 +92,8 @@ const testUpdate = async() =>{
     .update(something)
     .eq('entryNumber', 10000)
 }
-
-testUpdate()
+const testEntryNumberMax = async()=>{
+  const { data, error, status } = await supabaseClient.rpc('entry_max_value')
+  console.log(data)
+}
+testEntryNumberMax()
