@@ -124,7 +124,7 @@ export const allSubjects = [
     "Film Industry",
     "Scenery and Set Design",
     "Film Law, Policy, Regulation, and Legal Case",
-    ". Trailers",
+    "Trailers",
     "Postcolonial Theory",
     "Taiwan and Hollywood Films",
     "Aesthetics",

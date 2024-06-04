@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useSignup } from "../hooks/useSignup";
+import { useTranslation } from "react-i18next";
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const { signup, error, isLoading } = useSignup();
+  const {t} = useTranslation()
   const handleSumbit = async (e) => {
     e.preventDefault();
 
@@ -12,23 +14,23 @@ const Signup = () => {
   };
   return (
     <form className="signup" onSubmit={handleSumbit}>
-      <h3>Sign up</h3>
+      <h3>{t("sign-up")}</h3>
 
-      <label>Email:</label>
+      <label>{t("email")}:</label>
       <input
         type="email"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
       ></input>
-      <label>Password:</label>
+      <label>{t("password")}:</label>
       <input
         type="password"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
       ></input>
-      <button>Sign Up</button>
+      <button>{t("sign-up")}</button>
       {error && <div className="error">{error}</div>}
-      {isLoading && <div className="isLoading">Loading ...</div>}
+      {isLoading && <div className="isLoading">{t("loading")} ...</div>}
     </form>
   );
 };

@@ -1,7 +1,9 @@
 import React from "react";
 import Input from "./Input";
 import BasicCheckbox from "./BasicCheckbox";
+import { useTranslation } from "react-i18next";
 export default function BooleanInputs({ formValues, handleChange, handleOperatorChange, handleTypeChange, handleDeleteField, handleAddField, handleSubmit, handleClear, hiddenFields, checkValues, handleCheck, yearValues, handleYearChange }) {
+  const {t} = useTranslation()
   return (
     <div className="booleanInput">
       <form onSubmit={handleSubmit}>
@@ -21,26 +23,26 @@ export default function BooleanInputs({ formValues, handleChange, handleOperator
           ))}
 
           {!hiddenFields['add'] && (<button type="button"className="add-btn" onClick={handleAddField}>
-            Add new
+            {t("add-new")}
           </button>)}
 
-          <p>Text Type</p>
+          <p>{t("text-type")}</p>
           <BasicCheckbox checkValues={checkValues} checkHandler={handleCheck} />
           <br></br>
-          <p>Published After(Year)</p>
+          <p>{t("published-after")}</p>
           <input type="number" name="year_begin" min="0" max="9999"id="year_begin"value={yearValues.begin >0 &&yearValues.begin || ""} onChange={(e)=>handleYearChange(e, "begin")}></input>
 
-          <p>Published Before (Year)</p>
+          <p>{t("published-before")}</p>
           <input type="number" name="year_end" min="0" max="9999"id="year_end"value={yearValues.end>0 && yearValues.end || ""} onChange={(e)=>handleYearChange(e, "end")}></input>
 
           <br></br>
           {!hiddenFields['clear'] && (<button type="button"className="clear-btn" onClick={handleClear}>
-            Clear
+            {t("clear")}
           </button>)}
 
 
           {!hiddenFields['searcb'] && (<button type="submit" className="submit-btn">
-            Search
+            {t('search')}
           </button>)}
         </div>
 

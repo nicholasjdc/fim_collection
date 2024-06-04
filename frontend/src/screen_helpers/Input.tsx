@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 export default function Input({ objValue, onChange, onTypeChange, onOperatorChange, index, deleteField }) {
   const { type, value, op } = objValue;
   let hiddenVals = {}
   if(objValue['hidden']){
     hiddenVals = objValue['hidden']
   }
+  const {t} = useTranslation()
   const typeValues = ['subject', 'author', 'title', 'publication']
   return (
     <div className="input-group">
@@ -12,9 +14,9 @@ export default function Input({ objValue, onChange, onTypeChange, onOperatorChan
       <div className="input">
        {!hiddenVals['op'] &&(
       <select onChange={(e) =>onOperatorChange(e, index)}>
-              <option value="OR">OR</option>
-              <option value="AND">AND</option>
-              <option value="NOT">NOT</option>
+              <option value="OR">{t("or")}</option>
+              <option value="AND">{t("and")}</option>
+              <option value="NOT">{t("not")}</option>
             </select>)
 }
       <input
@@ -23,19 +25,18 @@ export default function Input({ objValue, onChange, onTypeChange, onOperatorChan
           onChange={(e) => onChange(e, index)}
         />
         <select onChange = {(e) =>onTypeChange(e, index)}>
-        <option value="keyword">Keyword</option>
-        <option value="titleAgg">Title</option>
-              <option value="ISBN">ISBN</option>
-              <option value="subjects">Subject</option>
-              <option value="authorAgg">Author</option>
-              <option value="publication">Publication</option>
-              <option value="entryNumber">Entry Number</option>
+        <option value="keyword">{t("keyword")}</option>
+        <option value="titleAgg">{t("title")}</option>
+              <option value="ISBN">{t("isbn")}</option>
+              <option value="subjects">{t("subject")}</option>
+              <option value="authorAgg">{t("author")}</option>
+              <option value="publication">{t("publication")}</option>
+              <option value="entryNumber">{t("entry-number")}</option>
 
-              <option value="pageCount">Page Count</option>
-              <option value="seriesTitle">Series Title</option>
-              <option value="pageCount">Page Count</option>
-              <option value="note">Note</option>
-              <option value="resource">Resource</option>
+              <option value="pageCount">{t("page-count")}</option>
+              <option value="seriesTitle">{t("series-title")}</option>
+              <option value="note">{t("note")}</option>
+              <option value="resource">{t("resource")}</option>
 
 
 

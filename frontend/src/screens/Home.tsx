@@ -11,6 +11,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import searchbutton from "../assets/searchbutton.svg";
 import PageinatedBookList from "../screen_helpers/PageinatedBookList";
 import BooleanInputs from "../screen_helpers/BooleanInputs";
+import { useTranslation } from "react-i18next";
 const Home = () => {
   const navigate = useNavigate();
 
@@ -39,6 +40,7 @@ const Home = () => {
     value: "",
     hidden: { 'del': true }
   }]);
+  const {t} = useTranslation()
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -192,7 +194,6 @@ const Home = () => {
 
   return (
     <div className="home">
-
       {<BooleanInputs handleYearChange={handleYearChange}handleCheck={handleChecked}checkValues={checkValues}hiddenFields={{ 'add': true }} handleClear={handleClear} handleSubmit={handleSubmit} formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField} yearValues={yearValues}/>}
 
       {<PageinatedBookList books={books} bookResultCount={bookResultCount}
