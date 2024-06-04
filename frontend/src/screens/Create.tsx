@@ -66,40 +66,13 @@ const Create = () => {
     setLanguageCode(tempLC);
     setCurLC("");
   };
-  const onChangeLCInput = (e) => {
-    e.preventDefault();
-    setCurLC(e.target.value);
-    checkCompletion(e.target.value, allLC, "lc");
-  };
-  const onChangeSubjectInput = (e) => {
-    e.preventDefault();
-    setCurSubject(e.target.value);
-    checkCompletion(e.target.value, allSubjects, "subject");
-  };
 
-  function checkCompletion(val, opts, type) {
-    for (var i = 0; i < opts.length; i++) {
-      if (opts[i] === val) {
-        // An item was selected from the list!
-        // yourCallbackHere()
-        if (type == "subject") {
-          let tempSubjects = subjects;
-          tempSubjects.add(val);
-          setSubjects(tempSubjects);
-        } else if (type == "lc") {
-          let tempLC = languageCode;
-          tempLC.add(val);
-          setLanguageCode(tempLC);
-        }
-        //setCurSubject("");
-        break;
-      }
-    }
-  }
   const handleSubmit = (e: any) => {
     e.preventDefault();
     setIsPending(true);
-    let currentDate: Date = new Date(Date.now());
+    const titleAgg = title + titlec + titlep
+    const authorAgg = author+authorc+authorp
+    const keyword = titleAgg+authorAgg+entryNumber+publication+seriesTitle+Array.from(subjects).toString+Array.from(languageCode).toString()+note+resource;
     let newBookEntry = {
       entryNumber: entryNumber,
       author: author,
@@ -117,6 +90,9 @@ const Create = () => {
       languageCode: Array.from(languageCode),
       resource: resource,
       subjects: Array.from(subjects),
+      titleAgg: titleAgg,
+      authorAgg: authorAgg,
+      keyword: keyword,
 
     };
     postEntry(newBookEntry, user.token).then((v) => {

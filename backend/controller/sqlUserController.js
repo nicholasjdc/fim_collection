@@ -74,6 +74,19 @@ const signupUser = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+const getUserByID = async(id) =>{
+  const { data, error, status } = await supabaseClient
+  .from("users")
+  .select()
+  .eq("id", id);
+if (error) {
+  return null;
+}
+if (data.length <= 0) {
+  return null;
+}
+return data[0];
+}
 const getUser = async (email) => {
   const { data, error, status } = await supabaseClient
     .from("users")
@@ -126,5 +139,6 @@ const createUser = async (content) => {
 module.exports = {
   signupUser,
   loginUser,
+  getUserByID,
   deleteUser,
 };

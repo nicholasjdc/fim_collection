@@ -146,7 +146,7 @@ const getEntries = async (req, res) => {
   const { data, error, status, count } = await supaQuery.range(
     pageNum * limitCount,
     pageNum * limitCount + limitCount
-  );
+  ).order('id', {ascending: false});
   if (error) {
     log(logCode, error);
     return res.status(status).json({ error: error.message });
