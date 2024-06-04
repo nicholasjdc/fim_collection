@@ -14,7 +14,7 @@ const router = express.Router();
 
 //require auth for all workout routes 
 //middleware, fire before all code below
-router.use(requireAuth)
+//router.use(requireAuth)
 
 //GET greatestEntryNumber
 router.get("/getGreatestEntryCode", getGreatestEntryCode)
