@@ -5,10 +5,9 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { getEntries, getHighestEntryNumber } from "../function_helpers/sqlFunctions";
+import { getEntries} from "../function_helpers/sqlFunctions";
 import { API_URL } from "../function_helpers/handyVariables";
 import { useAuthContext } from "../hooks/useAuthContext";
-import searchbutton from "../assets/searchbutton.svg";
 import PageinatedBookList from "../screen_helpers/PageinatedBookList";
 import BooleanInputs from "../screen_helpers/BooleanInputs";
 import { useTranslation } from "react-i18next";
