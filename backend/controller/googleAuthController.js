@@ -12,7 +12,7 @@ const oAuth2Client = new OAuth2Client(
 );
 
 
-const getGoogleToken=async () => {
+const getGoogleToken=async (req, res) => {
   const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
   console.log(tokens);
   
@@ -28,3 +28,7 @@ const getRefreshToken= async (req, res) => {
   const { credentials } = await user.refreshAccessToken(); // optain new tokens
   res.json(credentials);
 };
+module.exports = {
+    getGoogleToken,
+    getRefreshToken
+}

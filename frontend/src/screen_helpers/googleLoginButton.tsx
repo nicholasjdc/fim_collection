@@ -10,7 +10,7 @@ select_by
 "btn"
 */
 import axios from 'axios';
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 import { useEffect, useState } from 'react';
 
 function GoogleLoginButton() {
@@ -19,18 +19,7 @@ function GoogleLoginButton() {
     useEffect(
         () => {
             if (user) {
-                fetch(`https://www.googleapis.com/oauth2/v1/userinfo`, {
-                        headers: {
-                            Authorization: `Bearer ${user.credential}`,
-                            Accept: 'application/json'
-                        }
-                    })
-                    .then((res) => {
-                        console.log(res)
-                        setProfile(res["data"]);
-                        console.log(res["data"])
-                    })
-                    .catch((err) => console.log(err));
+         
             }
         },
         [ user ]
