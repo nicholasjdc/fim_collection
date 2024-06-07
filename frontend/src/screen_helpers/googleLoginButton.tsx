@@ -12,6 +12,8 @@ select_by
 import axios from 'axios';
 import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 import { useEffect, useState } from 'react';
+import { Button } from '@mui/material';
+import { getGoogleTokens } from '../function_helpers/sqlFunctions';
 
 function GoogleLoginButton() {
     const [user, setUser] = useState(null)
@@ -25,14 +27,29 @@ function GoogleLoginButton() {
         [ user ]
     );
     const handleSubmit = async (response) => {
-        setUser(response)
-        console.log(response);
+        console.log(JSON.stringify(response));
+        getGoogleTokens(JSON.stringify(response))
     };
     const errorMessage = () => {
         console.log("GONE WRONG");
     };
+    const googleLogin = useGoogleLogin({
+        onSuccess: async ({ code }) => {
+            console.log("CODE")
+            console.log(code)
+          const tokens = await getGoogleTokens(code)
+            console.log("TOKENS")
+          console.log(tokens);
+        },
+        onError: ()=>{console.log("ERROR")},
+
+        flow: 'auth-code',
+      });
+    
+      
     return (
         <div className='googleLoginButton'>
+            <button onClick={(e)=>{e. preventDefault();googleLogin}}>useGoogleLogin</button>
             <GoogleLogin onSuccess={handleSubmit} onError={errorMessage} />
         </div>
     )

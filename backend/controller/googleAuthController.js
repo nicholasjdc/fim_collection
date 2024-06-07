@@ -12,8 +12,15 @@ const oAuth2Client = new OAuth2Client(
 );
 
 
+
 const getGoogleToken=async (req, res) => {
-  const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
+  console.log("GOTGOT")
+  console.log(req.body)
+  try{
+  const { tokens } = await oAuth2Client.getToken(req.body); // exchange code for tokens
+  } catch(error){
+    console.log(error)
+  }
   console.log(tokens);
   
   res.json(tokens);

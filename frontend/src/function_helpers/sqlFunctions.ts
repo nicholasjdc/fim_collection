@@ -121,8 +121,8 @@ export async function getHighestEntryNumber(authToken: string){
         }
 }
 export async function getGoogleTokens(code){
-    const response = await fetch(API_URL +'users/google/auth', {
-        method: "GET",
+    const response = await fetch(API_URL +'user/google/auth', {
+        method: "POST",
         body: code,
         headers: {
             "Content-Type": "application/json"
