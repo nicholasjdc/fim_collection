@@ -10,7 +10,6 @@ export const API_URL = apiURL
 export const allLC = [
   'chi',
   'eng',
-  'ncl',
   'jpn',
   'ctfal',
   'duxiu',
