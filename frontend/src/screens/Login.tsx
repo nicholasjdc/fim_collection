@@ -28,7 +28,6 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)}
         value={password}
       ></input>
-      <GoogleLoginButton></GoogleLoginButton>
       <button>{t("login")}</button>
       {isLoading && <div className = "loading">{('loading')} ...</div>}
       {error && <div className = "error">{error}</div>}
