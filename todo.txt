@@ -1,23 +1,7 @@
- current Road Map:
-General:
-    - Make update, make, and delete functional x
-    - Remove General search x
-    - Make ISBN and Keyword Categories x
-    - make Keyword search change with Quote search x
-    - Revise keyword section in Supabase x
-    - Change input: make pressing enter activates handle submit x
-    - Change title X
-    - Sort books into Thesis/Book/Script/Screenplay (Check Publication) x
-    - Add clear to Boolean Search x
-    - Adjust authors to be searchable x
-    - Css for boolean search x
-NEW ENTRY/EDIT ENTRY
-    - Make new entry code automatic (Implement RPC call directory for backend) x
-    - Add multiple subject/entry code x
-    - Allow deleting subjects/entry codes x
-    - Add type selection x
-        - Make it its own OR x
-    - Add year selection x
+Subject:
+    - Make subjects clickable on Details
+    - Revise entries (add previous entry numbers, then scan with other entries)
+    - Create a dictionary w/ subject list
 AUTH:
     - Google Authentication
         - On auth, check postgre database: if found, load user data. if not found, create new user with info. Then login w/ that user
