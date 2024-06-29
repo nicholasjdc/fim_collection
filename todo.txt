@@ -11,6 +11,9 @@ General:
     - Add clear to Boolean Search x
     - Adjust authors to be searchable x
     - Css for boolean search x
+    - implement i18n translation x
+    - add traditional and simplified translations X
+    - added redirects for netlify bug x 
 NEW ENTRY/EDIT ENTRY
     - Make new entry code automatic (Implement RPC call directory for backend) x
     - Add multiple subject/entry code x
@@ -18,7 +21,10 @@ NEW ENTRY/EDIT ENTRY
     - Add type selection x
         - Make it its own OR x
     - Add year selection x
+
 AUTH:
+    - implement Google Login
+    - 
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
         - Make the edit, search, update body a component
