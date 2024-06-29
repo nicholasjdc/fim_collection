@@ -10,9 +10,7 @@ export const API_URL = apiURL
 export const allLC = [
   'chi',
   'eng',
-  'ncl',
   'jpn',
-  'ctfal',
   'duxiu',
   'zh-cn',
   'ja',
@@ -32,7 +30,7 @@ export const allSubjects = [
     "Taiwanese-dialect Film, 1955-1982",
     "Central Motion Picture Corporation (Zhong Yang Dian Ying Shi Ye Gu Fen You Xian Gong Si / Zhong ying), 1954-",
     "Ximending (Ximenting), 1896-",
-    "Film Producers, Directors, Actors, Actresses, cinematographers, Critics, scholars, Song / music composers, and ScreenWriters (Including biographies and autobiographies)",
+    "Film Producers, Directors, Actors, Actresses, cinematographers, Critics, scholars, Song / music composers, and ScreenWriters",
     "China Motion Picture Studio (Zhongguo Dian Ying Zhi Pian Chang / Zhong zhi), 1933-",
     "Interdisciplinary Studies",
     "Taiwan New Cinema",

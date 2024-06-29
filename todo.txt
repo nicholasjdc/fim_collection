@@ -1,30 +1,8 @@
- current Road Map:
-General:
-    - Make update, make, and delete functional x
-    - Remove General search x
-    - Make ISBN and Keyword Categories x
-    - make Keyword search change with Quote search x
-    - Revise keyword section in Supabase x
-    - Change input: make pressing enter activates handle submit x
-    - Change title X
-    - Sort books into Thesis/Book/Script/Screenplay (Check Publication) x
-    - Add clear to Boolean Search x
-    - Adjust authors to be searchable x
-    - Css for boolean search x
-    - implement i18n translation x
-    - add traditional and simplified translations X
-    - added redirects for netlify bug x 
-NEW ENTRY/EDIT ENTRY
-    - Make new entry code automatic (Implement RPC call directory for backend) x
-    - Add multiple subject/entry code x
-    - Allow deleting subjects/entry codes x
-    - Add type selection x
-        - Make it its own OR x
-    - Add year selection x
-
+Subject:
+    - Make subjects clickable on Details
+    - Revise entries (add previous entry numbers, then scan with other entries)
+    - Create a dictionary w/ subject list
 AUTH:
-    - implement Google Login
-    - 
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
         - Make the edit, search, update body a component

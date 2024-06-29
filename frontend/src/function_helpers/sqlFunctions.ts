@@ -120,6 +120,24 @@ export async function getHighestEntryNumber(authToken: string){
             return entryjson;
         }
 }
+export async function getGoogleTokens(code){
+    const response = await fetch(API_URL +'user/google/auth', {
+        method: "POST",
+        body: code,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    const tokenJSON = await response.json();
+    
+        if (!response.ok) {
+            throw Error(JSON.stringify(tokenJSON))
+            
+        }
+        if (response.ok) {
+            return tokenJSON;
+        }
+}
 /*
 SELECT pro_id, pro_name, pro_price, pro_quantity
 FROM product_details

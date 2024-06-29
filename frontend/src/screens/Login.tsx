@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
 import { useTranslation } from "react-i18next";
-
+import GoogleLoginButton from "../screen_helpers/googleLoginButton";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
