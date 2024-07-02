@@ -62,16 +62,6 @@ const BookDetails = () => {
         >
           Edit
         </button>
-        {/*
-        <button
-          type="button"
-          onClick={() => {
-            handleEdit();
-          }}
-        >
-          Suggest Edit
-        </button>
-        */}
         <button
           type="button"
           onClick={() => {

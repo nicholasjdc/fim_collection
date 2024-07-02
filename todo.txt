@@ -1,5 +1,7 @@
 Subject:
-    - Make subjects clickable on Details
+    - Make subjects clickable on Details x
+    - Make authors clickable in Details x
+    - Make smooth scrolling x
     - Revise entries (add previous entry numbers, then scan with other entries)
     - Create a dictionary w/ subject list
 AUTH:
