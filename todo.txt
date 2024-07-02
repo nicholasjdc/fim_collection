@@ -3,9 +3,6 @@ Subject:
     - Revise entries (add previous entry numbers, then scan with other entries)
     - Create a dictionary w/ subject list
 AUTH:
-    - Google Authentication
-        - On auth, check postgre database: if found, load user data. if not found, create new user with info. Then login w/ that user
-    - Timeout JWT tokens, check if user authenticated
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
         - Make the edit, search, update body a component
