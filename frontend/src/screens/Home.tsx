@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { BookEntry } from "../screen_helpers/BookEntry";
 import {
   createSearchParams,
-  useNavigate,
   useSearchParams,
 } from "react-router-dom";
 import { getEntries} from "../function_helpers/sqlFunctions";
@@ -12,7 +11,6 @@ import PageinatedBookList from "../screen_helpers/PageinatedBookList";
 import BooleanInputs from "../screen_helpers/BooleanInputs";
 import { useTranslation } from "react-i18next";
 const Home = () => {
-  const navigate = useNavigate();
 
   const [books, setBooks] = useState<BookEntry[] | null>(null);
   const [bookResultCount, setBookResultCount] = useState(null);
@@ -168,8 +166,15 @@ const Home = () => {
     setCheckValues(values)
     
   };
-
+  function scrollToSection(sectionId) {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const elementTop = element.offsetTop;
+      window.scrollTo({ top: elementTop, behavior: "smooth" });
+    }
+  }
   useEffect(() => {
+    console.log("SEARCH USE EFFECT")
     setIsPending(true);
 
     if (search.get("resultPageNumber")) {
@@ -182,6 +187,8 @@ const Home = () => {
           setBookResultCount(result['count']);
           setBooks(entries as BookEntry[]);
           setError(null);
+          if(search.has("resultPageNumber")) scrollToSection("bookList")
+
         })
         .catch((err) => {
           setIsPending(false);
@@ -194,13 +201,14 @@ const Home = () => {
   return (
     <div className="home">
       {<BooleanInputs handleYearChange={handleYearChange}handleCheck={handleChecked}checkValues={checkValues}hiddenFields={{ 'add': true }} handleClear={handleClear} handleSubmit={handleSubmit} formValues={formValues} handleChange={handleChange} handleOperatorChange={handleOperatorChange} handleTypeChange={handleTypeChange} handleDeleteField={handleDeleteField} handleAddField={handleAddField} yearValues={yearValues}/>}
-
+      <div className="bookList" id="bookList">
       {<PageinatedBookList books={books} bookResultCount={bookResultCount}
         resultPageNumber={resultPageNumber}
         handlePageChange={handlePageChange}
         isPending={isPending}
         error={error} />
       }
+      </div>
     </div>
   );
 };
