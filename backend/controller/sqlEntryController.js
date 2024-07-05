@@ -45,6 +45,7 @@ const getEntries = async (req, res) => {
     "seriesTitle",
     "publication",
     "ISBN",
+    "subject_agg"
   ];
   exclusiveColumns = ["gen_type"];
   supaQuery = supabaseClient
@@ -82,7 +83,8 @@ const getEntries = async (req, res) => {
     // NOT: make sure neither ji or de are anywhere
     //AND: ji or de should be in there
     //OR ji or de sould be in there
-    if (fieldVal === "keyword") {
+    
+    if (fieldVal === "keyword" || fieldVal==="subject_agg") {
       tempValues = [];
       for (i in searchValues) {
         if (searchValues[i][0] == `"` && searchValues[i].slice(-1) == `"`) {

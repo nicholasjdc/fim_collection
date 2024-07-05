@@ -6,7 +6,7 @@ const languages = [
         code:'en', lang:"English"
     },
     {code: 'zhcn', lang: '简体'},
-    {code: 'zhtw', lang:'傳統'},
+    {code: 'zhtw', lang:'繁體'},
 ]
 
 const LanguageSelector = () =>{

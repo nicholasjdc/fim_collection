@@ -28,7 +28,7 @@ export default function Input({ objValue, onChange, onTypeChange, onOperatorChan
         <option value="keyword">{t("keyword")}</option>
         <option value="titleAgg">{t("title")}</option>
               <option value="ISBN">{t("isbn")}</option>
-              <option value="subjects">{t("subject")}</option>
+              <option value="subject_agg">{t("subject")}</option>
               <option value="authorAgg">{t("author")}</option>
               <option value="publication">{t("publication")}</option>
               <option value="entryNumber">{t("entry-number")}</option>
