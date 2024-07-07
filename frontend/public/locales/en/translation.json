@@ -34,7 +34,15 @@
     "and": "AND",
     "or": "OR",
     "not": "NOT",
-    "loading": "Loading"
-    
-
+    "loading": "Loading",
+    "edit": "Edit",
+    "delete" :"Delete",
+    "add-subject": "Add Subject",
+    "add-entry": "Add Entry",
+    "add-language-code": "Add Language Code",    
+    "entries": "Entries",
+    "written-by": "Written By",
+    "update": "Update",
+    "updating-entry": "Updating Entry",
+    "edit-entry": "Edit Entry"
 }

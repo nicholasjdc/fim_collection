@@ -5,8 +5,12 @@ const languages = [
     {
         code:'en', lang:"English"
     },
-    {code: 'zhcn', lang: '简体'},
-    {code: 'zhtw', lang:'繁體'},
+    {code: 'zh-cn', lang: '中文(简体)'},
+    {code: 'zh-tw', lang:'中文(繁體)'},
+    {code: 'fr', lang: 'français'},
+    {code: 'ja', lang: '日本語'},
+    {code: 'ko', lang: '한국인'},
+
 ]
 
 const LanguageSelector = () =>{

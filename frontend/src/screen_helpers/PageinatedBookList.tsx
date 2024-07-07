@@ -1,6 +1,6 @@
 import { Pagination } from "@mui/material";
 import BookList from "./BookList";
-
+import { useTranslation } from "react-i18next";
 const PageinatedBookList = (
   {error,
   bookResultCount,
@@ -9,6 +9,7 @@ const PageinatedBookList = (
   handlePageChange,
   isPending}
 ) => {
+  const {t} = useTranslation()
   return (
     <div className="PageinatedBookList">
      
@@ -19,7 +20,7 @@ const PageinatedBookList = (
       {books && (
         <BookList
           books={books}
-          title="Found Entries"
+          title={t("entries")}
           bookCount={bookResultCount}
         />
       )}

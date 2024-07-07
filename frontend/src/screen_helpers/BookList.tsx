@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { BookEntry } from "./BookEntry";
-
+import { useTranslation } from "react-i18next";
 interface BookListProps {
     books: BookEntry[];
     title: string;
     bookCount: number;
 }
 const BookList: React.FC<BookListProps> = ({books, title, bookCount}) => {
+    const {t} = useTranslation()
     return (  
         <div className="blog-list">
             <h2>{title}: {bookCount}</h2>
@@ -16,7 +17,7 @@ const BookList: React.FC<BookListProps> = ({books, title, bookCount}) => {
                         <h2>{book.title}</h2>
                         <h2>{book.titlep}</h2>
                         <h2>{book.titlec}</h2>
-                        <p>Written by {book.author} {book.authorp} {book.authorc}</p>
+                        <p>{t("written-by")} {book.author} {book.authorp} {book.authorc}</p>
                     </Link>
                     
                 </div>

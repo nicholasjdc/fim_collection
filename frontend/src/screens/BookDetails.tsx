@@ -3,6 +3,7 @@ import {HashLink as Link} from "react-router-hash-link"
 import { deleteEntry } from "../function_helpers/sqlFunctions";
 import useGetEntryMongo from "../hooks/useGetEntryMongo";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 const BookDetails = () => {
   const { user } = useAuthContext();
@@ -18,6 +19,7 @@ const BookDetails = () => {
   const handleEdit = () => {
     navigate("/edit/" + id);
   };
+  const {t} = useTranslation()
 
   return (
     <div className="blog-details">
@@ -25,32 +27,32 @@ const BookDetails = () => {
       {error && <div>{error}</div>}
       {book && (
         <article>
-          <p>Entry Number: {book.entryNumber}</p>
-           <p>Author: <Link to={"..//?resultPageNumber=1&OR%24%21authorAgg="+book.author+"&OR%24%21gen_type=book%2Cthesis%2Cscript%2Cscreenplay#bookList"}>{book.author}</Link></p>
+          <p>{t("entry-number")}: {book.entryNumber}</p>
+           <p>{t("author")}: <Link to={"..//?resultPageNumber=1&OR%24%21authorAgg="+book.author+"&OR%24%21gen_type=book%2Cthesis%2Cscript%2Cscreenplay#bookList"}>{book.author}</Link></p>
 
-          <p>Author(中文): <Link to={"..//?resultPageNumber=1&OR%24%21authorAgg="+book.authorc+"&OR%24%21gen_type=book%2Cthesis%2Cscript%2Cscreenplay#bookList"}>{book.authorc}</Link></p>
-          <p>Author(Pinyin): <Link to={"..//?resultPageNumber=1&OR%24%21authorAgg="+book.authorp+"&OR%24%21gen_type=book%2Cthesis%2Cscript%2Cscreenplay#bookList"}>{book.authorp}</Link></p>
-          <p>Title: {book.title}</p>
-          <p>Title(中文): {book.titlec}</p>
-          <p>Title(Pinyin): {book.titlep}</p>
-          <p>Publication: {book.publication}</p>
-          <p>Page Count: {book.pageCount}</p>
-          <p>Subjects:</p>
+          <p>{t("author")}(中文): <Link to={"..//?resultPageNumber=1&OR%24%21authorAgg="+book.authorc+"&OR%24%21gen_type=book%2Cthesis%2Cscript%2Cscreenplay#bookList"}>{book.authorc}</Link></p>
+          <p>{t("author")}(Pinyin): <Link to={"..//?resultPageNumber=1&OR%24%21authorAgg="+book.authorp+"&OR%24%21gen_type=book%2Cthesis%2Cscript%2Cscreenplay#bookList"}>{book.authorp}</Link></p>
+          <p>{t("title")}: {book.title}</p>
+          <p>{t("title")}(中文): {book.titlec}</p>
+          <p>{t("title")}(Pinyin): {book.titlep}</p>
+          <p>{t("publication")}: {book.publication}</p>
+          <p>{t("page-count")}: {book.pageCount}</p>
+          <p>{t("subjects")}:</p>
           <div id="subjectList">
             
             {book.subjects &&book.subjects.map((subject) => (
               <Link to={"..//?resultPageNumber=1&OR%24%21subjects="+subject+"&OR%24%21gen_type=book%2Cthesis%2Cscript%2Cscreenplay#bookList"}><p key={subject}>{subject}</p></Link>
             ))} 
           </div>
-          <p>Language Code(s):</p>
+          <p>{t("language-codes")}:</p>
           <div id="lcList">
             {book.languageCode &&book.languageCode.map((lc) => (
               <p key={lc}>{lc}</p>
             ))}
           </div>
-          <p>ISBN: {book.ISBN}</p>
-          <p>Series Title: {book.seriesTitle}</p>
-          <p>Note: {book.note}</p>
+          <p>{t("ISBN")}: {book.ISBN}</p>
+          <p>{t("series-title")}: {book.seriesTitle}</p>
+          <p>{t("note")}: {book.note}</p>
         </article>
       )}
       <div className="alterButtons">
@@ -60,7 +62,7 @@ const BookDetails = () => {
             handleEdit();
           }}
         >
-          Edit
+          {t("edit")}
         </button>
         <button
           type="button"
@@ -68,7 +70,7 @@ const BookDetails = () => {
             handleDelete();
           }}
         >
-          Delete
+          {t("delete")}
         </button>
       </div>
     </div>

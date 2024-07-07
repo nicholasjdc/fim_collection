@@ -5,8 +5,10 @@ import { deleteEntry, getEntry, patchEntry, postEntry } from "../function_helper
 import { API_URL, allLC, allSubjects } from "../function_helpers/handyVariables";
 import { useAuthContext } from "../hooks/useAuthContext";
 import GrayBox from "../screen_helpers/GrayBox";
+import { useTranslation } from "react-i18next";
 const Edit = () => {
   const { id } = useParams(); //Grab route parameters from current route
+  const {t} = useTranslation();
 
   const [title, setTitle] = useState("");
   const [titlec, setTitlec] = useState("");
@@ -112,9 +114,9 @@ const Edit = () => {
   };
   return (
     <div className="create">
-      <h2>Edit Entry: {entryNumber}</h2>
+      <h2>{t("edit-entry")}: {entryNumber}</h2>
       <form onSubmit={handleSubmit}>
-        <label>Entry Number:</label>
+      <label>{t("entry-number")}:</label>
         <input
           type="text"
           required
@@ -122,52 +124,51 @@ const Edit = () => {
           onChange={(e) => setEntryNumber(e.target.value)}
         ></input>
 
-        <label>ISBN:</label>
+        <label>{t("isbn")}:</label>
         <input
           type="text"
           value={ISBN}
           onChange={(e) => setISBN(e.target.value)}
         ></input>
 
-        <label>Title:</label>
+        <label>{t("title")}:</label>
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         ></input>
-        <label>Title(中文):</label>
+        <label>{t("title")}(中文):</label>
         <input
           type="text"
           value={titlec}
           onChange={(e) => setTitlec(e.target.value)}
         ></input>
-        <label>Title(Pinyin):</label>
+        <label>{t("title")}(Pinyin):</label>
         <input
           type="text"
           value={titlep}
           onChange={(e) => setTitlep(e.target.value)}
         ></input>
 
-        <label>Authors:</label>
+        <label>{t("author")}:</label>
         <input
           type="text"
-          
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         ></input>
-        <label>Author(中文):</label>
+        <label>{t("author")}(中文):</label>
         <input
           type="text"
           value={authorc}
           onChange={(e) => setAuthorc(e.target.value)}
         ></input>
-        <label>Author(Pinyin):</label>
+        <label>{t("author")}(Pinyin):</label>
         <input
           type="text"
           value={authorp}
           onChange={(e) => setAuthorp(e.target.value)}
         ></input>
-    <label>Subject(s):</label>
+        <label>{t("subjects")}:</label>
         <input
           list="subjects"
           id="subject-choice"
@@ -185,43 +186,43 @@ const Edit = () => {
             GrayBox({ text: subject, onClose: (e) => onClose(e, subject) })
           ))}
         </div>
-        <button onClick={(e) => onAddSubjectClick(e)}>Add Subject</button>
+        <button onClick={(e) => onAddSubjectClick(e)}>{t("add-subject")}</button>
 
-        <label>Publication:</label>
+        <label>{t("publication")}:</label>
         <input
           type="text"
           value={publication}
           onChange={(e) => setPublication(e.target.value)}
         ></input>
 
-        <label>Page Count:</label>
+        <label>{t("page-count")}:</label>
         <input
           type="text"
           value={pageCount}
           onChange={(e) => setPageCount(e.target.value)}
         ></input>
 
-        <label>Series Title:</label>
+        <label>{t("series-title")}:</label>
         <input
           type="text"
           value={seriesTitle}
           onChange={(e) => setSeriesTitle(e.target.value)}
         ></input>
 
-        <label>Resource:</label>
+        <label>{t("resource")}:</label>
         <input
           type="text"
           value={resource}
           onChange={(e) => setResource(e.target.value)}
         ></input>
 
-        <label>Note:</label>
+        <label>{t("note")}:</label>
         <textarea
           value={note}
           onChange={(e) => setNote(e.target.value)}
         ></textarea>
 
-<label>Language Code(s):</label>
+        <label>{t("language-codes")}:</label>
         <input
           list="lc"
           id="lc-choice"
@@ -239,10 +240,10 @@ const Edit = () => {
             GrayBox({ text: lc, onClose: (e) => onLCClose(e, lc) })
           ))}
         </div>
-        <button onClick={(e)=>onAddLCClick(e)}>Add Language Code</button>
+        <button onClick={(e)=>onAddLCClick(e)}>{t("add-language-code")}</button>
         <p></p>
-        {!isPending && <button>Update</button>}
-        {isPending && <button disabled>Updating Entry...</button>}
+        {!isPending && <button>{t("update")}</button>}
+        {isPending && <button disabled>{t("updating-entry")}...</button>}
       </form>
     </div>
   );
