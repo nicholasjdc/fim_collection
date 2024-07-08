@@ -35,6 +35,7 @@ const Navbar = () => {
           <button onClick={handleLogout}>{t("log-out")}</button>
         </div>
       )}
+      <></>
       <LanguageSelector></LanguageSelector>
     </nav>
   );

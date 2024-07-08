@@ -104,7 +104,7 @@ const Create = () => {
   const {t} = useTranslation()
   return (
     <div className="create">
-      <h2>{t("Add a New Entry")}</h2>
+      <h2>{t("add-a-new-entry")}</h2>
       <form onSubmit={handleSubmit}>
         <label>{t("entry-number")}:</label>
         <input
