@@ -55,6 +55,7 @@ const getEntries = async (req, res) => {
   const booleanCode = "$!";
   orQuery = "";
   for (const [key, value] of Object.entries(req.query)) {
+
     if (key == "resultPageNumber") continue;
 
     splitKey = key.split(booleanCode);
@@ -91,9 +92,21 @@ const getEntries = async (req, res) => {
           searchValues[i] = searchValues[i].slice(1, -1);
         } else {
           //OR doesn't function correctly, assumes all of them wrong.
+          //""failed to parse logic tree ((and(subject_agg.ilike.0,subject_agg.ilike.1,),subject_agg.ilike.%Taiwan cinema%))" (line 1, column 48)"
+          if(boolVal== "OR"){
+            tValues = searchValues[i].split(" ")
 
-          tempValues.push(...searchValues[i].split(" "));
-          searchValues.splice(i, 1);
+            orSearch = 'and('
+            for (v in tValues){
+              orSearch+=`${fieldVal}.ilike.%${tValues[v]}%,`
+            }
+            orSearch = orSearch.slice(0,-1);
+            orSearch+='),'
+            orQuery += orSearch;
+          }else{
+            tempValues.push(...searchValues[i].split(" "));
+            searchValues.splice(i, 1);
+          }
         }
       }
       searchValues.push(...tempValues);
@@ -126,8 +139,8 @@ const getEntries = async (req, res) => {
         }
       } else if (boolVal === "NOT") {
         for (s in searchValues) {
-          notSearch = `${fieldVal}, ${compValue}, ${searchValues[s]}`;
-          supaQuery = supaQuery.not(notSearch);
+
+          supaQuery = supaQuery.not(fieldVal, compValue, searchValues[s]);
         }
       } else if (boolVal === "GT") {
         for (i in searchValues) {
