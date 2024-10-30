@@ -62,8 +62,8 @@ const signupUser = async (req, res) => {
     }
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
-
-    const user = await createUser({ email, password: hash });
+    const userType = "Reader"
+    const user = await createUser({ email, userType, password: hash });
     console.log('waoh')
     console.log(user)
     //token gen

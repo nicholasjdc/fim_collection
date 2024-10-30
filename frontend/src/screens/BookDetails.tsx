@@ -37,6 +37,7 @@ const BookDetails = () => {
           <p>{t("title")}(Pinyin): {book.titlep}</p>
           <p>{t("publication")}: {book.publication}</p>
           <p>{t("page-count")}: {book.pageCount}</p>
+          <p>{t("resources")}: {book.resource}</p>
           <p>{t("subjects")}:</p>
           <div id="subjectList">
             
