@@ -1,10 +1,8 @@
-Subject:
-    - Make subjects clickable on Details x
-    - Make authors clickable in Details x
-    - Make smooth scrolling x
-    - Revise entries (add previous entry numbers, then scan with other entries)
-    - Create a dictionary w/ subject list
+General:
+    - Upload second film collection
+    - Create snapshot of current db
     - 
+    - Switching pages on search jittery
 AUTH:
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users

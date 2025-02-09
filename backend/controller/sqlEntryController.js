@@ -4,7 +4,7 @@ const { log } = require("../etc/usefulThings");
 const supabaseUrl = "https://raifuhqmtrdvncpkonjm.supabase.co";
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-const logCode =0
+const logCode =1
 const getEntry = async (req, res) => {
   const { id } = req.params;
 
@@ -98,7 +98,7 @@ const getEntries = async (req, res) => {
 
             orSearch = 'and('
             for (v in tValues){
-              orSearch+=`${fieldVal}.ilike.%${tValues[v]}%,`
+              orSearch+=`${fieldVal}.ilike."%${tValues[v]}%",`
             }
             orSearch = orSearch.slice(0,-1);
             orSearch+='),'

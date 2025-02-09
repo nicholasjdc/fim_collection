@@ -1,4 +1,4 @@
-export const PROD = true;
+export const PROD = false;
 let apiURL;
 if (PROD) {
   apiURL = "https://sillysillycreatures.xyz/api/";
@@ -372,4 +372,12 @@ export const allSubjects = [
   "Martial Arts/Kung Fu Films",
   "Teenage-Campus Films",
   "Tiensheng & Tienhua Film Company (Tian Sheng, Tian Hua Ying Ye Gong Si),",
+  "Ai = 爱 Love (2012)", 	
+  "Ci Ke Ni Yingniang = The Assassin (2015) 刺客聂隐娘 (2015)",				
+"Films in Macau, Taiwan, Hong Kong, and Mainland China",                                                         
+"Honghe Gu = Red River Valley (1996) 红河谷(1996)",    					           
+"Joint Venture Film Production", 							                     
+"Saideke - Balai = Seediq Bale (2011) 賽德克 – 巴萊 (2011)",			                  	
+"Sinophone Cinemas",
+
 ];

@@ -18,7 +18,7 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [resultPageNumber, setResultPageNumber] = useState(1);
   const [search, setSearch] = useSearchParams(); 
-  const [checkValues, setCheckValues] = useState([{ 'name': 'book', 'checked': true }, { 'name': 'thesis', 'checked': true }, { 'name': 'script', 'checked': true }, { 'name': 'screenplay', 'checked': true }])
+  const [checkValues, setCheckValues] = useState([{ 'name': 'book', 'checked': true }, { 'name': 'thesis', 'checked': true }, { 'name': 'script', 'checked': true }, { 'name': 'screenplay', 'checked': true }, {'name':'proceeding', 'checked': true}])
   const [yearValues, setYearValues] = useState({ 'begin': -1, 'end': -1})
   
   const [formValues, setFormValues] = useState([{
