@@ -35,8 +35,9 @@ const loginUser = async (req, res) => {
 
     //token gen
     const token = generateToken(user.id);
+    const refreshToken = jwt.sign({ user }, secretKey, { expiresIn: '1d' });
 
-    res.status(200).json({ email, token });
+    res.status(200).json({ email, token, refreshToken });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -62,8 +63,8 @@ const signupUser = async (req, res) => {
     }
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
-
-    const user = await createUser({ email, password: hash });
+    const userType = "Reader"
+    const user = await createUser({ email, userType, password: hash });
     console.log('waoh')
     console.log(user)
     //token gen
@@ -100,6 +101,16 @@ const getUser = async (email) => {
   }
   return data[0];
 };
+const getRefreshToken = async(refreshToken)=>{
+  try {
+    const decoded = jwt.verify(refreshToken, secretKey);
+    const accessToken = jwt.sign({ user: decoded.user }, secretKey, { expiresIn: '1h' });
+
+    return accessToken
+  } catch (error) {
+    return res.status(400).send('Invalid refresh token.');
+  }
+}
 const updateUser = async (req, res) => {
   const { id } = req.params;
   const changes = { ...req.body };
