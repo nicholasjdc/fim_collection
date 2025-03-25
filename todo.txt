@@ -4,6 +4,7 @@ General:
     - 
     - Switching pages on search jittery
 AUTH:
+    - Google Login & Registration
     - only allow SPECIAL authenticated users to edit and delete
     - Allow SUPER SPECIAL users to authenticate other users
         - Make the edit, search, update body a component

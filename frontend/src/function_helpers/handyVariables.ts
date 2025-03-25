@@ -1,7 +1,7 @@
-export const PROD = false;
+export const PROD = true;
 let apiURL;
 if (PROD) {
-  apiURL = "https://sillysillycreatures.xyz/api/";
+  apiURL = "https://sillysillyloveorg.org/api/";
 } else {
   apiURL = "http://localhost:4000/api/";
 }
