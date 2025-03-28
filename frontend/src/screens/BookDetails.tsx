@@ -37,7 +37,7 @@ const BookDetails = () => {
           <p>{t("title")}(Pinyin): {book.titlep}</p>
           <p>{t("publication")}: {book.publication}</p>
           <p>{t("page-count")}: {book.pageCount}</p>
-          <p>{t("resources")}: {book.resource}</p>
+          <p>{t("resource")}: {book.resource}</p>
           <p>{t("subjects")}:</p>
           <div id="subjectList">
             
@@ -56,6 +56,7 @@ const BookDetails = () => {
           <p>{t("note")}: {book.note}</p>
         </article>
       )}
+      {user.userType === "Admin" && 
       <div className="alterButtons">
         <button
           type="button"
@@ -72,8 +73,10 @@ const BookDetails = () => {
           }}
         >
           {t("delete")}
+      
         </button>
       </div>
+    }
     </div>
   );
 };

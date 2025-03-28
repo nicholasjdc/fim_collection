@@ -1,8 +1,5 @@
 General:
-    - Upload second film collection
-    - Create snapshot of current db
     - 
-    - Switching pages on search jittery
 AUTH:
     - Google Login & Registration
     - only allow SPECIAL authenticated users to edit and delete

@@ -15,31 +15,29 @@ const generateRefreshToken= (id) =>{
 }
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email)
-  console.log(password)
+
   user = undefined;
   try {
     if (!email || !password) {
       throw Error("All Fields Must be Filled");
     }
-    console.log('Setting user')
+    
     user = await getUser(email);
-    console.log(user)
+    
     if (!user) {
       throw Error("Incorrect email");
     }
-    console.log('bcrypt setup')
     const match = await bcrypt.compare(password, user.password);
-    console.log('BCRYPT DONE')
     if (!match) {
       throw Error("Incorrect Password");
     }
 
+    const userType = user.userType
     //token gen
     const accessToken = generateToken(user.id);
     const refreshToken = jwt.sign({ user }, secretRefreshKey, { expiresIn: '1d' });
 
-    res.status(200).json({ email, accessToken, refreshToken });
+    res.status(200).json({ email, accessToken, refreshToken, userType });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -72,7 +70,8 @@ const signupUser = async (req, res) => {
     //token gen
     const accessToken = generateToken(user.id);
     const refreshToken = generateRefreshToken(user.id)
-    res.status(200).json({ email, accessToken, refreshToken });
+    
+    res.status(200).json({ email, accessToken, refreshToken, userType});
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
