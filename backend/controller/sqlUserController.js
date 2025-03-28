@@ -1,16 +1,18 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
-//login user
 const supabase = require("@supabase/supabase-js");
 const supabaseUrl = "https://raifuhqmtrdvncpkonjm.supabase.co";
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 const validator = require("validator");
 const bcrypt = require('bcrypt')
-
+const secretRefreshKey = process.env.REFRESHSECRET
 const generateToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
 };
+const generateRefreshToken= (id) =>{
+  return jwt.sign({ id }, process.env.REFRESHSECRET, { expiresIn: "5d" });
+}
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   console.log(email)
@@ -34,10 +36,10 @@ const loginUser = async (req, res) => {
     }
 
     //token gen
-    const token = generateToken(user.id);
-    const refreshToken = jwt.sign({ user }, secretKey, { expiresIn: '1d' });
+    const accessToken = generateToken(user.id);
+    const refreshToken = jwt.sign({ user }, secretRefreshKey, { expiresIn: '1d' });
 
-    res.status(200).json({ email, token, refreshToken });
+    res.status(200).json({ email, accessToken, refreshToken });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -68,9 +70,9 @@ const signupUser = async (req, res) => {
     console.log('waoh')
     console.log(user)
     //token gen
-    const token = generateToken(user.id);
-
-    res.status(200).json({ email, token });
+    const accessToken = generateToken(user.id);
+    const refreshToken = generateRefreshToken(user.id)
+    res.status(200).json({ email, accessToken, refreshToken });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -101,10 +103,10 @@ const getUser = async (email) => {
   }
   return data[0];
 };
-const getRefreshToken = async(refreshToken)=>{
+const refreshAccessToken= async(refreshToken)=>{
   try {
-    const decoded = jwt.verify(refreshToken, secretKey);
-    const accessToken = jwt.sign({ user: decoded.user }, secretKey, { expiresIn: '1h' });
+    const decoded = jwt.verify(refreshToken, secretRefreshKey);
+    const accessToken = jwt.sign({ user: decoded.user }, secretRefreshKey, { expiresIn: '1h' });
 
     return accessToken
   } catch (error) {

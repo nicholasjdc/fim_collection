@@ -181,7 +181,7 @@ const Home = () => {
       setResultPageNumber(parseInt(search.get("resultPageNumber")));
     }
     if (user) {
-      getEntries(API_URL + "film-entries?" + search, user.token)
+      getEntries(API_URL + "film-entries?" + search, user.accessToken, user.refreshToken)
         .then((result) => {
           var entries = result['entries'];
           setBookResultCount(result['count']);

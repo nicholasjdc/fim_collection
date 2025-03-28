@@ -43,11 +43,12 @@ export async function getEntry(id: string, authToken:string){
         }
     
 }
-export async function getEntries(url: string, authToken:string){
+export async function getEntries(url: string, authToken:string, refreshToken:string){
     const response = await fetch(url, {
         method: "GET",
         headers: {
-            'Authorization': `Bearer ${authToken}`
+            'accessToken': `Bearer ${authToken}`,
+            'refreshToken': `Bearer ${refreshToken}`
         },
         });
         const entryjson = await response.json();

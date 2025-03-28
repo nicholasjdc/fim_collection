@@ -9,13 +9,13 @@ const {
 } = require("../controller/sqlEntryController");
 
 //const requireAuth = require('../middleware/requireAuth')
-
+const requireAuthSimple = require('../middleware/requireAuthSimple')
 const router = express.Router();
 
 //require auth for all workout routes 
 //middleware, fire before all code below
 //router.use(requireAuth)
-
+router.use(requireAuthSimple)
 //GET greatestEntryNumber
 router.get("/getGreatestEntryCode", getGreatestEntryCode)
 //Get all entries
