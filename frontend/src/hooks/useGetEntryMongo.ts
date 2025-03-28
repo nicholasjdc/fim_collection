@@ -14,7 +14,7 @@ const useGetEntryMongo= (id:string) => {
         const abortCont = new AbortController(); 
 
 
-        getEntry(id, user.token)
+        getEntry(id, user.accessToken, user.refreshToken)
             .then(res => {
                 if(!res){ 
                     throw Error('could not fetch data for that resource');

@@ -5,6 +5,7 @@ const {
 const requireAuthSimple = async (req, res, next) => {
   const {accesstoken}  = req.headers
   const { refreshtoken } = req.headers
+  console.log(req.headers)
   //Authorization Header not included
   if (!accesstoken && !refreshtoken ) {
     return res.status(401).json({ error: 'Authorization Token Required' })
@@ -15,7 +16,9 @@ const requireAuthSimple = async (req, res, next) => {
   try {
     const { _id } = jwt.verify(token, process.env.SECRET)
     req.user = await getUserByID(_id)
-    console.log(req.user.userType)
+    if(req.user.userType != "Admin"){
+        return res.status(401).send('Access Denied. Administrator Privileges Required')
+    }
     next()
   }
   catch (error) {

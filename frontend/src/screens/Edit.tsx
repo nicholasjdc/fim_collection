@@ -35,7 +35,7 @@ const Edit = () => {
       if(!user){
         return
       }
-        getEntry(id, user.token).then((e:BookEntry)=>{
+        getEntry(id, user.accessToken, user.refreshToken).then((e:BookEntry)=>{
             const be: BookEntry = e
             setTitle(be.title)
             setTitlec(e.titlec)
@@ -107,7 +107,7 @@ const Edit = () => {
     };
     
     console.log(newBookEntry)
-    patchEntry(API_URL +'film-entries/' +id, newBookEntry, user.token).then((v) => {
+    patchEntry(API_URL +'film-entries/' +id, newBookEntry, user.accessToken, user.refreshToken).then((v) => {
       setIsPending(false);
       navigate("/");
     });

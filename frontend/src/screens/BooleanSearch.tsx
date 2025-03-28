@@ -124,7 +124,7 @@ function BooleanSearch() {
       setResultPageNumber(parseInt(search.get("resultPageNumber")));
     }
     if (user) {
-      getEntries(API_URL + "film-entries?" + search, user.token)
+      getEntries(API_URL + "film-entries?" + search, user.token, user.refreshToken)
         .then((result) => {
           var entries = result['entries'];
           setBookResultCount(result['count']);

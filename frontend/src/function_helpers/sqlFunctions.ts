@@ -1,14 +1,15 @@
 import { BookEntry } from "../screen_helpers/BookEntry";
 import { API_URL} from "./handyVariables";
 
-export async function postEntry(entryBody: {}, authToken:string){
+export async function postEntry(entryBody: {}, authToken:string, refreshToken: string){
     
     const response = await fetch(API_URL + 'film-entries', {
     method: "POST",
     body: JSON.stringify(entryBody),
     headers: {
         "Content-Type": "application/json",
-        'Authorization': `Bearer ${authToken}`
+        'accessToken': `Bearer ${authToken}`,
+            'refreshToken': `Bearer ${refreshToken}`
 
     },
     });
@@ -24,11 +25,12 @@ export async function postEntry(entryBody: {}, authToken:string){
     }
 
 }
-export async function getEntry(id: string, authToken:string){
+export async function getEntry(id: string, authToken:string, refreshToken: string){
     const response = await fetch(API_URL +'film-entries/'+ id, {
         method: "GET",
         headers: {
-            'Authorization': `Bearer ${authToken}`
+            'accessToken': `Bearer ${authToken}`,
+            'refreshToken': `Bearer ${refreshToken}`
 
         },
         });
@@ -62,13 +64,14 @@ export async function getEntries(url: string, authToken:string, refreshToken:str
         }
     
 }
-export async function patchEntry(url: string, entryBody: {}, authToken: string){
+export async function patchEntry(url: string, entryBody: {}, authToken:string, refreshToken: string){
     const response = await fetch(url, {
         method: "PATCH",
         body: JSON.stringify(entryBody),
         headers: {
             "Content-Type": "application/json",
-            'Authorization': `Bearer ${authToken}`
+            'accessToken': `Bearer ${authToken}`,
+            'refreshToken': `Bearer ${refreshToken}`
 
         },
         });
@@ -84,12 +87,13 @@ export async function patchEntry(url: string, entryBody: {}, authToken: string){
         }
     
 }
-export async function deleteEntry(id: string, authToken:string){
+export async function deleteEntry(id: string, authToken:string, refreshToken: string){
     const response = await fetch(API_URL +'film-entries/'+ id, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-            'Authorization': `Bearer ${authToken}`
+            'accessToken': `Bearer ${authToken}`,
+            'refreshToken': `Bearer ${refreshToken}`
         },
         });
         const entryjson = await response.json();
@@ -103,12 +107,13 @@ export async function deleteEntry(id: string, authToken:string){
         }
     
 }
-export async function getHighestEntryNumber(authToken: string){
+export async function getHighestEntryNumber(authToken:string, refreshToken: string){
     const response = await fetch(API_URL +'film-entries/getGreatestEntryCode', {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            'Authorization': `Bearer ${authToken}`
+            'accessToken': `Bearer ${authToken}`,
+            'refreshToken': `Bearer ${refreshToken}`
         },
         });
         const entryjson = await response.json();

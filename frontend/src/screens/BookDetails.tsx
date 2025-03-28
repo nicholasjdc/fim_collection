@@ -13,7 +13,7 @@ const BookDetails = () => {
     console.log(book)
   const navigate = useNavigate();
   const handleDelete = () => {
-    deleteEntry(id, user.token);
+    deleteEntry(id, user.accessToken, user.refreshToken);
     navigate("/");
   };
   const handleEdit = () => {

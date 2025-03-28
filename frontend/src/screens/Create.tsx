@@ -30,7 +30,7 @@ const Create = () => {
   const { user } = useAuthContext();
   useEffect(() => {
     if(user){
-    getHighestEntryNumber(user.token).then((result)=>{
+    getHighestEntryNumber(user.accessToken, user.refreshToken).then((result)=>{
       setEntryNumber(result.data +1)
     }).catch((error)=>{
       console.log(error)
@@ -96,7 +96,7 @@ const Create = () => {
       keyword: keyword,
 
     };
-    postEntry(newBookEntry, user.token).then((v) => {
+    postEntry(newBookEntry, user.accessToken, user.refreshToken).then((v) => {
       setIsPending(false);
       navigate("/");
     });
