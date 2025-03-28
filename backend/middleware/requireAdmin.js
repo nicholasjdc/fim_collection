@@ -16,7 +16,9 @@ const requireAuthSimple = async (req, res, next) => {
   try {
     const { _id } = jwt.verify(token, process.env.SECRET)
     req.user = await getUserByID(_id)
+    console.log(req.user.userType)
     if(req.user.userType != "Admin"){
+        console.log("WAAA")
         return res.status(401).send('Access Denied. Administrator Privileges Required')
     }
     next()

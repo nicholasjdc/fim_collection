@@ -15,7 +15,6 @@ const requireAuthSimple = async (req, res, next) => {
   try {
     const { _id } = jwt.verify(token, process.env.SECRET)
     req.user = await getUserByID(_id)
-    console.log(req.user.userType)
     next()
   }
   catch (error) {

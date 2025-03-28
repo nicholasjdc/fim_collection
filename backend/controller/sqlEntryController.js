@@ -45,7 +45,8 @@ const getEntries = async (req, res) => {
     "seriesTitle",
     "publication",
     "ISBN",
-    "subject_agg"
+    "subject_agg",
+    "resource"
   ];
   exclusiveColumns = ["gen_type"];
   supaQuery = supabaseClient
